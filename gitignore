@@ -1,0 +1,6 @@
+# MySQL データディレクトリ
+docker/mysql/data/
+
+# Docker ボリューム
+docker/mysql/logs/
+
