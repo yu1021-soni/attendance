@@ -1,0 +1,127 @@
+body {
+    font-family: "Inter", sans-serif;
+}
+
+.mailhog {
+    width: 100%;
+    background: #fff;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 60px 16px 100px;
+    box-sizing: border-box;
+}
+
+.mailhog__body {
+    padding: 120px 24px;
+    /* 上下に余白たっぷり */
+    text-align: center;
+}
+
+.mailhog__text {
+    font-size: 24px;
+    line-height: 1.9;
+    color: black;
+    font-weight: 700;
+    margin: 0 0 28px;
+}
+
+.mailhog__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.mailhog__actions-link {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 257px;
+    height: 69px;
+    background: #d9d9d9;
+    color: #111;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.mailhog__resend-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 0;
+    color: #0073cc;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: 40px;
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .mailhog {
+        padding: 80px 24px 120px;
+    }
+
+    .mailhog__body {
+        padding: 160px 40px;
+    }
+
+    .mailhog__text {
+        font-size: 28px;
+        line-height: 2;
+    }
+
+    .mailhog__actions-link {
+        width: 300px;
+        height: 80px;
+        font-size: 26px;
+    }
+
+    .mailhog__resend-button {
+        font-size: 22px;
+        background: none;
+        border: none;
+        font-weight: 400;
+        padding: 0;
+        color: #0073cc;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .mailhog {
+        padding: 40px 12px 80px;
+    }
+
+    .mailhog__body {
+        padding: 80px 16px;
+    }
+
+    .mailhog__text {
+        font-size: 20px;
+        line-height: 1.6;
+    }
+
+    .mailhog__actions-link {
+        width: 220px;
+        height: 60px;
+        font-size: 20px;
+    }
+
+    .mailhog__resend-button {
+        font-size: 18px;
+        background: none;
+        border: none;
+        font-weight: 400;
+        padding: 0;
+        color: #0073cc;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
