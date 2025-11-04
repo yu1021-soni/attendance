@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBreaksTable extends Migration
+class CreateStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateBreaksTable extends Migration
      */
     public function up()
     {
-        Schema::create('breaks', function (Blueprint $table) {
+        Schema::create('statuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
-            $table->datetime('break_start');
-            $table->datetime('break_end');
-            $table->integer('break_time_total');
+            $table->foreignId('correction_id')->constrained()->cascadeOnDelete();
+            $table->unsignedTinyInteger('status')->unique();    // 1=承認待ち, 2=承認済み　にする予定
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateBreaksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('breaks');
+        Schema::dropIfExists('statuses');
     }
 }
