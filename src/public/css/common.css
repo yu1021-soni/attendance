@@ -19,6 +19,19 @@ body {
 }
 
 .header__logo {
+    margin-top: 7px;
     display: block;
     height: 36px;
+}
+
+.header__logout,
+.header__login,
+.header__mypage {
+    background: transparent;
+    color: #fff;
+    border: none;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 400;
+    cursor: pointer;
 }
