@@ -36,8 +36,11 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        // 認証用ビュー（必要に応じて）
-        Fortify::loginView(fn() => view('auth.login'));
+        Fortify::loginView(fn() => view('auth.user_login'));
         Fortify::registerView(fn() => view('auth.register'));
+
+        Fortify::verifyEmailView(function () {
+            return view('mailhog');
+        });
     }
 }
