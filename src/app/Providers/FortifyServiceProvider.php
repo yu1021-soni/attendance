@@ -40,7 +40,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::registerView(fn() => view('auth.register'));
 
         Fortify::verifyEmailView(function () {
-            return view('mailhog');
+            return view('auth.mailhog');
         });
     }
 }

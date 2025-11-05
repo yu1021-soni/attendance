@@ -1,0 +1,131 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+}
+
+.login {
+    width: 680px;
+    margin: 80px auto;
+    padding: 0;
+    display: block;
+    box-sizing: border-box;
+}
+
+/* elements */
+.login__heading {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+h2.login__title {
+    font-size: 36px;
+    font-weight: bold;
+    color: black;
+}
+
+.login__group {
+    width: 100%;
+}
+
+.login__label-wrap {
+    margin-bottom: 10px;
+}
+
+.login__label {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+}
+
+.login__input input,
+.login__control input[type="password"] {
+    width: 680px;
+    height: 60px;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 10px 12px;
+    appearance: none;
+    outline: none;
+    margin-bottom: 40px;
+}
+
+.login__error {
+    margin-bottom: 30px;
+    font-size: 15px;
+    color: red;
+    padding: 6px 0 0;
+}
+
+.login__actions {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.login__submit {
+    padding: 10px;
+    width: 680px;
+    height: 60px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    background-color: black;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.login__link {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: rgba(0, 115, 204, 1);
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 30px;
+}
+
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .login {
+        width: 720px;
+        margin: 100px auto;
+    }
+
+    .login__input input,
+    .login__control input[type="password"],
+    .login__submit {
+        width: 720px;
+    }
+}
+
+
+@media (min-width: 768px) and (max-width: 850px) {
+    .login {
+        width: 70%;
+    }
+
+    .login__input input,
+    .login__control input[type="password"],
+    .login__submit {
+        width: 100%;
+    }
+
+    h2.login__title {
+        font-size: 30px;
+    }
+
+    .login__label {
+        font-size: 20px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .login__link {
+        font-size: 16px;
+    }
+}

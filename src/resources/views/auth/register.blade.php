@@ -81,7 +81,7 @@
             <button class="register__submit" type="submit">登録する</button>
         </div>
 
-        <a class="register__link" href="/user_login">
+        <a class="register__link" href="/login">
             ログインはこちら
         </a>
 
