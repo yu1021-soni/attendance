@@ -1,15 +1,19 @@
 <?php
-
 return [
-    'required' => ':attribute を入力してください',
-    'email'    => ':attribute はメール形式で入力してください',
+    'required'  => ':attribute を入力してください',
+    'email'     => ':attribute はメール形式で入力してください',
+    'confirmed' => ':attribute と一致しません',
+    'unique'    => 'その :attribute は既に使用されています',
     'min' => [
-        'string' => ':attribute は :min 文字以上で入力してください',
+        'string' => ':attribute は:min文字以上で入力してください',
     ],
-    'confirmed' => ':attribute が一致しません',
+    'max' => [
+        'string' => ':attribute は:max文字以内で入力してください',
+    ],
 
+    // 項目名（ここが表示名になる）
     'attributes' => [
-        'name'                  => 'お名前',
+        'name'                  => 'ユーザー名',
         'email'                 => 'メールアドレス',
         'password'              => 'パスワード',
         'password_confirmation' => 'パスワード（確認）',

@@ -5,7 +5,6 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 
 use Laravel\Fortify\Fortify;
-use Laravel\Fortify\Features;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
@@ -20,7 +19,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            \Laravel\Fortify\Http\Requests\RegisterRequest::class,
+            \App\Http\Requests\RegisterRequest::class
+        );
     }
 
     /**
