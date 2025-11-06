@@ -9,6 +9,12 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use Laravel\Fortify\Contracts\LogoutResponse;
+
+//提出前に消す
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Http\Request;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -32,6 +38,23 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        
+        //提出前に消す
+        RateLimiter::for('login', function (Request $request) {
+            return Limit::perMinute(1000)->by($request->email . $request->ip());
+        });
+
+
+        $this->app->singleton(LogoutResponse::class, function () {
+            return new class implements LogoutResponse {
+                public function toResponse($request)
+                {
+                    // ルート名で確実に
+                    return redirect()->route('login');
+                }
+            };
+        });
+
         // アクションをFortifyに紐付け
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
