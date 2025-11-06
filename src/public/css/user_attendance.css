@@ -73,3 +73,80 @@ body {
     font-weight: bold;
     font-size: 26px;
 }
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .content {
+        padding: 40px 0;
+    }
+
+    .attendance__status {
+        margin-top: 120px;
+        width: 120px;
+        height: 46px;
+        font-size: 20px;
+    }
+
+    .attendance__current-date {
+        margin-top: 36px;
+        font-size: 44px;
+        font-weight: 600;
+    }
+
+    .attendance__current-time {
+        margin-top: 44px;
+        font-size: 96px;
+        letter-spacing: 1px;
+    }
+
+    .attendance__actions {
+        margin-top: 96px;
+        gap: 80px;
+    }
+
+    .attendance__button,
+    .attendance__rest-button {
+        width: 260px;
+        height: 88px;
+        font-size: 34px;
+        border-radius: 22px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+
+    .attendance__status {
+        margin-top: 60px;
+        width: 96px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .attendance__current-date {
+        margin-top: 24px;
+        font-size: 32px;
+        font-weight: 600;
+    }
+
+    .attendance__current-time {
+        margin-top: 28px;
+        font-size: 64px;
+    }
+
+    .attendance__actions {
+        margin-top: 48px;
+        gap: 24px;
+    }
+
+    .attendance__button,
+    .attendance__rest-button {
+        width: 200px;
+        height: 64px;
+        font-size: 24px;
+        border-radius: 18px;
+    }
+
+    .message {
+        margin-top: 40px;
+        font-size: 20px;
+    }
+}
