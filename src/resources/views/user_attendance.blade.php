@@ -2,7 +2,7 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/auth/user_attendance.css')}}">
+<link rel="stylesheet" href="{{ asset('css/user_attendance.css')}}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
@@ -50,7 +50,7 @@
         </form>
         <form method="POST" action="{{ route('break.start') }}">
             @csrf
-            <button type="submit" class="attendance__button">休憩入り</button>
+            <button type="submit" class="attendance__rest-button">休憩入り</button>
         </form>
     </div>
     @endif
@@ -60,17 +60,13 @@
     <div class="attendance__actions">
         <form method="POST" action="{{ route('break.end') }}">
             @csrf
-            <button type="submit" class="attendance__button">休憩戻</button>
-        </form>
-        <form method="POST" action="{{ route('work.end') }}">
-            @csrf
-            <button type="submit" class="attendance__button">退勤</button>
+            <button type="submit" class="attendance__rest-button">休憩戻</button>
         </form>
     </div>
     @endif
 
-    @if (session('message'))
-    <div class="flash">{{ session('message') }}</div>
+    @if ($status === 3)
+    <div class="message">お疲れ様でした。</div>
     @endif
 
 </div>

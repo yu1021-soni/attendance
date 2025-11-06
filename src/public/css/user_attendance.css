@@ -1,0 +1,75 @@
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #f0eff2;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.attendance__status {
+    margin-top: 100px;
+    width: 100px;
+    height: 40px;
+    background-color: #c8c8c8;
+    border-radius: 50px;
+    color: #696969;
+    font-weight: bold;
+    font-size: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.attendance__current-date {
+    text-align: center;
+    margin-top: 30px;
+    font-weight: 400;
+    font-size: 40px;
+}
+
+.attendance__current-time {
+    text-align: center;
+    margin-top: 40px;
+    font-weight: bold;
+    font-size: 80px;
+}
+
+.attendance__actions {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    gap: 70px;
+}
+
+.attendance__button {
+    width: 221px;
+    height: 77px;
+    border-radius: 20px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    font-size: 32px;
+}
+
+.attendance__rest-button {
+    width: 221px;
+    height: 77px;
+    border-radius: 20px;
+    background-color: white;
+    border: none;
+    color: black;
+    font-weight: bold;
+    font-size: 32px;
+}
+
+.message {
+    text-align: center;
+    margin: 80px auto 0;
+    font-weight: bold;
+    font-size: 26px;
+}
