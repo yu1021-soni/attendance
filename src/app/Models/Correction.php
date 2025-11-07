@@ -12,10 +12,25 @@ class Correction extends Model
     protected $fillable = [
         'user_id',
         'attendance_id',
+        'old_work_start',
+        'old_work_end',
         'new_work_start',
         'new_work_end',
-        'comment',
+        'user_comment',
+        'status',
+        'approver_id',
+        'approved_at',
     ];
+
+    protected $casts = [
+        'old_work_start' => 'datetime',
+        'old_work_end' => 'datetime',
+        'new_work_start' => 'datetime',
+        'new_work_end' => 'datetime',
+        'approved_at' => 'datetime',
+        'status' => 'integer',
+    ];
+
 
     public function attendance() {
         return $this->belongsTo(Attendance::class);
@@ -31,5 +46,10 @@ class Correction extends Model
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo(User::class, 'approver_id');
     }
 }

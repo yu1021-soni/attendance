@@ -11,17 +11,22 @@ class CorrectionRest extends Model
 
     protected $fillable = [
         'correction_id',
-        'new_rest_start_1',
-        'new_rest_end_1',
-        'new_rest_start_2',
-        'new_rest_end_2',
+        'old_rest_start',
+        'old_rest_end',
+        'new_rest_start',
+        'new_rest_end',
+        'status',        // 1:申請中, 2:承認済み
+        'approver_id',
+        'approved_at',
     ];
 
     protected $casts = [
-        'new_rest_start_1' => 'datetime',
-        'new_rest_end_1'   => 'datetime',
-        'new_rest_start_2' => 'datetime',
-        'new_rest_end_2'   => 'datetime',
+        'old_rest_start' => 'datetime',
+        'old_rest_end'   => 'datetime',
+        'new_rest_start' => 'datetime',
+        'new_rest_end'   => 'datetime',
+        'approved_at'    => 'datetime',
+        'status'         => 'integer',
     ];
 
     public function collection() {

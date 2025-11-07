@@ -28,6 +28,7 @@ class Attendance extends Model
         'date' => 'date',
         'work_start' => 'datetime',
         'work_end' => 'datetime',
+        'status',
     ];
 
     public function calcWorkMinutes(): int {
