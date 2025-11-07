@@ -19,7 +19,7 @@ class UserAttendanceController extends Controller
             ->whereDate('date', $todayDate)
             ->first();
 
-        // 休憩中かどうか（rest_end が NULL の休憩がある = 休憩中）
+        // 休憩中かどうか
         $isRestingNow = false;
         if ($attendance) {
             $isRestingNow = $attendance->rests()
