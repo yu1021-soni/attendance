@@ -19,27 +19,8 @@ class UserAttendanceController extends Controller
             ->whereDate('date', $todayDate)
             ->first();
 
-        // 休憩中かどうか
-        $isRestingNow = false;
-        if ($attendance) {
-            $isRestingNow = $attendance->rests()
-                ->whereNull('rest_end')
-                ->exists();
-        }
-
-        // ステータス分類
-        // 0=勤務外 / 1=出勤中 / 2=休憩中 / 3=退勤済
-        $status = 0;
-
-        if ($attendance?->work_start && !$attendance?->work_end && !$isRestingNow) {
-            $status = 1; // 出勤中
-        }
-        if ($isRestingNow) {
-            $status = 2; // 休憩中
-        }
-        if ($attendance?->work_end) {
-            $status = 3; // 退勤済
-        }
+        // DB保存のstatusを優先
+        $status = $attendance->status ?? Attendance::STATUS_OFF;
 
         return view('user_attendance', [
             'now'        => now(),
@@ -56,7 +37,9 @@ class UserAttendanceController extends Controller
         // 出勤が無ければ作成
         Attendance::firstOrCreate(
             ['user_id' => $userId, 'date' => $todayDate],
-            ['work_start' => now(), 'work_time_total' => 0]
+            ['work_start' => now(), 'work_time_total' => 0,
+            'status' => Attendance::STATUS_ON, // 出勤中
+            ]
         );
 
         return redirect()->route('attendance.index');
@@ -85,6 +68,9 @@ class UserAttendanceController extends Controller
             ]);
         }
 
+        $attendance->status = Attendance::STATUS_BREAK; // 休憩中
+        $attendance->save();
+
         return redirect()->route('attendance.index');
     }
 
@@ -110,6 +96,10 @@ class UserAttendanceController extends Controller
             }
         }
 
+        $attendance->status = Attendance::STATUS_ON; // 出勤中に戻る
+        $attendance->save();
+
+
         return redirect()->route('attendance.index');
     }
 
@@ -128,20 +118,17 @@ class UserAttendanceController extends Controller
         }
 
         // 未終了の休憩を締める
-        $rest = $attendance->rests()
-            ->whereNull('rest_end')
-            ->first();
-
+        $rest = $attendance->rests()->whereNull('rest_end')->first();
         if ($rest) {
             $rest->rest_end = now();
             $rest->rest_time_total = $rest->rest_start->diffInMinutes($rest->rest_end);
             $rest->save();
         }
 
-        // 退勤時刻
+        // 退勤
         $attendance->work_end = now();
-        $attendance->work_time_total =
-            $attendance->work_start->diffInMinutes($attendance->work_end);
+        $attendance->work_time_total = $attendance->calcWorkMinutes(); // 休憩差し引き確定
+        $attendance->status = Attendance::STATUS_DONE; // 退勤済み
 
         $attendance->save();
 

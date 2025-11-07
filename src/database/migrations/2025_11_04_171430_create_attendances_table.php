@@ -19,8 +19,13 @@ class CreateAttendancesTable extends Migration
             $table->date('date');
             $table->datetime('work_start');
             $table->datetime('work_end')->nullable();
-            $table->integer('work_time_total')->nullable(); //分
-            $table->text('comment')->nullable();
+            $table->integer('work_time_total')->default(0)->nullable();
+            $table->text('user_comment')->nullable();
+
+            $table->tinyInteger('status')
+                ->default(0)
+                ->comment('0:未出勤,1:出勤中,2:休憩中,3:退勤済');
+
             $table->timestamps();
 
             $table->unique(['user_id', 'date']);

@@ -8,20 +8,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 @endsection
 
+@php
+use App\Models\Attendance;
+
+$status = $status ?? Attendance::STATUS_OFF;
+
+$labels = [
+Attendance::STATUS_OFF => '勤務外',
+Attendance::STATUS_ON => '出勤中',
+Attendance::STATUS_BREAK => '休憩中',
+Attendance::STATUS_DONE => '退勤済',
+];
+@endphp
+
 @section('content')
 <div class="content">
 
     {{-- ステータス --}}
     <div class="attendance__status">
-        @if ($status === 0)
-        勤務外
-        @elseif ($status === 1)
-        出勤中
-        @elseif ($status === 2)
-        休憩中
-        @else
-        退勤済
-        @endif
+        {{ $labels[$status] }}
     </div>
 
     <div class="attendance__current">
@@ -33,39 +38,37 @@
         </div>
     </div>
 
-    {{-- 勤務外 --}}
-    @if ($status === 0)
-    <form method="POST" action="{{ route('work.start') }}">
-        @csrf
-        <button type="submit" class="attendance__button">出勤</button>
-    </form>
-    @endif
 
-    {{-- 出勤中 --}}
-    @if ($status === 1)
     <div class="attendance__actions">
+
+        {{-- 勤務外 --}}
+        @if ($status === Attendance::STATUS_OFF)
+        <form method="POST" action="{{ route('work.start') }}">
+            @csrf
+            <button type="submit" class="attendance__button">出勤</button>
+        </form>
+
+        {{-- 出勤中 --}}
+        @elseif ($status === Attendance::STATUS_ON)
         <form method="POST" action="{{ route('work.end') }}">
             @csrf
             <button type="submit" class="attendance__button">退勤</button>
         </form>
         <form method="POST" action="{{ route('break.start') }}">
             @csrf
-            <button type="submit" class="attendance__rest-button">休憩入り</button>
+            <button type="submit" class="attendance__rest-button">休憩入</button>
         </form>
-    </div>
-    @endif
 
-    {{-- 休憩中 --}}
-    @if ($status === 2)
-    <div class="attendance__actions">
+        {{-- 休憩中 --}}
+        @elseif ($status === Attendance::STATUS_BREAK)
         <form method="POST" action="{{ route('break.end') }}">
             @csrf
             <button type="submit" class="attendance__rest-button">休憩戻</button>
         </form>
+        @endif
     </div>
-    @endif
 
-    @if ($status === 3)
+    @if ($status === Attendance::STATUS_DONE)
     <div class="message">お疲れ様でした。</div>
     @endif
 
