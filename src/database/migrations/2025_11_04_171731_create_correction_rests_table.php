@@ -17,7 +17,7 @@ class CreateCorrectionRestsTable extends Migration
             $table->id();
             $table->foreignId('correction_id')->constrained()->cascadeOnDelete();
     
-            $table->datetime('old_rest_start')->nullable();;
+            $table->datetime('old_rest_start')->nullable();
             $table->datetime('old_rest_end')->nullable();
 
             $table->datetime('new_rest_start');

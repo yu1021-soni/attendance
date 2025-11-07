@@ -15,7 +15,7 @@ class CorrectionRest extends Model
         'old_rest_end',
         'new_rest_start',
         'new_rest_end',
-        'status',        // 1:申請中, 2:承認済み
+        'status',
         'approver_id',
         'approved_at',
     ];
@@ -29,7 +29,11 @@ class CorrectionRest extends Model
         'status'         => 'integer',
     ];
 
-    public function collection() {
+    public function correction() {
         return $this->belongsTo(Correction::class);
+    }
+
+    public function approver() {
+        return $this->belongsTo(User::class, 'approver_id');
     }
 }
