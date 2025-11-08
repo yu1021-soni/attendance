@@ -9,7 +9,7 @@ use App\Models\Rest;
 
 class UserAttendanceController extends Controller
 {
-    public function index(Request $request)
+    public function create(Request $request)
     {
         $userId = $request->user()->id;
         $todayDate = Carbon::today()->toDateString();

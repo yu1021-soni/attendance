@@ -17,7 +17,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::get('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');
+    Route::get('/', [UserAttendanceController::class, 'create'])->name('attendance.create');
 
     Route::post('/work/start', [UserAttendanceController::class, 'checkIn'])->name('work.start');
 
