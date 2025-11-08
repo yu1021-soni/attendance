@@ -19,11 +19,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/', [UserAttendanceController::class, 'create'])->name('attendance.create');
 
-    Route::post('/work/start', [UserAttendanceController::class, 'checkIn'])->name('work.start');
+    Route::post('/attendance/checkin', [UserAttendanceController::class, 'checkIn'])->name('work.start');
 
-    Route::post('/work/end', [UserAttendanceController::class, 'checkOut'])->name('work.end');
+    Route::post('/attendance/checkout', [UserAttendanceController::class, 'checkOut'])->name('work.end');
 
-    Route::post('/break/start', [UserAttendanceController::class, 'breakIn'])->name('break.start');
+    Route::post('/attendance/break/start', [UserAttendanceController::class, 'breakIn'])->name('break.start');
 
-    Route::post('/break/end',   [UserAttendanceController::class, 'breakOut'])->name('break.end');
+    Route::post('attendance/break/end',   [UserAttendanceController::class, 'breakOut'])->name('break.end');
 });

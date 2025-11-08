@@ -42,7 +42,7 @@ class UserAttendanceController extends Controller
             ]
         );
 
-        return redirect()->route('attendance.index');
+        return redirect()->route('attendance.create');
     }
 
     public function breakIn(Request $request)
@@ -71,7 +71,7 @@ class UserAttendanceController extends Controller
         $attendance->status = Attendance::STATUS_BREAK; // 休憩中
         $attendance->save();
 
-        return redirect()->route('attendance.index');
+        return redirect()->route('attendance.create');
     }
 
     public function breakOut(Request $request)
@@ -100,7 +100,7 @@ class UserAttendanceController extends Controller
         $attendance->save();
 
 
-        return redirect()->route('attendance.index');
+        return redirect()->route('attendance.create');
     }
 
 
@@ -114,7 +114,7 @@ class UserAttendanceController extends Controller
             ->first();
 
         if (!$attendance || $attendance->work_end) {
-            return redirect()->route('attendance.index');
+            return redirect()->route('attendance.create');
         }
 
         // 未終了の休憩を締める
@@ -132,6 +132,6 @@ class UserAttendanceController extends Controller
 
         $attendance->save();
 
-        return redirect()->route('attendance.index');
+        return redirect()->route('attendance.create');
     }
 }
