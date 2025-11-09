@@ -12,6 +12,8 @@ class UserAttendanceController extends Controller
     public function create(Request $request)
     {
         $userId = $request->user()->id;
+
+        //現在時刻
         $todayDate = Carbon::today()->toDateString();
 
         // 今日の勤怠データを取得

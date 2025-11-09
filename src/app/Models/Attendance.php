@@ -12,7 +12,7 @@ class Attendance extends Model
     public const STATUS_OFF   = 0; // 未出勤
     public const STATUS_ON    = 1; // 出勤中
     public const STATUS_BREAK = 2; // 休憩中
-    public const STATUS_DONE  = 3; // 退勤済み
+    public const STATUS_DONE  = 3; // 退勤済
 
     protected $fillable = [
         'user_id',
@@ -32,28 +32,58 @@ class Attendance extends Model
     ];
 
     public function calcWorkMinutes(): int {
+
+        // $this ＝ $attendance
+
+        // !->否定  ||->または
         if (!$this->work_start || !$this->work_end) {
             return 0;
         }
 
         // 出勤～退勤のtotal時間(分)
+        // diffInMinutes->総時間を分で取得
         $total = $this->work_start->diffInMinutes($this->work_end);
 
-        // 休憩合計（未終了の休憩は0分）
-        $breakMinutes = $this->rests->sum(function ($r) {
-            if (!$r->rest_start || !$r->rest_end) return 0;
-            return $r->rest_start->diffInMinutes($r->rest_end);
-        });
+        $breakMinutes = 0;
+
+        // rests（休憩）を 1つずつ取り出す
+        foreach ($this->rests as $rest) {
+
+            // 休憩の開始・終了が無い場合はスキップ
+            if (!$rest->rest_start || !$rest->rest_end) {
+                continue;
+            }
+
+            // 休憩時間（分）を計算して足す
+            $start = $rest->rest_start; // 休憩開始
+            $end = $rest->rest_end;   // 休憩終了
+
+            $diff = $start->diffInMinutes($end); // 開始から終了までの分数
+
+            //左側$breakMinutesは上書き
+            $breakMinutes = $breakMinutes + $diff; // 合計時間に足す
+        }
 
         return max(0, $total - $breakMinutes);
     }
 
     //表示用（例: 1時間30分）
     public function getWorkTimeHumanAttribute(): string {
-        $minutes = (int) ($this->work_time_total ?? 0);
-        $h = intdiv($minutes, 60);
-        $m = $minutes % 60;
-        return $h > 0 ? "{$h}時間{$m}分" : "{$m}分";
+
+        //条件式 ? 条件がtrueのときの値 : falseのときの値;
+        // 分を取り出す（null の場合は 0）
+        $minutes = $this->work_time_total ? $this->work_time_total : 0;
+
+        // 分 → 時間 と 残りの分 に変換
+        $hours = floor($minutes / 60);   // 60で割った時間
+        $mins  = $minutes % 60;          // 余った分
+
+        // 表示の形式
+        if ($hours > 0) {
+            return $hours . "時間" . $mins . "分";
+        } else {
+            return $mins . "分";
+        }
     }
 
     public function user() {
