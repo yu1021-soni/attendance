@@ -26,4 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/attendance/break/start', [UserAttendanceController::class, 'breakIn'])->name('break.start');
 
     Route::post('attendance/break/end',   [UserAttendanceController::class, 'breakOut'])->name('break.end');
+
+    Route::get('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');
+    Route::post('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');
 });

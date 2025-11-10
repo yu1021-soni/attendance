@@ -68,22 +68,59 @@ class Attendance extends Model
     }
 
     //表示用（例: 1時間30分）
-    public function getWorkTimeHumanAttribute(): string {
+    //public function getWorkTimeHumanAttribute(): string {
 
-        //条件式 ? 条件がtrueのときの値 : falseのときの値;
-        // 分を取り出す（null の場合は 0）
-        $minutes = $this->work_time_total ? $this->work_time_total : 0;
+    //条件式 ? 条件がtrueのときの値 : falseのときの値;
+    // 分を取り出す（null の場合は 0）
+    //$minutes = $this->work_time_total ? $this->work_time_total : 0;
 
-        // 分 → 時間 と 残りの分 に変換
-        $hours = floor($minutes / 60);   // 60で割った時間
-        $mins  = $minutes % 60;          // 余った分
+    // 分 → 時間 と 残りの分 に変換
+    //$hours = floor($minutes / 60);   // 60で割った時間
+    //$mins  = $minutes % 60;          // 余った分
 
-        // 表示の形式
-        if ($hours > 0) {
-            return $hours . "時間" . $mins . "分";
-        } else {
-            return $mins . "分";
+    // 表示の形式
+    //if ($hours > 0) {
+    //return $hours . "時間" . $mins . "分";
+    //} else {
+    //return $mins . "分";
+    //}
+    //}
+
+    // 勤務時間の合計（H:MM）
+    public function getWorkTimeHumanAttribute(): string
+    {
+        $total = (int) $this->work_time_total;
+
+        if ($total <= 0) return '';
+
+        $h = intdiv($total, 60);
+        $m = $total % 60;
+
+        return sprintf('%d:%02d', $h, $m);
+    }
+
+    public function getRestTotalMinutesAttribute(): int
+    {
+        $total = 0;
+
+        foreach ($this->rests as $rest) {
+            if (!is_null($rest->rest_time_total)) {
+                $total += (int) $rest->rest_time_total;
+            } elseif ($rest->rest_start && $rest->rest_end) {
+                $total += $rest->rest_start->diffInMinutes($rest->rest_end);
+            }
         }
+
+        return $total;
+    }
+
+    public function getRestTotalHumanAttribute(): string
+    {
+        $m = $this->rest_total_minutes;
+
+        if ($m <= 0) return '';
+
+        return sprintf('%d:%02d', intdiv($m, 60), $m % 60);
     }
 
     public function user() {

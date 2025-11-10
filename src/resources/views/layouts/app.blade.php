@@ -27,6 +27,9 @@
                 <nav class="header__nav">
                     <ul class="header__menu">
                         <li>
+                            <a href="{{ route('attendance.index') }}" class="header__logout">勤怠一覧</a>
+                        </li>
+                        <li>
                             @if(Auth::check())
                             <form method="post" action="{{ route('logout') }}">
                                 @csrf

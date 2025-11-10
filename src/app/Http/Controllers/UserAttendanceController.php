@@ -9,8 +9,7 @@ use App\Models\Rest;
 
 class UserAttendanceController extends Controller
 {
-    public function create(Request $request)
-    {
+    public function create(Request $request) {
         $userId = $request->user()->id;
 
         //現在時刻
@@ -31,8 +30,7 @@ class UserAttendanceController extends Controller
         ]);
     }
 
-    public function checkIn(Request $request)
-    {
+    public function checkIn(Request $request) {
         $userId = $request->user()->id;
         $todayDate = Carbon::today()->toDateString();
 
@@ -47,8 +45,7 @@ class UserAttendanceController extends Controller
         return redirect()->route('attendance.create');
     }
 
-    public function breakIn(Request $request)
-    {
+    public function breakIn(Request $request) {
         $userId = $request->user()->id;
         $todayDate = Carbon::today()->toDateString();
 
@@ -76,8 +73,7 @@ class UserAttendanceController extends Controller
         return redirect()->route('attendance.create');
     }
 
-    public function breakOut(Request $request)
-    {
+    public function breakOut(Request $request) {
         $userId = $request->user()->id;
         $todayDate = Carbon::today()->toDateString();
 
@@ -106,8 +102,7 @@ class UserAttendanceController extends Controller
     }
 
 
-    public function checkOut(Request $request)
-    {
+    public function checkOut(Request $request) {
         $userId = $request->user()->id;
         $todayDate = Carbon::today()->toDateString();
 
@@ -135,5 +130,56 @@ class UserAttendanceController extends Controller
         $attendance->save();
 
         return redirect()->route('attendance.create');
+    }
+
+    public function index(Request $request) {
+
+        $userId = $request->user()->id;
+
+        // いま表示する年月（最初は今月）
+        $year  = (int) $request->session()->get('ym_year', now()->year);
+        $month = (int) $request->session()->get('ym_month', now()->month);
+        $cursor = \Carbon\Carbon::create($year, $month, 1);
+
+        // 前月/翌月ボタン対応（?move=prev / next）
+        if ($request->query('move') === 'prev') $cursor = $cursor->subMonthNoOverflow();
+        if ($request->query('move') === 'next') $cursor = $cursor->addMonthNoOverflow();
+
+        // 決まった年月をセッションに保存＆変数更新
+        $year  = $cursor->year;
+        $month = $cursor->month;
+        $request->session()->put('ym_year', $year);
+        $request->session()->put('ym_month', $month);
+
+        $start = $cursor->copy()->startOfMonth();
+        $end   = $cursor->copy()->endOfMonth();
+
+        // その月の自分の勤怠を取得（休憩も一緒に）
+        $attendances = Attendance::with('rests')
+            ->where('user_id', $userId)
+            ->whereBetween('date', [$start->toDateString(), $end->toDateString()])
+            ->orderBy('date', 'asc')
+            ->get();
+
+        // 日付 → 勤怠 の対応表（探しやすくするだけ）
+        $byDate = [];
+        foreach ($attendances as $attendanceOfDay) {
+
+            // date が Carbon なら toDateString()、文字列ならそのまま
+            $key = $attendanceOfDay->date instanceof \Carbon\Carbon
+                ? $attendanceOfDay->date->toDateString()
+                : (string) $attendanceOfDay->date;
+
+            $byDate[$key] = $attendanceOfDay;
+        }
+
+        // 月の全日（yyyy-mm-dd の配列）…未打刻日は空欄出力に使う
+        $days = [];
+        for ($d = 1; $d <= $cursor->daysInMonth; $d++) {
+            $days[] = $cursor->copy()->day($d)->toDateString();
+        }
+
+        // 既存の year / month をそのまま使いたいので渡す
+        return view('user_attendance_list', compact('year', 'month', 'days', 'byDate'));
     }
 }
