@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAttendanceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\UserApplicationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,5 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('attendance/break/end',   [UserAttendanceController::class, 'breakOut'])->name('break.end');
 
     Route::get('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');
-    Route::post('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');
+    Route::post('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');//記入まだ
+
+    Route::get('/correction-request/{id}', [UserApplicationController::class, 'store'])->name('correction.store');
 });

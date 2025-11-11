@@ -68,10 +68,9 @@
                 {{-- 合計（未計算/未打刻は空欄） --}}
                 <td>{{ $a && $a->work_time_total ? $a->work_time_human : '' }}</td>
 
-                {{-- 詳細（レコードがある日だけ表示したい場合） --}}
+                {{-- 詳細 --}}
                 <td>
-                    {{-- 必要なら解除 --}}
-                    {{-- @if($a) <a href="{{ route('attendance.show', $a->id) }}">詳細</a> @endif --}}
+                    <a href="{{ route('correction.store', ['id' => auth()->id()]) }}" class="detail-button">詳細</a>
                 </td>
             </tr>
             @endforeach
