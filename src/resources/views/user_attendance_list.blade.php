@@ -23,7 +23,7 @@
                 <button name="move" value="prev" class="month-nav__btn">← 前月</button>
 
                 <div class="month-nav__current">
-                    <span class="month-nav__icon">📅</span>
+                    <img src="{{ asset('img/calendar.png') }}" class="month-nav__icon" alt="calendar">
                     <span class="month-nav__text">{{ $year }}/{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}</span>
                 </div>
 

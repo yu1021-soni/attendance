@@ -1,0 +1,167 @@
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #f0eff2;
+}
+
+.attendance {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.attendance__title {
+    border-left: 8px solid black;
+    height: 40px;
+    padding-left: 12px;
+    display: flex;
+    align-items: center;
+
+    font-weight: bold;
+    font-size: 30px;
+    margin: 120px auto 60px;
+}
+
+
+.attendance__content-month {
+    width: 100%;
+    background-color: white;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.month-nav__icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.month-nav__form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.month-nav__current {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.month-nav__btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    color: #737373;
+}
+
+.month-nav__text {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.attendance__content-date {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.attendance__content-date table {
+    width: 900px;
+    table-layout: fixed;
+    background-color: white;
+    margin: 0 auto;
+}
+
+.attendance__content-date th,
+.attendance__content-date td {
+    text-align: center;
+}
+
+.attendance__content-date th {
+    font-weight: bold;
+    font-size: 16px;
+    color: #737373;
+    padding: 15px 0;
+    border-bottom: 3px solid #E1E1E1;
+}
+
+.attendance__content-date td {
+    font-weight: bold;
+        font-size: 16px;
+        color: #737373;
+        padding: 15px 0;
+        border-bottom: 2px solid #E1E1E1;
+}
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .attendance {
+        max-width: 1000px;
+    }
+
+    .attendance__title {
+        font-size: 32px;
+        height: 44px;
+    }
+
+    .month-nav__text {
+        font-size: 22px;
+    }
+
+    .attendance__content-date th,
+    .attendance__content-date td {
+        padding: 18px 0;
+        font-size: 17px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+    .attendance {
+        max-width: 600px;
+        padding: 0 16px;
+    }
+
+    .attendance__title {
+        border-left-width: 6px;
+        height: 36px;
+        font-size: 24px;
+        margin: 80px auto 20px;
+    }
+
+    .attendance__content-month {
+        height: 56px;
+    }
+
+    .month-nav__form {
+        padding: 0 16px;
+    }
+
+    .month-nav__btn {
+        font-size: 14px;
+    }
+
+    .month-nav__text {
+        font-size: 18px;
+    }
+
+    .month-nav__icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .attendance__content-date {
+        margin-top: 20px;
+    }
+
+    .attendance__content-date table {
+    width: 600px;
+    }
+
+    .attendance__content-date th,
+    .attendance__content-date td {
+        font-size: 14px;
+        padding: 12px 0;
+    }
+}
