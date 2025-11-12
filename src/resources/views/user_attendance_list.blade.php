@@ -19,14 +19,20 @@
     <div class="attendance__content">
         <div class="attendance__content-month">
 
-            {{-- 月移動（method は GET 推奨） --}}
+            {{-- 月移動（method は GET） --}}
             <form action="{{ route('attendance.index') }}" method="get" class="month-nav__form">
+
+                {{-- 今表示している年月も一緒に送る --}}
+                <input type="hidden" name="year" value="{{ $year }}">
+                <input type="hidden" name="month" value="{{ $month }}">
 
                 <button name="move" value="prev" class="month-nav__btn">← 前月</button>
 
                 <div class="month-nav__current">
                     <img src="{{ asset('img/calendar.png') }}" class="month-nav__icon" alt="calendar">
-                    <span class="month-nav__text">{{ $year }}/{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}</span>
+                    <span class="month-nav__text">
+                        {{ $year }}/{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}
+                    </span>
                 </div>
 
                 <button name="move" value="next" class="month-nav__btn">翌月 →</button>

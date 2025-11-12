@@ -37,7 +37,7 @@ class UserAttendanceController extends Controller
         // 出勤が無ければ作成
         Attendance::firstOrCreate(
             ['user_id' => $userId, 'date' => $todayDate],
-            ['work_start' => now(), 'work_time_total' => 0,
+            ['work_start' => now(),
             'status' => Attendance::STATUS_ON, // 出勤中
             ]
         );
@@ -124,7 +124,6 @@ class UserAttendanceController extends Controller
 
         // 退勤
         $attendance->work_end = now();
-        $attendance->work_time_total = $attendance->calcWorkMinutes(); // 休憩差し引き確定
         $attendance->status = Attendance::STATUS_DONE; // 退勤済み
 
         $attendance->save();
@@ -137,13 +136,15 @@ class UserAttendanceController extends Controller
         $userId = $request->user()->id;
 
         // 表示する年月（初回は今月）
+        // request->query('year')-> URL の ?year=○○ を読む
+        //$request->query('year', 2025)-> yearが無かったら2025を使う
         $year  = (int) $request->query('year', now()->year);
         $month = (int) $request->query('month', now()->month);
 
         // 前月・翌月の移動
         $move = $request->query('move');
-        if ($move === 'prev') $month--;
-        if ($move === 'next') $month++;
+        if ($move === 'prev') $month--; // -- = -1
+        if ($move === 'next') $month++; // ++ = +1
 
         // 年の調整（12 → 次年 / 0 → 前年）
         if ($month === 0) {
@@ -155,7 +156,7 @@ class UserAttendanceController extends Controller
             $year++;
         }
 
-        // 月初・月末
+        // 月初・月末の日にちを取る
         $monthStart = Carbon::create($year, $month, 1);
         $monthEnd   = $monthStart->copy()->endOfMonth();
 
