@@ -39,4 +39,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, 'login']);
 
-Route::get('/admin/dashboard', [AdminAttendanceController::class, 'index'])->middleware(['auth', 'admin'])->name('admin.dashboard');
+Route::get('/admin/dashboard', [AdminAttendanceController::class, 'index'])->middleware(['auth', 'admin'])->name('admin.dashboard'); //admin->middleware

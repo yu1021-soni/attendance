@@ -15,6 +15,8 @@ class AdminLoginController extends Controller
     public function login(AdminLoginRequest $request)
     {
 
+        // !は否定
+        // Auth::attempt() フォームで入力された情報（メール・パスワード）が正しいか確認する
         if (!Auth::attempt($request->only('email', 'password'))) {
             return back()
                 ->withErrors(['email' => 'ログイン情報が登録されていません'])
