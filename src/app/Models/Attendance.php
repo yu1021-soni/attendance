@@ -40,7 +40,7 @@ class Attendance extends Model
         }
 
         // 出勤～退勤のtotal時間(分)
-        // diffInMinutes->総時間を分で取得
+        // diffInMinutes() は 2つの時刻の差を「分」で出すメソッド
         $total = $this->work_start->diffInMinutes($this->work_end);
 
         $breakMinutes = 0;
@@ -57,53 +57,44 @@ class Attendance extends Model
             $start = $rest->rest_start; // 休憩開始
             $end = $rest->rest_end;   // 休憩終了
 
-            $diff = $start->diffInMinutes($end); // 開始から終了までの分数
+            // 休憩開始から終了までの分数
+            $diff = $start->diffInMinutes($end);
 
             //左側$breakMinutesは上書き
             $breakMinutes = $breakMinutes + $diff; // 合計時間に足す
         }
 
-        return max(0, $total - $breakMinutes);
+        // $total は出勤〜退勤の全体の分数
+        // $breakMinutes は休憩の合計
+        // → この差が 勤務時間（実働時間）
+        return $total - $breakMinutes;
     }
 
-    /** ★仮想属性：DBに無くても $attendance->work_time_total が使える */
-    public function getWorkTimeTotalAttribute(): int
-    {
+    public function getWorkTimeTotalAttribute(): int {
+        // =$attendance->work_time_total
         return $this->calcWorkMinutes();
     }
-
-    //表示用（例: 1時間30分）
-    //public function getWorkTimeHumanAttribute(): string {
-
-    //条件式 ? 条件がtrueのときの値 : falseのときの値;
-    // 分を取り出す（null の場合は 0）
-    //$minutes = $this->work_time_total ? $this->work_time_total : 0;
-
-    // 分 → 時間 と 残りの分 に変換
-    //$hours = floor($minutes / 60);   // 60で割った時間
-    //$mins  = $minutes % 60;          // 余った分
-
-    // 表示の形式
-    //if ($hours > 0) {
-    //return $hours . "時間" . $mins . "分";
-    //} else {
-    //return $mins . "分";
-    //}
-    //}
 
     // 勤務時間の合計（H:MM）
     public function getWorkTimeHumanAttribute(): string
     {
+        // $this 1件の勤怠データ（Attendance）
+        // 勤務時間（分）
         $total = (int) $this->work_time_total;
 
+        // 勤務時間が 0分以下ならnull
         if ($total <= 0) return '';
 
-        $h = intdiv($total, 60);
-        $m = $total % 60;
+        // intdiv() 整数の割り算
+        $hour = intdiv($total, 60);
+        //60分で割った残りの分
+        $minutes = $total % 60;
 
-        return sprintf('%d:%02d', $h, $m);
+        // %d:%02d  %d=整数  %02d=整数を2桁で表示,1桁なら先頭に0
+        return sprintf('%d:%02d', $hour, $minutes);
     }
 
+    // 休憩合計時間
     public function getRestTotalMinutesAttribute(): int
     {
         $total = 0;
