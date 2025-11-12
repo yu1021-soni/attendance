@@ -76,7 +76,7 @@
                 <td>{{ $attendance?->rest_total_human }}</td>
 
                 {{-- 合計 --}}
-                <td>{{ $attendance?->work_time_total ? $attendance->work_time_human : '' }}</td>
+                <td>{{ $attendance?->work_time_human ?? '' }}</td>
 
                 {{-- 詳細 --}}
                 <td>

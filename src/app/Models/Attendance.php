@@ -19,7 +19,6 @@ class Attendance extends Model
         'date',
         'work_start',
         'work_end',
-        'work_time_total',
         'user_comment',
         'status',
     ];
@@ -28,7 +27,7 @@ class Attendance extends Model
         'date' => 'date',
         'work_start' => 'datetime',
         'work_end' => 'datetime',
-        'status',
+        'status' => 'integer',
     ];
 
     public function calcWorkMinutes(): int {
@@ -65,6 +64,12 @@ class Attendance extends Model
         }
 
         return max(0, $total - $breakMinutes);
+    }
+
+    /** ★仮想属性：DBに無くても $attendance->work_time_total が使える */
+    public function getWorkTimeTotalAttribute(): int
+    {
+        return $this->calcWorkMinutes();
     }
 
     //表示用（例: 1時間30分）
