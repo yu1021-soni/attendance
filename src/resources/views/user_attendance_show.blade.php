@@ -10,5 +10,28 @@
 
 
 @section('content')
-<p>hello</p>
+<div class="attendance">
+
+    <div class="attendance__title">
+        勤怠一覧
+    </div>
+
+    <div class="attendance__content">
+        <table>
+            <tr>
+                <th>名前</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>日付</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>出勤・退勤</th>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
 @endsection

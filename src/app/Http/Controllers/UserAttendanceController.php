@@ -132,54 +132,51 @@ class UserAttendanceController extends Controller
         return redirect()->route('attendance.create');
     }
 
-    public function index(Request $request) {
-
+    public function index(Request $request)
+    {
         $userId = $request->user()->id;
 
-        // いま表示する年月（最初は今月）
-        $year  = (int) $request->session()->get('ym_year', now()->year);
-        $month = (int) $request->session()->get('ym_month', now()->month);
-        $cursor = \Carbon\Carbon::create($year, $month, 1);
+        // 表示する年月（初回は今月）
+        $year  = (int) $request->query('year', now()->year);
+        $month = (int) $request->query('month', now()->month);
 
-        // 前月/翌月ボタン対応（?move=prev / next）
-        if ($request->query('move') === 'prev') $cursor = $cursor->subMonthNoOverflow();
-        if ($request->query('move') === 'next') $cursor = $cursor->addMonthNoOverflow();
+        // 前月・翌月の移動
+        $move = $request->query('move');
+        if ($move === 'prev') $month--;
+        if ($move === 'next') $month++;
 
-        // 決まった年月をセッションに保存＆変数更新
-        $year  = $cursor->year;
-        $month = $cursor->month;
-        $request->session()->put('ym_year', $year);
-        $request->session()->put('ym_month', $month);
+        // 年の調整（12 → 次年 / 0 → 前年）
+        if ($month === 0) {
+            $month = 12;
+            $year--;
+        }
+        if ($month === 13) {
+            $month = 1;
+            $year++;
+        }
 
-        $start = $cursor->copy()->startOfMonth();
-        $end   = $cursor->copy()->endOfMonth();
+        // 月初・月末
+        $monthStart = Carbon::create($year, $month, 1);
+        $monthEnd   = $monthStart->copy()->endOfMonth();
 
-        // その月の自分の勤怠を取得（休憩も一緒に）
-        $attendances = Attendance::with('rests')
+        // 勤怠データ取得
+        $attendanceList = Attendance::with('rests')
             ->where('user_id', $userId)
-            ->whereBetween('date', [$start->toDateString(), $end->toDateString()])
-            ->orderBy('date', 'asc')
+            ->whereBetween('date', [$monthStart, $monthEnd])
             ->get();
 
-        // 日付 → 勤怠 の対応表（探しやすくするだけ）
-        $byDate = [];
-        foreach ($attendances as $attendanceOfDay) {
-
-            // date が Carbon なら toDateString()、文字列ならそのまま
-            $key = $attendanceOfDay->date instanceof \Carbon\Carbon
-                ? $attendanceOfDay->date->toDateString()
-                : (string) $attendanceOfDay->date;
-
-            $byDate[$key] = $attendanceOfDay;
+        // 日付 → 勤怠 の表
+        $attendanceByDate = [];
+        foreach ($attendanceList as $attendance) {
+            $attendanceByDate[$attendance->date->toDateString()] = $attendance;
         }
 
-        // 月の全日（yyyy-mm-dd の配列）…未打刻日は空欄出力に使う
+        // 月の日付リスト
         $days = [];
-        for ($d = 1; $d <= $cursor->daysInMonth; $d++) {
-            $days[] = $cursor->copy()->day($d)->toDateString();
+        for ($day = 1; $day <= $monthStart->daysInMonth; $day++) {
+            $days[] = Carbon::create($year, $month, $day)->toDateString();
         }
 
-        // 既存の year / month をそのまま使いたいので渡す
-        return view('user_attendance_list', compact('year', 'month', 'days', 'byDate'));
+        return view('user_attendance_list', compact('year', 'month', 'days', 'attendanceByDate'));
     }
 }

@@ -22,8 +22,8 @@ class CreateCorrectionsTable extends Migration
             $table->datetime('old_work_start')->nullable();
             $table->datetime('old_work_end')->nullable();
 
-            $table->datetime('new_work_start');
-            $table->datetime('new_work_end');
+            $table->datetime('new_work_start')->nullable();
+            $table->datetime('new_work_end')->nullable();
             $table->text('user_comment')->nullable();
 
             $table->tinyInteger('status')->default(1)->comment('1:申請中、2:承認済み');
