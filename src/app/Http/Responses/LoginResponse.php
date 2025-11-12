@@ -12,8 +12,9 @@ class LoginResponse implements LoginResponseContract
 
         // 管理者なら /admin/dashboard へリダイレクト
         if ($user && method_exists($user, 'isAdmin') && $user->isAdmin()) {
-            return redirect()->intended(route('admin.dashboard'));
+            return redirect()->route('admin.dashboard');
         }
+
 
         // 一般ユーザーは Fortify の home 設定先へ (例: /attendance)
         return redirect()->intended(config('fortify.home'));

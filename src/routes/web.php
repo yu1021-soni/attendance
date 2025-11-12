@@ -5,6 +5,7 @@ use App\Http\Controllers\UserAttendanceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\UserApplicationController;
 use App\Http\Controllers\AdminLoginController;
+use App\Http\Controllers\AdminAttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/correction-request/{id}', [UserApplicationController::class, 'store'])->name('correction.store');
 });
 
-Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm']);
+Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminLoginController::class, 'login']);
+
+Route::get('/admin/dashboard', [AdminAttendanceController::class, 'index'])->middleware(['auth', 'admin'])->name('admin.dashboard');
