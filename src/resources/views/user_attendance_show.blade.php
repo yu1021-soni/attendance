@@ -20,18 +20,75 @@
         <table>
             <tr>
                 <th>名前</th>
-                <td></td>
+                <td>{{ $attendance->user->name }}</td>
             </tr>
             <tr>
                 <th>日付</th>
-                <td></td>
+                <td>
+                    {{ $attendance->date->format('Y年n月j日') }}
+                </td>
             </tr>
             <tr>
                 <th>出勤・退勤</th>
-                <td></td>
+                <td>
+                    <input type="time" name="work_start" value="{{ $attendance->work_start?->format('H:i') }}">~<input type="time" name="work_end" value="{{ $attendance->work_end?->format('H:i') }}">
+                </td>
             </tr>
-            
+            {{-- 既存の休憩を回数分出す --}}
+            {{-- foreach (配列 as キー => 値)のキー名はなんでもいい --}}
+            @foreach ($attendance->rests as $restNo => $rest)
+            <tr>
+                <th>休憩</th>
+                <td>
+                    <div class="rest-row">
+                        <input type="time"
+                            name="rests[{{ $restNo }}][rest_start]"
+                            value="{{ $rest->rest_start?->format('H:i') }}">
+                        ～
+                        <input type="time"
+                            name="rests[{{ $restNo }}][rest_end]"
+                            value="{{ $rest->rest_end?->format('H:i') }}">
+
+                        {{-- 更新用に既存レコードIDを送る --}}
+                        <input type="hidden"
+                            name="rests[{{ $restNo }}][id]"
+                            value="{{ $rest->id }}">
+                    </div>
+                </td>
+            </tr>
+            @endforeach
+
+            {{-- 追加用の休憩 --}}
+            @php
+            $nextRestNo = $attendance->rests->count(); // 次の休憩番号
+            @endphp
+
+            <tr>
+                <th>休憩{{ $nextRestNo + 1 }}</th>
+                <td>
+                    <div class="rest-row">
+                        <input type="time"
+                            name="rests[{{ $nextRestNo }}][rest_start]"
+                            value="">
+                        ～
+                        <input type="time"
+                            name="rests[{{ $nextRestNo }}][rest_end]"
+                            value="">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>備考</th>
+                <td>
+                    <input type="text" name="comment">
+                </td>
+            </tr>
         </table>
+    </div>
+    <div class="attendance__submit">
+        <button class="attendance__submit-button" type="submit">
+            修正
+        </button>
     </div>
 </div>
 @endsection
