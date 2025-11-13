@@ -25,13 +25,17 @@
             <tr>
                 <th>日付</th>
                 <td>
-                    {{ $attendance->date->format('Y年n月j日') }}
+                    <span class="date-year">{{ $attendance->date->format('Y年') }}</span>
+                    <span class="date-space"></span>
+                    <span class="date-monthday">{{ $attendance->date->format('n月j日') }}</span>
                 </td>
             </tr>
             <tr>
                 <th>出勤・退勤</th>
                 <td>
-                    <input type="time" name="work_start" value="{{ $attendance->work_start?->format('H:i') }}">~<input type="time" name="work_end" value="{{ $attendance->work_end?->format('H:i') }}">
+                    <input type="time" name="work_start" value="{{ $attendance->work_start?->format('H:i') }}">
+                    <span class="time-separator">〜</span>
+                    <input type="time" name="work_end" value="{{ $attendance->work_end?->format('H:i') }}">
                 </td>
             </tr>
             {{-- 既存の休憩を回数分出す --}}
@@ -44,7 +48,7 @@
                         <input type="time"
                             name="rests[{{ $restNo }}][rest_start]"
                             value="{{ $rest->rest_start?->format('H:i') }}">
-                        ～
+                        <span class="time-separator">〜</span>
                         <input type="time"
                             name="rests[{{ $restNo }}][rest_end]"
                             value="{{ $rest->rest_end?->format('H:i') }}">
@@ -70,17 +74,17 @@
                         <input type="time"
                             name="rests[{{ $nextRestNo }}][rest_start]"
                             value="">
-                        ～
+                        <span class="time-separator">〜</span>
                         <input type="time"
                             name="rests[{{ $nextRestNo }}][rest_end]"
                             value="">
                     </div>
                 </td>
             </tr>
-            <tr>
+            <tr class="remarks-row">
                 <th>備考</th>
                 <td>
-                    <input type="text" name="comment">
+                    <textarea name="textarea"></textarea>
                 </td>
             </tr>
         </table>
