@@ -90,9 +90,14 @@
         </table>
     </div>
     <div class="attendance__submit">
+        @if($status === 'pending')
+        <p class="pending-message">*承認待ちのため修正はできません。</p>
+        @else
         <button class="attendance__submit-button" type="submit">
             修正
         </button>
+        @endif
     </div>
+
 </div>
 @endsection

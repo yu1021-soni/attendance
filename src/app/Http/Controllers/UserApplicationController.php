@@ -16,4 +16,8 @@ class UserApplicationController extends Controller
             'attendance' => $attendance,
         ]);
     }
+
+    public function show() {
+        
+    }
 }

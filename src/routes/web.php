@@ -34,6 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');//記入まだ
 
     Route::get('/correction-request/{id}', [UserApplicationController::class, 'store'])->name('correction.store');
+
+    Route::post('/wait-approval', [UserApplicationController::class, 'show'])->name('wait.approval');
 });
 
 Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
