@@ -86,9 +86,17 @@
 
                 {{-- 詳細 --}}
                 <td>
-                    <a href="{{ route('correction.store', ['id' => auth()->id()]) }}" class="detail-button">
+                    {{-- <a href="{{ route('correction.store', ['id' => auth()->id()]) }}" class="detail-button">
+                    詳細
+                    </a> --}}
+
+                    @if ($attendance) {{-- ← レコードがある日のみリンク表示 --}}
+                    <a href="{{ route('correction.store', ['id' => $attendance->id]) }}" class="detail-button">
                         詳細
                     </a>
+                    @else
+                    -
+                    @endif
                 </td>
             </tr>
 

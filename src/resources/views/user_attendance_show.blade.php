@@ -8,6 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 @endsection
 
+@php
+use App\Models\Correction;
+@endphp
 
 @section('content')
 <div class="attendance">
@@ -17,6 +20,9 @@
     </div>
 
     <form action="{{ route('wait.approval') }}" method="post">
+        @csrf
+        <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
+
         <div class="attendance__content">
             <table>
                 <tr>
@@ -34,9 +40,9 @@
                 <tr>
                     <th>出勤・退勤</th>
                     <td>
-                        <input type="time" name="work_start" value="{{ $attendance->work_start?->format('H:i') }}">
+                        <input type="time" name="work_start" value="{{ $attendance->work_start?->format('H:i') }}" @if($status==='pending' ) disabled @endif>
                         <span class="time-separator">〜</span>
-                        <input type="time" name="work_end" value="{{ $attendance->work_end?->format('H:i') }}">
+                        <input type="time" name="work_end" value="{{ $attendance->work_end?->format('H:i') }}" @if($status==='pending' ) disabled @endif>
                     </td>
                 </tr>
                 {{-- 既存の休憩を回数分出す --}}
@@ -48,11 +54,11 @@
                         <div class="rest-row">
                             <input type="time"
                                 name="rests[{{ $restNo }}][rest_start]"
-                                value="{{ $rest->rest_start?->format('H:i') }}">
+                                value="{{ $rest->rest_start?->format('H:i') }}" @if($status==='pending' ) disabled @endif>
                             <span class="time-separator">〜</span>
                             <input type="time"
                                 name="rests[{{ $restNo }}][rest_end]"
-                                value="{{ $rest->rest_end?->format('H:i') }}">
+                                value="{{ $rest->rest_end?->format('H:i') }}" @if($status==='pending' ) disabled @endif>
 
                             {{-- 更新用に既存レコードIDを送る --}}
                             <input type="hidden"
@@ -91,8 +97,8 @@
             </table>
         </div>
         <div class="attendance__submit">
-            @if($status === 'pending')
-            <p class="pending-message">*承認待ちのため修正はできません。</p>
+            @if (($status ?? null) === Correction::STATUS_PENDING)
+            <p class="pending-message">*申請中のため修正はできません。</p>
             @else
             <button class="attendance__submit-button" type="submit">
                 修正

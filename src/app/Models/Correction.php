@@ -9,6 +9,9 @@ class Correction extends Model
 {
     use HasFactory;
 
+    const STATUS_PENDING  = 1; // 申請中
+    const STATUS_APPROVED = 2; // 承認済み
+
     protected $fillable = [
         'user_id',
         'attendance_id',
