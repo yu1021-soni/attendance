@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Http\Requests\CorrectionRequest;
 
 class UserApplicationController extends Controller
 {
@@ -17,7 +18,7 @@ class UserApplicationController extends Controller
         ]);
     }
 
-    public function show() {
-        
+    public function show(CorrectionRequest $request) {
+
     }
 }
