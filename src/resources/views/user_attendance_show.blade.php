@@ -19,9 +19,16 @@ use App\Models\Correction;
         勤怠一覧
     </div>
 
+    @if ($attendance->id)
+    {{-- 既存レコードなら修正申請へ --}}
     <form action="{{ route('wait.approval') }}" method="post">
-        @csrf
+    @else
+        {{-- 新規申請なら新規用のルートへ --}}
+    <form action="{{ route('correction.newStore') }}" method="post">
+    @endif
+    @csrf
         <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
+        <input type="hidden" name="date" value="{{ $attendance->date?->format('Y-m-d') }}">
 
         <div class="attendance__content">
             <table>
@@ -29,6 +36,7 @@ use App\Models\Correction;
                     <th>名前</th>
                     <td>{{ $attendance->user->name }}</td>
                 </tr>
+
                 <tr>
                     <th>日付</th>
                     <td>
@@ -37,34 +45,55 @@ use App\Models\Correction;
                         <span class="date-monthday">{{ $attendance->date->format('n月j日') }}</span>
                     </td>
                 </tr>
+
                 <tr>
                     <th>出勤・退勤</th>
                     <td>
-                        <input type="time" name="work_start" value="{{ $attendance->work_start?->format('H:i') }}" @if($status==='pending' ) disabled @endif>
+                        <input type="time"
+                                name="work_start"
+                                value="{{ old('work_start', $attendance->work_start?->format('H:i')) }}">
                         <span class="time-separator">〜</span>
-                        <input type="time" name="work_end" value="{{ $attendance->work_end?->format('H:i') }}" @if($status==='pending' ) disabled @endif>
+                        <input type="time"
+                                name="work_end"
+                                value="{{ old('work_end', $attendance->work_end?->format('H:i')) }}">
+
+                        {{-- 出勤・退勤のエラー --}}
+                        @error('work_start')
+                        <p class="field-error">{{ $message }}</p>
+                        @enderror
+                        @error('work_end')
+                        <p class="field-error">{{ $message }}</p>
+                        @enderror
                     </td>
                 </tr>
+
                 {{-- 既存の休憩を回数分出す --}}
-                {{-- foreach (配列 as キー => 値)のキー名はなんでもいい --}}
-                @foreach ($attendance->rests as $restNo => $rest)
+                @foreach(($attendance->rests ?? collect()) as $restNo => $rest)
                 <tr>
                     <th>休憩</th>
                     <td>
                         <div class="rest-row">
                             <input type="time"
-                                name="rests[{{ $restNo }}][rest_start]"
-                                value="{{ $rest->rest_start?->format('H:i') }}" @if($status==='pending' ) disabled @endif>
+                                    name="rests[{{ $restNo }}][rest_start]"
+                                    value="{{ old("rests.$restNo.rest_start", $rest->rest_start?->format('H:i')) }}">
                             <span class="time-separator">〜</span>
                             <input type="time"
-                                name="rests[{{ $restNo }}][rest_end]"
-                                value="{{ $rest->rest_end?->format('H:i') }}" @if($status==='pending' ) disabled @endif>
+                                    name="rests[{{ $restNo }}][rest_end]"
+                                    value="{{ old("rests.$restNo.rest_end", $rest->rest_end?->format('H:i')) }}">
 
                             {{-- 更新用に既存レコードIDを送る --}}
                             <input type="hidden"
-                                name="rests[{{ $restNo }}][id]"
-                                value="{{ $rest->id }}">
+                                    name="rests[{{ $restNo }}][id]"
+                                    value="{{ $rest->id }}">
                         </div>
+
+                        {{-- 休憩のエラー --}}
+                        @error("rests.$restNo.rest_start")
+                        <p class="field-error">{{ $message }}</p>
+                        @enderror
+                        @error("rests.$restNo.rest_end")
+                        <p class="field-error">{{ $message }}</p>
+                        @enderror
                     </td>
                 </tr>
                 @endforeach
@@ -79,23 +108,36 @@ use App\Models\Correction;
                     <td>
                         <div class="rest-row">
                             <input type="time"
-                                name="rests[{{ $nextRestNo }}][rest_start]"
-                                value="">
+                                    name="rests[{{ $nextRestNo }}][rest_start]"
+                                    value="{{ old("rests.$nextRestNo.rest_start") }}">
                             <span class="time-separator">〜</span>
                             <input type="time"
-                                name="rests[{{ $nextRestNo }}][rest_end]"
-                                value="">
+                                    name="rests[{{ $nextRestNo }}][rest_end]"
+                                    value="{{ old("rests.$nextRestNo.rest_end") }}">
                         </div>
+
+                        @error("rests.$nextRestNo.rest_start")
+                        <p class="field-error">{{ $message }}</p>
+                        @enderror
+                        @error("rests.$nextRestNo.rest_end")
+                        <p class="field-error">{{ $message }}</p>
+                        @enderror
                     </td>
                 </tr>
+
                 <tr class="remarks-row">
                     <th>備考</th>
                     <td>
-                        <textarea name="textarea"></textarea>
+                        <textarea name="comment">{{ old('comment') }}</textarea>
+
+                        @error('comment')
+                        <p class="field-error">{{ $message }}</p>
+                        @enderror
                     </td>
                 </tr>
             </table>
         </div>
+
         <div class="attendance__submit">
             @if (($status ?? null) === Correction::STATUS_PENDING)
             <p class="pending-message">*申請中のため修正はできません。</p>

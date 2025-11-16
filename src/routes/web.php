@@ -33,9 +33,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');
     Route::post('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');//記入まだ
 
+    // ★attendance がない日の新規修正申請画面（ここを追加）
+    Route::get('/correction-request/new', [UserApplicationController::class, 'createNew'])
+        ->name('correction.createNew'); // 記入まだ
+
     Route::get('/correction-request/{id}', [UserApplicationController::class, 'store'])->name('correction.store');
 
     Route::post('/wait-approval', [UserApplicationController::class, 'show'])->name('wait.approval');
+
+    // 新規修正申請の保存 POST
+    Route::post('/correction-request/new', [UserApplicationController::class, 'newStore'])
+        ->name('correction.newStore'); // 記入まだ
 });
 
 Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->name('admin.login');

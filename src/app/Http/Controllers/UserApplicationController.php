@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\Correction;
 use App\Http\Requests\CorrectionRequest;
+use Carbon\Carbon;
 
 class UserApplicationController extends Controller
 {
@@ -30,9 +31,9 @@ class UserApplicationController extends Controller
             'status' => $status,
         ]);
     }
-    
 
-    public function show(Request $request)
+
+    public function show(CorrectionRequest $request)
     {
         // 1. 元の勤怠データを取得（hidden で渡した id を使う想定）
         $attendance = Attendance::findOrFail($request->attendance_id);
@@ -42,16 +43,16 @@ class UserApplicationController extends Controller
         $correction->user_id       = auth()->id();
         $correction->attendance_id = $attendance->id;
 
-        // 古い値（old_*）
+        // 古い値（old）
         $correction->old_work_start = $attendance->work_start;
         $correction->old_work_end   = $attendance->work_end;
 
-        // 新しい値（new_*）
+        // 新しい値（new）
         $correction->new_work_start = $request->work_start;
         $correction->new_work_end   = $request->work_end;
 
         // 備考
-        $correction->comment = $request->textarea;
+        $correction->comment = $request->comment;
 
         // ステータスは必ず pending
         $correction->status = Correction::STATUS_PENDING;
@@ -59,6 +60,75 @@ class UserApplicationController extends Controller
         $correction->save();
 
         // 3. 承認待ち画面へ
+        return view('user_attendance_show', [
+            'attendance' => $attendance,
+            'status'     => $correction->status,
+        ]);
+    }
+
+    public function createNew(Request $request)
+    {
+        $date = $request->query('date');
+
+        // ★空のダミーAttendanceモデル（DB保存しない）
+        $attendance = new Attendance();
+        $attendance->date = $date;
+        $attendance->user_id = auth()->id();
+
+        // status も「0 = 未出勤」としておく
+        $status = null; // 修正申請がまだ存在しないので
+
+        return view('user_attendance_show', [
+            'attendance' => $attendance,
+            'status'     => $status,
+        ]);
+    }
+
+    public function newStore(CorrectionRequest $request)
+    {
+        // ① CorrectionRequest が基本バリデーション（日付・時刻形式・休憩チェックなど）を実施
+
+        $user = $request->user();
+        $date = $request->input('date');
+
+        // 入力された「時刻」（H:i）を、その日の日時にくっつける
+        $workStartTime = $request->input('work_start'); // 例: 09:00
+        $workEndTime   = $request->input('work_end');   // 例: 18:00
+
+        $workStart = Carbon::parse("$date $workStartTime"); // 2025-11-14 09:00:00
+        $workEnd   = Carbon::parse("$date $workEndTime");   // 2025-11-14 18:00:00
+
+        // ③ その日の Attendance を作成 or 取得
+        $attendance = Attendance::firstOrCreate(
+            [
+                'user_id' => $user->id,
+                'date'    => $date,
+            ],
+            [
+                'work_start'   => $workStart,
+                'work_end'     => $workEnd,
+                'status'       => Attendance::STATUS_DONE, // or STATUS_OFF でもOK
+                'user_comment' => null,
+            ]
+        );
+
+        // ④ 修正申請（Correction）も作る（既存のままでOK）
+        $correction = new Correction();
+        $correction->user_id       = $user->id;
+        $correction->attendance_id = $attendance->id;
+
+        $correction->old_work_start = $attendance->work_start;
+        $correction->old_work_end   = $attendance->work_end;
+
+        $correction->new_work_start = $workStart;
+        $correction->new_work_end   = $workEnd;
+
+        // 備考（こちらも name="comment" を使う想定）
+        $correction->comment = $request->comment;
+        $correction->status  = Correction::STATUS_PENDING;
+
+        $correction->save();
+
         return view('user_attendance_show', [
             'attendance' => $attendance,
             'status'     => $correction->status,

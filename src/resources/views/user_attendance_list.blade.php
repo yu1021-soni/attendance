@@ -90,12 +90,16 @@
                     詳細
                     </a> --}}
 
-                    @if ($attendance) {{-- ← レコードがある日のみリンク表示 --}}
+                    @if ($attendance)
+                    {{-- attendance がある日は既存詳細へ --}}
                     <a href="{{ route('correction.store', ['id' => $attendance->id]) }}" class="detail-button">
                         詳細
                     </a>
                     @else
-                    -
+                    {{-- attendance がない日は新規修正申請へ --}}
+                    <a href="{{ route('correction.createNew', ['date' => $day]) }}" class="detail-button">
+                        詳細
+                    </a>
                     @endif
                 </td>
             </tr>
