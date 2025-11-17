@@ -46,11 +46,22 @@ use App\Models\Correction;
             </tr>
             @foreach ($corrections as $correction)
             <tr>
-                <td>{{ $correction->status }}</td>
-                <td>{{ $correction->name }}</td>
-                <td>{{ $correction->date }}</td>
+                <td>
+                    @if ($correction->status === 0)
+                    承認待ち
+                    @elseif ($correction->status === 1)
+                    承認済み
+                    @endif
+                </td>
+                <td>{{ $correction->user->name }}</td>
+                <td>{{ $correction->attendance->date->format('Y/m/d') }}</td>
                 <td>{{ $correction->comment }}</td>
-                <td>{{ $correction->created_at?->format('Y-m-d') }}</td>
+                <td>{{ $correction->created_at?->format('Y/m/d') }}</td>
+                <td>
+                    <a href="{{ route('correction.store', ['id' => $correction->id]) }}" class="detail-button">
+                        詳細
+                    </a>
+                </td>
             </tr>
             @endforeach
         </table>
