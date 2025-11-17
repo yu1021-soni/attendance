@@ -15,7 +15,7 @@ use App\Models\Correction;
 @section('content')
 <div class="content">
 
-    <div class="content_title">
+    <div class="content__title">
         申請一覧
     </div>
 
@@ -34,7 +34,7 @@ use App\Models\Correction;
         </a>
     </div>
 
-    <div class="application_list">
+    <div class="application__list">
         <table>
             <tr>
                 <th>状態</th>
@@ -47,9 +47,9 @@ use App\Models\Correction;
             @foreach ($corrections as $correction)
             <tr>
                 <td>
-                    @if ($correction->status === 0)
+                    @if ($correction->status === 1)
                     承認待ち
-                    @elseif ($correction->status === 1)
+                    @elseif ($correction->status === 2)
                     承認済み
                     @endif
                 </td>
@@ -58,7 +58,7 @@ use App\Models\Correction;
                 <td>{{ $correction->comment }}</td>
                 <td>{{ $correction->created_at?->format('Y/m/d') }}</td>
                 <td>
-                    <a href="{{ route('correction.store', ['id' => $correction->id]) }}" class="detail-button">
+                    <a href="{{ route('correction.store', ['id' => $correction->attendance_id]) }}" class="detail-button">
                         詳細
                     </a>
                 </td>
