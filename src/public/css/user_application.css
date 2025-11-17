@@ -72,3 +72,58 @@ body {
     font-size: 16px;
     color: black;
 }
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .content {
+        width: 1100px;
+    }
+
+    .application__list table {
+        width: 1100px;
+    }
+
+    .application__tab-link {
+        margin-left: 80px;
+    }
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .content {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .content__title {
+        font-size: 24px;
+        margin: 80px auto 40px;
+    }
+
+    .application__tabs {
+        padding-bottom: 8px;
+    }
+
+    .application__tab-link {
+        font-size: 14px;
+        margin-left: 30px;
+        letter-spacing: 0.1em;
+    }
+
+    .application__list table {
+        width: 100%;
+        margin: 30px auto;
+        font-size: 14px;
+    }
+
+    .application__list th,
+    .application__list td {
+        padding: 10px 4px;
+        font-size: 14px;
+    }
+
+    .detail-button {
+        font-size: 14px;
+    }
+}
