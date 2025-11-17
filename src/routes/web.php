@@ -44,6 +44,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // 新規修正申請の保存 POST
     Route::post('/correction-request/new', [UserApplicationController::class, 'newStore'])
         ->name('correction.newStore'); // 記入まだ
+
+    Route::get('/correction-request', [UserApplicationController::class, 'create'])->name('correction.create');
 });
 
 Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->name('admin.login');

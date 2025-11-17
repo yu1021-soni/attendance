@@ -134,4 +134,32 @@ class UserApplicationController extends Controller
             'status'     => $correction->status,
         ]);
     }
+    
+    public function create(Request $request)
+    {
+        // どのタブか（?tab=approved なら approved、それ以外は pending 扱い）
+        $tab = $request->query('tab', 'pending');
+
+        // 基本クエリ（新しい順）
+        $query = Correction::query()->latest();
+
+        // タブに応じて status を数字で絞る
+        if ($tab === 'approved') {
+            // 承認済みタブ
+            $query->where('status', Correction::STATUS_APPROVED);
+        } else {
+            // デフォルト：承認待ちタブ
+            $query->where('status', Correction::STATUS_PENDING);
+        }
+
+        // 実行
+        $corrections = $query->get();
+
+        // 画面へ渡す
+        return view('user_application', [
+            'corrections'  => $corrections,
+            'tab'          => $tab,
+            'searchParams' => $request->except('tab', 'page'),
+        ]);
+    }
 }

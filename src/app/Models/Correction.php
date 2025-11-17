@@ -19,7 +19,7 @@ class Correction extends Model
         'old_work_end',
         'new_work_start',
         'new_work_end',
-        'user_comment',
+        'comment',
         'status',
         'approver_id',
         'approved_at',

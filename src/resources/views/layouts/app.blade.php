@@ -30,6 +30,9 @@
                             <a href="{{ route('attendance.index') }}" class="header__logout">勤怠一覧</a>
                         </li>
                         <li>
+                            <a href="{{ route('correction.create') }}" class="header__logout">申請</a>
+                        </li>
+                        <li>
                             @if(Auth::check())
                             <form method="post" action="{{ route('logout') }}">
                                 @csrf
