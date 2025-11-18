@@ -9,5 +9,77 @@
 @endsection
 
 @section('content')
-<p>hello</p>
-@endsection
+<div class="content">
+    <div class="content__title">
+        {{ $year }}/{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}/{{ str_pad($day, 2, '0', STR_PAD_LEFT) }}の勤怠
+    </div>
+
+    <div class="content__list">
+        <div class="content__list-day">
+
+            {{-- 月移動 --}}
+            <form action="{{ route('admin.dashboard') }}" method="get" class="day-nav__form">
+
+                {{-- 今表示している年月日も一緒に送る --}}
+                <input type="hidden" name="year" value="{{ $year }}">
+                <input type="hidden" name="month" value="{{ $month }}">
+                <input type="hidden" name="day" value="{{ $day }}">
+
+                <button name="move" value="prev" class="day-nav__btn">← 前日</button>
+
+                <div class="day-nav__current">
+                    <img src="{{ asset('img/calendar.png') }}" class="day-nav__icon" alt="calendar">
+                    <span class="day-nav__text">
+                        {{ $year }}/{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}/{{ str_pad($day, 2, '0', STR_PAD_LEFT) }}
+                    </span>
+                </div>
+
+                <button name="move" value="next" class="day-nav__btn">翌日 →</button>
+
+            </form>
+
+        </div>
+
+        <div class="attendance__content-date">
+
+            <table>
+                <tr>
+                    <th>名前</th>
+                    <th>出勤</th>
+                    <th>退勤</th>
+                    <th>休憩</th>
+                    <th>合計</th>
+                    <th>詳細</th>
+                </tr>
+
+                @foreach($attendances as $attendance)
+                
+
+
+                <tr>
+                    <td>{{ $attendance->user->name }}</td>
+
+                    {{-- 出勤 --}}
+                    <td>{{ $attendance?->work_start ? $attendance->work_start->format('H:i') : '' }}</td>
+
+                    {{-- 退勤 --}}
+                    <td>{{ $attendance?->work_end ? $attendance->work_end->format('H:i') : '' }}</td>
+
+                    {{-- 休憩 --}}
+                    <td>{{ $attendance?->rest_total_human }}</td>
+
+                    {{-- 合計 --}}
+                    <td>{{ $attendance?->work_time_human ?? '' }}</td>
+
+                    {{-- 詳細 --}}
+                    <td>
+                        
+                    </td>
+                </tr>
+
+                @endforeach
+
+            </table>
+        </div>
+    </div>
+    @endsection

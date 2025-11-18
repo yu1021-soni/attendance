@@ -19,7 +19,7 @@
     <div class="attendance__content">
         <div class="attendance__content-month">
 
-            {{-- 月移動（method は GET） --}}
+            {{-- 月移動 --}}
             <form action="{{ route('attendance.index') }}" method="get" class="month-nav__form">
 
                 {{-- 今表示している年月も一緒に送る --}}

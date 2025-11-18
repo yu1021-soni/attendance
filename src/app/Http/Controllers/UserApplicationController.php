@@ -34,7 +34,7 @@ class UserApplicationController extends Controller
 
 
     public function show(CorrectionRequest $request) {
-        // 1. 元の勤怠データを取得（hidden で渡した id を使う想定）
+        // 1. 元の勤怠データを取得（hidden で渡した id を使）
         $attendance = Attendance::findOrFail($request->attendance_id);
 
         // 2. 修正申請を作成
