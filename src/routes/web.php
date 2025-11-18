@@ -54,4 +54,6 @@ Route::post('/admin/login', [AdminLoginController::class, 'login']);
 Route::post('/admin/logout', [AdminLoginController::class, 'logout'])
     ->name('admin.logout'); //記入まだ
 
+//indexがない？？
+
 Route::get('/admin/dashboard', [AdminAttendanceController::class, 'index'])->middleware(['auth', 'admin'])->name('admin.dashboard'); //admin->middleware
