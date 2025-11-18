@@ -21,7 +21,7 @@
                 </a>
 
                 {{-- login,register, mailhog ページではロゴだけ --}}
-                @if (!Route::is('register') && !Route::is('mailhog') && !Route::is('login') && !Route::is('verification.*'))
+                @if (!Route::is('register') && !Route::is('mailhog') && !Route::is('login') && !Route::is('verification.*') && !Route::is('admin.login'))
 
 
                 <nav class="header__nav">
@@ -34,10 +34,19 @@
                         </li>
                         <li>
                             @if(Auth::check())
-                            <form method="post" action="{{ route('logout') }}">
+                                @if(Auth::user()->isAdmin())
+                                {{-- 管理者用ログアウト --}}
+                                <form method="post" action="{{ route('admin.logout') }}">
                                 @csrf
-                                <button type="submit" class="header__logout">ログアウト</button>
-                            </form>
+                                    <button type="submit" class="header__logout">ログアウト</button>
+                                </form>
+                                @else
+                                {{-- 一般ユーザー用ログアウト --}}
+                                <form method="post" action="{{ route('logout') }}">
+                                @csrf
+                                    <button type="submit" class="header__logout">ログアウト</button>
+                                </form>
+                            @endif
                             @else
                             <form action="{{ route('login') }}" method="get">
                                 <button type="submit" class="header__login">ログイン</button>
