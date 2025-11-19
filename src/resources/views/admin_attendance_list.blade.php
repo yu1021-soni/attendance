@@ -73,7 +73,9 @@
 
                     {{-- 詳細 --}}
                     <td>
-                        
+                        <a href="{{ route('admin.show', ['id' => $attendance->id]) }}" class="detail-button">
+                            詳細
+                        </a>
                     </td>
                 </tr>
 

@@ -1,0 +1,213 @@
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #f0eff2;
+}
+
+.attendance {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.attendance__title {
+    border-left: 8px solid black;
+    height: 40px;
+    padding-left: 12px;
+    display: flex;
+    align-items: center;
+
+    font-weight: bold;
+    font-size: 30px;
+    margin: 120px auto 60px;
+}
+
+.attendance__content table {
+    width: 100%;
+    background-color: white;
+    margin-top: 50px;
+}
+
+.date-space {
+    display: inline-block;
+    width: 100px;
+}
+
+.attendance__content tr {
+    height: 100px;
+    border-bottom: 2px solid #E1e1e1;
+    letter-spacing: 0.15em;
+}
+
+.attendance__content th {
+    letter-spacing: 0.15em;
+    min-width: 150px;
+    text-align: left;
+    padding-left: 50px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #737373;
+    vertical-align: middle;
+}
+
+.attendance__content td {
+    font-weight: bold;
+    font-size: 16px;
+    color: black;
+    vertical-align: middle;
+}
+
+input[type="time"] {
+    width: 103px;
+    height: 28px;
+    border: 1px solid #e1e1e1;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.time-separator {
+    display: inline-block;
+    margin: 0 50px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.attendance__content tr.remarks-row {
+    height: 140px;
+}
+
+textarea {
+    width: 316px;
+    height: 72px;
+    border: 1px solid #d9d9d9;
+    resize: none;
+    border-radius: 4px;
+}
+
+.attendance__submit {
+    width: 900px;
+    margin: 35px auto 0;
+    text-align: right;
+}
+
+.attendance__submit-button {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    width: 130px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 22px;
+    letter-spacing: 0.15em;
+}
+
+.pending-message {
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    color: rgba(255, 0, 0, 0.5);
+}
+
+.field-error {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #d00;
+}
+
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+
+    body {
+        background-color: #f0eff2;
+    }
+
+    .attendance {
+        width: 900px;
+        /* そのまま中央のカード */
+        margin: 0 auto;
+    }
+
+    .attendance__title {
+        margin: 80px auto 40px;
+        /* ちょっとだけ詰める */
+    }
+
+    .attendance__content table {
+        margin-top: 30px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+
+    body {
+        background-color: #f0eff2;
+    }
+
+    .attendance {
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 0 16px;
+    }
+
+    .attendance__title {
+        font-size: 24px;
+        margin: 40px auto 24px;
+    }
+
+    .attendance__content table {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .attendance__content tr {
+        height: 80px;
+    }
+
+    .attendance__content th {
+        padding-left: 24px;
+        font-size: 14px;
+    }
+
+    .attendance__content td {
+        font-size: 14px;
+    }
+
+    input[type="time"] {
+        width: 90px;
+        height: 26px;
+        font-size: 14px;
+    }
+
+    .time-separator {
+        margin: 0 24px;
+        font-size: 14px;
+    }
+
+    textarea {
+        width: 300px;
+    }
+
+    .attendance__submit {
+        width: 100%;
+        max-width: 700px;
+        margin: 24px auto 40px;
+        padding: 0 16px;
+        text-align: right;
+    }
+
+    .attendance__submit-button {
+        width: 110px;
+        height: 44px;
+        font-size: 18px;
+    }
+
+    .attendance__content tr.remarks-row {
+        height: 120px;
+    }
+}

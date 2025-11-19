@@ -16,7 +16,7 @@ use App\Models\Correction;
 <div class="attendance">
 
     <div class="attendance__title">
-        勤怠一覧
+        勤怠詳細
     </div>
 
     @if ($attendance->id)
