@@ -28,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/attendance/break/start', [UserAttendanceController::class, 'breakIn'])->name('break.start');
 
-    Route::post('attendance/break/end',   [UserAttendanceController::class, 'breakOut'])->name('break.end');
+    Route::post('/attendance/break/end',   [UserAttendanceController::class, 'breakOut'])->name('break.end');
 
     Route::get('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');
     Route::post('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');//記入まだ
@@ -51,9 +51,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, 'login']);
 
-Route::post('/admin/logout', [AdminLoginController::class, 'logout'])
-    ->name('admin.logout'); //記入まだ
+Route::middleware(['auth', 'admin'])
+    ->group(function () {
 
-//indexがない？？
+        Route::get('/admin/dashboard', [AdminAttendanceController::class, 'index'])
+            ->name('admin.dashboard');
 
-Route::get('/admin/dashboard', [AdminAttendanceController::class, 'index'])->middleware(['auth', 'admin'])->name('admin.dashboard'); //admin->middleware
+        Route::post('/admin/logout', [AdminLoginController::class, 'logout'])
+            ->name('admin.logout'); // 記入まだ
+    });
