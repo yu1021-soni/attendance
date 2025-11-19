@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\UserApplicationController;
 use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\AdminAttendanceController;
+use App\Http\Controllers\AdminStaffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,4 +60,6 @@ Route::middleware(['auth', 'admin'])
 
         Route::post('/admin/logout', [AdminLoginController::class, 'logout'])
             ->name('admin.logout'); // 記入まだ
+
+        Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'show'])->name('admin.show');
     });

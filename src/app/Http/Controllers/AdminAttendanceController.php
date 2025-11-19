@@ -38,4 +38,8 @@ class AdminAttendanceController extends Controller
 
         return view('admin_attendance_list', compact('year', 'month', 'day', 'attendances'));
     }
+
+    public function show() {
+        
+    }
 }

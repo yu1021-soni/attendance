@@ -53,7 +53,7 @@
                 </tr>
 
                 @foreach($attendances as $attendance)
-                
+
 
 
                 <tr>
