@@ -19,8 +19,7 @@ use App\Models\Correction;
         勤怠詳細
     </div>
 
-    {{-- 既存レコードなら修正申請へ --}}
-    <form action="{{ route('wait.approval') }}" method="post">
+    <form action="{{ route('admin.correction', ['id' => $attendance->id]) }}" method="post">
         @csrf
         <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
         <input type="hidden" name="date" value="{{ $attendance->date?->format('Y-m-d') }}">
@@ -131,6 +130,10 @@ use App\Models\Correction;
                     </td>
                 </tr>
             </table>
+        </div>
+
+        <div class="flash-success">
+            {{ session('success') }}
         </div>
 
         <div class="attendance__submit">

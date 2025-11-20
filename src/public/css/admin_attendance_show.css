@@ -90,7 +90,7 @@ textarea {
 }
 
 .attendance__submit {
-    width: 900px;
+    width: 100%;
     margin: 35px auto 0;
     text-align: right;
 }
@@ -119,6 +119,13 @@ textarea {
     color: #d00;
 }
 
+.flash-success {
+    margin-top: 20px;
+    letter-spacing: 0.15em;
+    color: lightsalmon;
+    text-align: right;
+}
+
 
 @media (min-width: 1400px) and (max-width: 1540px) {
 
@@ -134,7 +141,6 @@ textarea {
 
     .attendance__title {
         margin: 80px auto 40px;
-        /* ちょっとだけ詰める */
     }
 
     .attendance__content table {
@@ -194,10 +200,7 @@ textarea {
     }
 
     .attendance__submit {
-        width: 100%;
-        max-width: 700px;
-        margin: 24px auto 40px;
-        padding: 0 16px;
+        margin: 24px 0 40px;
         text-align: right;
     }
 

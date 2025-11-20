@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use App\Models\Correction;
+use App\Http\Requests\CorrectionRequest;
 
 class AdminAttendanceController extends Controller
 {
@@ -40,9 +41,7 @@ class AdminAttendanceController extends Controller
         return view('admin_attendance_list', compact('year', 'month', 'day', 'attendances'));
     }
 
-    public function show($id)
-    {
-
+    public function show($id) {
         // 対象出退勤記録を取得
         $attendance = Attendance::with('user', 'rests')->findOrFail($id);
 
@@ -60,5 +59,38 @@ class AdminAttendanceController extends Controller
             'attendance' => $attendance,
             'status' => $status,
         ]);
+    }
+
+    public function updateCorrection(CorrectionRequest $request,$id) {
+
+        // 勤怠を取得
+        $attendance = Attendance::with('rests')->findOrFail($id);
+
+        // バリデーション
+        $validated = $request->validate([
+            'work_start' => ['nullable', 'date_format:H:i'],
+            'work_end'   => ['nullable', 'date_format:H:i'],
+            'comment'    => ['nullable', 'string', 'max:255'],
+        ]);
+
+        // Laravel に最初から用意されている標準機能（デフォルト）。
+        // フォーム入力が「空じゃないか」をチェックするための関数。
+        if ($request->filled('work_start')) {
+            $attendance->work_start = Carbon::parse($attendance->date->format('Y-m-d') . ' ' . $validated['work_start']);
+        }
+
+        if ($request->filled('work_end')) {
+            $attendance->work_end = Carbon::parse($attendance->date->format('Y-m-d') . ' ' . $validated['work_end']);
+        }
+
+        if ($request->filled('comment')) {
+            $attendance->comment = $validated['comment'];
+        }
+
+        $attendance->save();
+
+        return redirect()
+            ->route('admin.show', $attendance->id)
+            ->with('success', '修正を反映しました');
     }
 }

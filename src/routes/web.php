@@ -62,4 +62,6 @@ Route::middleware(['auth', 'admin'])
             ->name('admin.logout'); // 記入まだ
 
         Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'show'])->name('admin.show');
+
+        Route::post('/admin/attendance/{id}/correction', [AdminAttendanceController::class, 'updateCorrection'])->name('admin.correction');
     });
