@@ -9,5 +9,60 @@
 @endsection
 
 @section('content')
-<p>hello</p>
+<div class="content">
+    <div class="content__title">
+        {{ $user->name }}さんの名前
+    </div>
+
+
+    <form action="{{ route('staff.show', $user->id) }}" method="get" class="month-nav__form">
+
+        {{-- 今表示している年月も一緒に送る --}}
+        <input type="hidden" name="year" value="{{ $year }}">
+        <input type="hidden" name="month" value="{{ $month }}">
+
+        <button name="move" value="prev" class="month-nav__btn">← 前月</button>
+
+        <div class="month-nav__current">
+            <img src="{{ asset('img/calendar.png') }}" class="month-nav__icon" alt="calendar">
+            <span class="month-nav__text">
+                {{ $year }}/{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}
+            </span>
+        </div>
+
+        <button name="move" value="next" class="month-nav__btn">翌月 →</button>
+    </form>
+
+    @php
+    use Carbon\Carbon;
+    $weekNames = ['日','月','火','水','木','金','土'];
+    @endphp
+
+    <table>
+        <tr>
+            <th>日付</th>
+            <th>出勤</th>
+            <th>退勤</th>
+            <th>休憩</th>
+            <th>合計</th>
+            <th>詳細</th>
+        </tr>
+        @foreach ($attendances as $attendance)
+        <tr>
+            <td>
+                <span class="date-monthday">{{ $attendance->date->format('n/j') }}</span>
+                <span>({{ $weekNames[$attendance->date->dayOfWeek] }})</span>
+            </td>
+
+            <td>{{ $attendance->work_start->format('H:i') }}</td>
+            <td>{{ $attendance->work_end->format('H:i') }}</td>
+            <td>{{ $attendance->rest_total_human }}</td>
+            <td>{{ $attendance->work_time_human }}</td>
+            <td>
+                <a href="{{ route('admin.show', $attendance->id) }}">詳細</a>
+            </td>
+        </tr>
+        @endforeach
+    </table>
+</div>
 @endsection
