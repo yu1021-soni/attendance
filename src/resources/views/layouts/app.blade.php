@@ -34,18 +34,19 @@
                         </li>
                         <li>
                             @if(Auth::check())
-                                @if(Auth::user()->isAdmin())
-                                {{-- 管理者用ログアウト --}}
-                                <form method="post" action="{{ route('admin.logout') }}">
+                            @if(Auth::user()->isAdmin())
+                            <a href="{{ route('staff.index') }}" class=" header__logout">スタッフ一覧</a>
+                            {{-- 管理者用ログアウト --}}
+                            <form method="post" action="{{ route('admin.logout') }}">
                                 @csrf
-                                    <button type="submit" class="header__logout">ログアウト</button>
-                                </form>
-                                @else
-                                {{-- 一般ユーザー用ログアウト --}}
-                                <form method="post" action="{{ route('logout') }}">
+                                <button type="submit" class="header__logout">ログアウト</button>
+                            </form>
+                            @else
+                            {{-- 一般ユーザー用ログアウト --}}
+                            <form method="post" action="{{ route('logout') }}">
                                 @csrf
-                                    <button type="submit" class="header__logout">ログアウト</button>
-                                </form>
+                                <button type="submit" class="header__logout">ログアウト</button>
+                            </form>
                             @endif
                             @else
                             <form action="{{ route('login') }}" method="get">

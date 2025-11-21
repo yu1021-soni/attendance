@@ -64,4 +64,8 @@ Route::middleware(['auth', 'admin'])
         Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'show'])->name('admin.show');
 
         Route::post('/admin/attendance/{id}/correction', [AdminAttendanceController::class, 'updateCorrection'])->name('admin.correction');
+
+        Route::get('/admin/staff', [AdminStaffController::class, 'index'])->name('staff.index');
+
+        Route::get('/admin/staff/{id}/attendance', [AdminStaffController::class, 'show'])->name('staff.show');
     });
