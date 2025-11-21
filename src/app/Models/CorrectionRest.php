@@ -9,6 +9,9 @@ class CorrectionRest extends Model
 {
     use HasFactory;
 
+    const STATUS_PENDING  = 1; // 申請中
+    const STATUS_APPROVED = 2; // 承認済み
+
     protected $fillable = [
         'correction_id',
         'old_rest_start',

@@ -200,6 +200,7 @@ textarea {
     }
 
     .attendance__submit {
+        width: 700px;
         margin: 24px 0 40px;
         text-align: right;
     }

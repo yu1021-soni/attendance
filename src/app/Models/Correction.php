@@ -39,8 +39,13 @@ class Correction extends Model
         return $this->belongsTo(Attendance::class);
     }
 
-    public function correctionRest() {
-        return $this->hasOne(CorrectionRest::class);
+    //public function correctionRest() {
+    //return $this->hasOne(CorrectionRest::class);
+    //}
+
+    public function rests()
+    {
+        return $this->hasMany(CorrectionRest::class);
     }
 
     public function status() {

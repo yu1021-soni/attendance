@@ -28,8 +28,8 @@ class CorrectionRequest extends FormRequest
             'work_end' => ['required', 'date_format:H:i'],
 
             'rests' => ['array'],
-            'rest_start'    => ['nullable', 'date_format:H:i'],
-            'rest_end'      => ['nullable', 'date_format:H:i'],
+            'rests.*.rest_start' => ['nullable', 'date_format:H:i'],
+            'rests.*.rest_end'   => ['nullable', 'date_format:H:i'],
 
             'comment' => ['required', 'string'],
         ];
@@ -44,8 +44,8 @@ class CorrectionRequest extends FormRequest
             'work_end.required' => '退勤時間を入力してください',
             'work_end.date_format' => '退勤時間は「HH:MM」形式で入力してください',
 
-            'rest_start.date_format' => '休憩開始時間は「HH:MM」形式で入力してください',
-            'rest_end.date_format'   => '休憩終了時間は「HH:MM」形式で入力してください',
+            'rests.*.rest_start.date_format' => '休憩開始時間は「HH:MM」形式で入力してください',
+            'rests.*.rest_end.date_format'   => '休憩終了時間は「HH:MM」形式で入力してください',
             'comment.required' => '備考を記入してください'
         ];
     }
