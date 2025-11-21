@@ -40,9 +40,26 @@ use App\Models\Correction;
                     </td>
                 </tr>
 
+                @php
+                // 申請中かどうか
+                $hasPendingCorrection = isset($correction)
+                && $correction->status === Correction::STATUS_PENDING;
+                @endphp
+
                 <tr>
                     <th>出勤・退勤</th>
                     <td>
+                        @if ($hasPendingCorrection)
+                        {{-- ★ 申請中：Correction の new_* を表示（編集不可） --}}
+                        <input type="time"
+                            value="{{ $correction->new_work_start?->format('H:i') ?? $attendance->work_start?->format('H:i') }}"
+                            disabled>
+                        <span class="time-separator">〜</span>
+                        <input type="time"
+                            value="{{ $correction->new_work_end?->format('H:i') ?? $attendance->work_end?->format('H:i') }}"
+                            disabled>
+                        @else
+                        {{-- ★ 申請なし / 承認後：通常どおり編集可 --}}
                         <input type="time"
                             name="work_start"
                             value="{{ old('work_start', $attendance->work_start?->format('H:i')) }}">
@@ -51,20 +68,43 @@ use App\Models\Correction;
                             name="work_end"
                             value="{{ old('work_end', $attendance->work_end?->format('H:i')) }}">
 
-                        {{-- 出勤・退勤のエラー --}}
                         @error('work_start')
                         <p class="field-error">{{ $message }}</p>
                         @enderror
                         @error('work_end')
                         <p class="field-error">{{ $message }}</p>
                         @enderror
+                        @endif
                     </td>
                 </tr>
 
-                {{-- 既存の休憩を回数分出す --}}
+                {{-- 休憩行 --}}
+                @if ($hasPendingCorrection)
+
+                {{-- ★ 承認待ち：CorrectionRest の new_* を表示（入力不可） --}}
+                @foreach(($correction->rests ?? collect()) as $restNo => $rest)
+                <tr>
+                    <th>休憩{{ $restNo + 1 }}</th>
+                    <td>
+                        <div class="rest-row">
+                            <input type="time"
+                                value="{{ $rest->new_rest_start?->format('H:i') }}"
+                                disabled>
+                            <span class="time-separator">〜</span>
+                            <input type="time"
+                                value="{{ $rest->new_rest_end?->format('H:i') }}"
+                                disabled>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+
+                @else
+
+                {{-- ★ 申請なし or 承認後：Attendance の休憩を編集可能 --}}
                 @foreach(($attendance->rests ?? collect()) as $restNo => $rest)
                 <tr>
-                    <th>休憩</th>
+                    <th>休憩{{ $restNo + 1 }}</th>
                     <td>
                         <div class="rest-row">
                             <input type="time"
@@ -75,13 +115,11 @@ use App\Models\Correction;
                                 name="rests[{{ $restNo }}][rest_end]"
                                 value="{{ old("rests.$restNo.rest_end", $rest->rest_end?->format('H:i')) }}">
 
-                            {{-- 更新用に既存レコードIDを送る --}}
                             <input type="hidden"
                                 name="rests[{{ $restNo }}][id]"
                                 value="{{ $rest->id }}">
                         </div>
 
-                        {{-- 休憩のエラー --}}
                         @error("rests.$restNo.rest_start")
                         <p class="field-error">{{ $message }}</p>
                         @enderror
@@ -94,9 +132,8 @@ use App\Models\Correction;
 
                 {{-- 追加用の休憩 --}}
                 @php
-                $nextRestNo = $attendance->rests->count(); // 次の休憩番号
+                $nextRestNo = $attendance->rests->count();
                 @endphp
-
                 <tr>
                     <th>休憩{{ $nextRestNo + 1 }}</th>
                     <td>
@@ -119,14 +156,22 @@ use App\Models\Correction;
                     </td>
                 </tr>
 
+                @endif
+
                 <tr class="remarks-row">
                     <th>備考</th>
                     <td>
+                        @if ($hasPendingCorrection)
+                        {{-- ★ 申請中：ユーザーの申請コメントを表示（編集不可） --}}
+                        <textarea disabled>{{ $correction->comment }}</textarea>
+                        @else
+                        {{-- ★ 通常時：管理者が編集できる --}}
                         <textarea name="comment">{{ old('comment') }}</textarea>
 
                         @error('comment')
                         <p class="field-error">{{ $message }}</p>
                         @enderror
+                        @endif
                     </td>
                 </tr>
             </table>

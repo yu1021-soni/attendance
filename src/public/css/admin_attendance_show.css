@@ -126,6 +126,21 @@ textarea {
     text-align: right;
 }
 
+input[disabled],
+textarea[disabled] {
+    border: none;
+    background: transparent;
+    color: #000;
+    pointer-events: none;
+    /* クリックもフォーカスも不可 */
+}
+
+/* time入力の▼アイコンなども消しておく（Chrome / Safari） */
+input[disabled]::-webkit-inner-spin-button,
+input[disabled]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
 
 @media (min-width: 1400px) and (max-width: 1540px) {
 

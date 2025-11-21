@@ -48,7 +48,7 @@ class AdminAttendanceController extends Controller
         // 修正申請があるかどうか
         $correction = Correction::where('attendance_id', $attendance->id)
             //条件
-            ->where('user_id', auth()->id())
+            ->where('user_id', $attendance->user_id)
             // 最新1件だけ取る
             ->latest()->first();
 
@@ -58,6 +58,7 @@ class AdminAttendanceController extends Controller
         return view('admin_attendance_show', [
             'attendance' => $attendance,
             'status' => $status,
+            'correction' => $correction,
         ]);
     }
 
