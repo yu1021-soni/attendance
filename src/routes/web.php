@@ -70,6 +70,9 @@ Route::middleware(['auth', 'admin'])
 
         Route::get('/admin/staff/{id}/attendance', [AdminStaffController::class, 'show'])->name('staff.show');
 
+        Route::get('/admin/attendances/export-csv', [AdminStaffController::class, 'exportCsv'])
+        ->name('attendances.export'); // 記入まだ
+
         Route::get('/admin/correction-request', [AdminApprovalController::class, 'index'])->name('approval.index');
 
         Route::get('/admin/correction-request/{id}', [AdminApprovalController::class, 'show'])->name('approval.show');

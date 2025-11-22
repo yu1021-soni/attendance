@@ -67,9 +67,8 @@
         </table>
     </div>
 
-
-    <div class="cfv__wrapper">
-        <button class="cfv__button">CFV出力</button>
-    </div>
+    <form action="{{ route('attendances.export') }}" method="get" class="cfv__wrapper">
+            <button class="cfv__button">CFV出力</button>
+    </form>
 </div>
 @endsection
