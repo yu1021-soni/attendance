@@ -38,31 +38,38 @@
     $weekNames = ['日','月','火','水','木','金','土'];
     @endphp
 
-    <table>
-        <tr>
-            <th>日付</th>
-            <th>出勤</th>
-            <th>退勤</th>
-            <th>休憩</th>
-            <th>合計</th>
-            <th>詳細</th>
-        </tr>
-        @foreach ($attendances as $attendance)
-        <tr>
-            <td>
-                <span class="date-monthday">{{ $attendance->date->format('n/j') }}</span>
-                <span>({{ $weekNames[$attendance->date->dayOfWeek] }})</span>
-            </td>
+    <div class="attendance__list">
+        <table>
+            <tr>
+                <th>日付</th>
+                <th>出勤</th>
+                <th>退勤</th>
+                <th>休憩</th>
+                <th>合計</th>
+                <th>詳細</th>
+            </tr>
+            @foreach ($attendances as $attendance)
+            <tr>
+                <td>
+                    <span class="date-monthday">{{ $attendance->date->format('n/j') }}</span>
+                    <span>({{ $weekNames[$attendance->date->dayOfWeek] }})</span>
+                </td>
 
-            <td>{{ $attendance->work_start->format('H:i') }}</td>
-            <td>{{ $attendance->work_end->format('H:i') }}</td>
-            <td>{{ $attendance->rest_total_human }}</td>
-            <td>{{ $attendance->work_time_human }}</td>
-            <td>
-                <a href="{{ route('admin.show', $attendance->id) }}">詳細</a>
-            </td>
-        </tr>
-        @endforeach
-    </table>
+                <td>{{ $attendance->work_start->format('H:i') }}</td>
+                <td>{{ $attendance->work_end->format('H:i') }}</td>
+                <td>{{ $attendance->rest_total_human }}</td>
+                <td>{{ $attendance->work_time_human }}</td>
+                <td>
+                    <a href="{{ route('admin.show', $attendance->id) }}" class="detail__button">詳細</a>
+                </td>
+            </tr>
+            @endforeach
+        </table>
+    </div>
+
+
+    <div class="cfv__wrapper">
+        <button class="cfv__button">CFV出力</button>
+    </div>
 </div>
 @endsection

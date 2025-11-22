@@ -1,0 +1,171 @@
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #f0eff2;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.content {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.content__title {
+    border-left: 8px solid black;
+    height: 40px;
+    padding-left: 12px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 30px;
+    margin: 120px auto 80px;
+}
+
+.month-nav__form {
+    width: 100%;
+    background-color: white;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.month-nav__icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.month-nav__current {
+    letter-spacing: 0.15em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.month-nav__btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    color: #737373;
+}
+
+.month-nav__text {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.attendance__list table {
+    letter-spacing: 0.15em;
+    width: 100%;
+    table-layout: fixed;
+    background-color: white;
+    margin: 50px auto;
+}
+
+.attendance__list th,
+.attendance__list td {
+    text-align: center;
+}
+
+.attendance__list th {
+    font-weight: bold;
+    font-size: 16px;
+    color: #737373;
+    padding: 15px 0;
+    border-bottom: 3px solid #E1E1E1;
+}
+
+.attendance__list td {
+    font-weight: bold;
+    font-size: 16px;
+    color: #737373;
+    padding: 15px 0;
+    border-bottom: 2px solid #E1E1E1;
+}
+
+.detail__button {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.cfv__wrapper {
+    width: 100%;
+    text-align: right;
+}
+
+.cfv__button {
+    margin-top: 50px;
+    letter-spacing: 0.15em;
+    background-color: black;
+    width: 184px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 22px;
+    color: white;
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .content {
+        width: 900px;
+        margin: 0 auto;
+    }
+
+    .content__title {
+        margin-top: 120px;
+        font-size: 30px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .content {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    .content__title {
+        font-size: 24px;
+        margin: 80px auto 40px;
+    }
+
+    .month-nav__form {
+        margin-top: 50px;
+        height: 50px;
+        padding: 0 16px;
+    }
+
+    .month-nav__text {
+        font-size: 18px;
+    }
+
+    .month-nav__btn {
+        font-size: 14px;
+    }
+
+    .attendance__list table {
+        margin: 30px auto;
+    }
+
+    .attendance__list th,
+    .attendance__list td {
+        font-size: 14px;
+        padding: 10px 0;
+    }
+
+    .cfv__button {
+        margin-top: 20px;
+        width: 130px;
+        height: 40px;
+        font-size: 18px;
+    }
+}

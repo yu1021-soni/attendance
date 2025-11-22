@@ -69,6 +69,7 @@ body {
 }
 
 .attendance__content-date table {
+    letter-spacing: 0.15em;
     width: 900px;
     table-layout: fixed;
     background-color: white;
