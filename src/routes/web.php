@@ -7,6 +7,7 @@ use App\Http\Controllers\UserApplicationController;
 use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\AdminAttendanceController;
 use App\Http\Controllers\AdminStaffController;
+use App\Http\Controllers\AdminApprovalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,4 +69,10 @@ Route::middleware(['auth', 'admin'])
         Route::get('/admin/staff', [AdminStaffController::class, 'index'])->name('staff.index');
 
         Route::get('/admin/staff/{id}/attendance', [AdminStaffController::class, 'show'])->name('staff.show');
+
+        Route::get('/admin/correction-request', [AdminApprovalController::class, 'index'])->name('approval.index');
+
+        Route::get('/admin/correction-request/{id}', [AdminApprovalController::class, 'show'])->name('approval.show');
+
+        Route::post('/admin/correction-request/{id}/approve', [AdminApprovalController::class, 'approve'])->name('admin.approval');
     });
