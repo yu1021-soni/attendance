@@ -1,0 +1,129 @@
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #f0eff2;
+}
+
+.content {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.content__title {
+    border-left: 8px solid black;
+    height: 40px;
+    padding-left: 12px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 30px;
+    margin: 120px auto 80px;
+}
+
+.application__tabs {
+    border-bottom: 1px solid rgba(0, 0, 0, 1);
+    padding-bottom: 10px;
+}
+
+.application__tab-link {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: black;
+    margin-left: 60px;
+}
+
+.application__tab-link.is-active {
+    font-weight: 700;
+}
+
+.application__list table {
+    letter-spacing: 0.15em;
+    width: 900px;
+    table-layout: fixed;
+    background-color: white;
+    margin: 50px auto;
+}
+
+.application__list th,
+.application__list td {
+    text-align: center;
+}
+
+.application__list th {
+    font-weight: bold;
+    font-size: 16px;
+    color: rgba(115, 115, 115, 1);
+    padding: 15px 0;
+    border-bottom: 3px solid rgba(225, 225, 225, 1);
+}
+
+.application__list td {
+    font-weight: bold;
+    font-size: 16px;
+    color: rgba(115, 115, 115, 1);
+    padding: 15px 0;
+    border-bottom: 2px solid rgba(225, 225, 225, 1);
+}
+
+.detail-button {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    color: black;
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .content {
+        width: 1100px;
+    }
+
+    .application__list table {
+        width: 1100px;
+    }
+
+    .application__tab-link {
+        margin-left: 80px;
+    }
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .content {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .content__title {
+        font-size: 24px;
+        margin: 80px auto 40px;
+    }
+
+    .application__tabs {
+        padding-bottom: 8px;
+    }
+
+    .application__tab-link {
+        font-size: 14px;
+        margin-left: 30px;
+        letter-spacing: 0.1em;
+    }
+
+    .application__list table {
+        width: 100%;
+        margin: 30px auto;
+        font-size: 14px;
+    }
+
+    .application__list th,
+    .application__list td {
+        padding: 10px 4px;
+        font-size: 14px;
+    }
+
+    .detail-button {
+        font-size: 14px;
+    }
+}

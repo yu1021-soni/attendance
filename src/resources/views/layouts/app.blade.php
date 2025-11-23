@@ -35,7 +35,10 @@
                         <li>
                             @if(Auth::check())
                             @if(Auth::user()->isAdmin())
+
                             <a href="{{ route('staff.index') }}" class=" header__logout">スタッフ一覧</a>
+
+                            <a href="{{ route('approval.index') }}" class=" header__logout">申請一覧</a>
                             {{-- 管理者用ログアウト --}}
                             <form method="post" action="{{ route('admin.logout') }}">
                                 @csrf
