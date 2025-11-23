@@ -19,7 +19,7 @@ use App\Models\Correction;
         勤怠詳細
     </div>
 
-    <form action="{{ route('admin.approval', ['id' => $attendance->id]) }}" method="post">
+    <form action="{{ route('admin.approval', ['id' => $correction->id]) }}" method="post">
         @csrf
         <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
         <input type="hidden" name="date" value="{{ $attendance->date?->format('Y-m-d') }}">
@@ -104,7 +104,11 @@ use App\Models\Correction;
         </div>
 
         <div class="attendance__submit">
-
+            @if ($correction->status == '1')
+            <button class="attendance__submit-button">承認</button>
+            @else
+            承認済み
+            @endif
         </div>
     </form>
 

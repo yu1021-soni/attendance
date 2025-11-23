@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Correction;
 use App\Models\Attendance;
+use App\Models\CorrectionRest;
 
 class AdminApprovalController extends Controller
 {
@@ -55,7 +56,20 @@ class AdminApprovalController extends Controller
         ]);
     }
 
-    public function approval() {
+    public function approve($id) {
 
+        $correction = Correction::findOrFail($id);
+
+        $correction->status = Correction::STATUS_APPROVED;
+
+        $correction->save();
+
+        CorrectionRest::where('correction_id', $correction->id)
+            ->update([
+                'status' => CorrectionRest::STATUS_APPROVED,
+            ]);
+
+
+        return back ();
     }
 }
