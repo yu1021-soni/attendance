@@ -53,9 +53,9 @@
                 <td>{{ $correction->comment }}</td>
                 <td>{{ $correction->created_at?->format('Y/m/d') }}</td>
                 <td>
-                    {{-- <a href="{{ route('approval.show', ['id' => $correction->attendance_id]) }}" class="detail-button">
+                    <a href="{{ route('approval.show', ['id' => $correction->attendance_id]) }}" class="detail-button">
                         詳細
-                    </a> --}}
+                    </a>
                 </td>
             </tr>
             @endforeach

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Correction;
+use App\Models\Attendance;
 
 class AdminApprovalController extends Controller
 {
@@ -33,8 +34,25 @@ class AdminApprovalController extends Controller
         ]);
     }
 
-    public function show() {
+    public function show($id) {
+        // 対象出退勤記録を取得
+        $attendance = Attendance::with('user', 'rests')->findOrFail($id);
 
+        // 修正申請があるかどうか
+        $correction = Correction::where('attendance_id', $attendance->id)
+            //条件
+            ->where('user_id', $attendance->user_id)
+            // 最新1件だけ取る
+            ->latest()->first();
+
+
+        $status = $correction?->status;
+
+        return view('approve', [
+            'attendance' => $attendance,
+            'status' => $status,
+            'correction' => $correction,
+        ]);
     }
 
     public function approval() {
