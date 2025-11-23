@@ -84,11 +84,11 @@ use App\Models\Correction;
                         <div class="rest-row">
                             <input type="time"
                                 name="rests[{{ $nextRestNo }}][rest_start]"
-                                value="{{ old("rests.$nextRestNo.rest_start") }}">
+                                value="{{ old("rests.$nextRestNo.rest_start") }}" disabled>
                             <span class="time-separator">〜</span>
                             <input type="time"
                                 name="rests[{{ $nextRestNo }}][rest_end]"
-                                value="{{ old("rests.$nextRestNo.rest_end") }}">
+                                value="{{ old("rests.$nextRestNo.rest_end") }}" disabled>
                         </div>
                     </td>
                 </tr>
@@ -103,11 +103,11 @@ use App\Models\Correction;
             </table>
         </div>
 
-        <div class="attendance__submit">
+        <div class="approve__submit">
             @if ($correction->status == '1')
-            <button class="attendance__submit-button">承認</button>
+            <button class="approve__submit-button">承認</button>
             @else
-            承認済み
+            <div class="approve__success">承認済み</div>
             @endif
         </div>
     </form>

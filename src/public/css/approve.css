@@ -81,6 +81,21 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     height: 140px;
 }
 
+.approve__success {
+    width: 130px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: rgba(105, 105, 105, 1);
+    font-weight: bold;
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    color: white;
+    
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 textarea {
     width: 316px;
     height: 72px;
@@ -89,13 +104,13 @@ textarea {
     border-radius: 4px;
 }
 
-.attendance__submit {
+.approve__submit {
     width: 900px;
     margin: 35px auto 0;
     text-align: right;
 }
 
-.attendance__submit-button {
+.approve__submit-button {
     background-color: black;
     color: white;
     border-radius: 5px;
@@ -195,13 +210,13 @@ input[disabled]::-webkit-calendar-picker-indicator {
         width: 300px;
     }
 
-    .attendance__submit {
+    .approve__submit {
         width: 700px;
         margin: 24px 0 40px;
         text-align: right;
     }
 
-    .attendance__submit-button {
+    .approve__submit-button {
         width: 110px;
         height: 44px;
         font-size: 18px;
@@ -209,5 +224,16 @@ input[disabled]::-webkit-calendar-picker-indicator {
 
     .attendance__content tr.remarks-row {
         height: 120px;
+    }
+
+    .approve__success {
+        width: 110px;
+        height: 44px;
+        font-size: 18px;
+        letter-spacing: 0.12em;
+    
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 }
