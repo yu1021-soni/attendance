@@ -72,10 +72,31 @@ use App\Models\Correction;
                 @endforeach
 
 
+
+                {{-- 追加用の休憩 --}}
+                @php
+                $nextRestNo = ($correction->rests ?? collect())->count();
+                @endphp
+
+                <tr>
+                    <th>休憩{{ $nextRestNo + 1 }}</th>
+                    <td>
+                        <div class="rest-row">
+                            <input type="time"
+                                name="rests[{{ $nextRestNo }}][rest_start]"
+                                value="{{ old("rests.$nextRestNo.rest_start") }}">
+                            <span class="time-separator">〜</span>
+                            <input type="time"
+                                name="rests[{{ $nextRestNo }}][rest_end]"
+                                value="{{ old("rests.$nextRestNo.rest_end") }}">
+                        </div>
+                    </td>
+                </tr>
+
+
                 <tr class="remarks-row">
                     <th>備考</th>
                     <td>
-                        {{-- ★ 申請中：ユーザーの申請コメントを表示（編集不可） --}}
                         <textarea disabled>{{ $correction->comment }}</textarea>
                     </td>
                 </tr>
@@ -83,7 +104,7 @@ use App\Models\Correction;
         </div>
 
         <div class="attendance__submit">
-            
+
         </div>
     </form>
 
