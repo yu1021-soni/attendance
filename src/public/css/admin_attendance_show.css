@@ -132,10 +132,8 @@ textarea[disabled] {
     background: transparent;
     color: #000;
     pointer-events: none;
-    /* クリックもフォーカスも不可 */
 }
 
-/* time入力の▼アイコンなども消しておく（Chrome / Safari） */
 input[disabled]::-webkit-inner-spin-button,
 input[disabled]::-webkit-calendar-picker-indicator {
     display: none;
@@ -150,7 +148,6 @@ input[disabled]::-webkit-calendar-picker-indicator {
 
     .attendance {
         width: 900px;
-        /* そのまま中央のカード */
         margin: 0 auto;
     }
 

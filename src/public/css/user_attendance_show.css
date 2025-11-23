@@ -143,13 +143,11 @@ input[disabled]::-webkit-calendar-picker-indicator {
 
     .attendance {
         width: 900px;
-        /* そのまま中央のカード */
         margin: 0 auto;
     }
 
     .attendance__title {
         margin: 80px auto 40px;
-        /* ちょっとだけ詰める */
     }
 
     .attendance__content table {

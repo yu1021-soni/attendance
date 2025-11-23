@@ -26,11 +26,10 @@ class AdminLoginController extends Controller
     }
 
     public function logout(Request $request) {
-        Auth::logout();                              // ログアウト処理
-        $request->session()->invalidate();           // セッション無効化
-        $request->session()->regenerateToken();      // CSRFトークン再生成
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        // ★ 管理者ログイン画面に戻す
         return redirect('/admin/login');
     }
 }
