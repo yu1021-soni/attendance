@@ -84,11 +84,14 @@ class AdminStaffController extends Controller
         ];
 
         // CSV作成
+        // php: //output -> 仮想ファイル
+        // fputcsv() -> 配列を1行のCSVとして書き込む関数
         $callback = function () use ($attendances, $csvHeader) {
             $handle = fopen('php://output', 'w');
 
             fputcsv($handle, $csvHeader);
 
+            // nullでもエラーにならないようにする
             foreach ($attendances as $attendance) {
                 $row = [
                     $attendance->id,
@@ -100,9 +103,11 @@ class AdminStaffController extends Controller
                     $attendance->work_time_human,
                 ];
 
+                // fputcsv($handle, $row) -> 1行ずつ CSV に書いていく
                 fputcsv($handle, $row);
             }
 
+            // 開いたファイルを閉じて後片付けする処理
             fclose($handle);
         };
 
