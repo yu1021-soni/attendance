@@ -18,13 +18,14 @@
             <h2 class="register__title">会員登録</h2>
         </div>
 
+        {{-- 名前 --}}
         <div class="register__group">
             <div class="register__label-wrap">
                 <span class="register__label">名前</span>
             </div>
             <div class="register__control">
                 <div class="register__input">
-                    <input type="text" name="name">
+                    <input type="text" name="name" value="{{ old('name') }}">
                 </div>
                 <div class="register__error">
                     @error('name')
@@ -34,13 +35,14 @@
             </div>
         </div>
 
+        {{-- メールアドレス --}}
         <div class="register__group">
             <div class="register__label-wrap">
                 <span class="register__label">メールアドレス</span>
             </div>
             <div class="register__control">
                 <div class="register__input">
-                    <input type="text" name="email">
+                    <input type="text" name="email" value="{{ old('email') }}">
                 </div>
                 <div class="register__error">
                     @error('email')
@@ -50,6 +52,7 @@
             </div>
         </div>
 
+        {{-- パスワード --}}
         <div class="register__group">
             <div class="register__label-wrap">
                 <span class="register__label">パスワード</span>
@@ -66,6 +69,7 @@
             </div>
         </div>
 
+        {{-- パスワード確認 --}}
         <div class="register__group">
             <div class="register__label-wrap">
                 <span class="register__label">パスワード確認</span>

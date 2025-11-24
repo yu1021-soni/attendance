@@ -16,9 +16,27 @@
     <div class="app">
         <header class="header">
             <div class="header__inner">
+
+                @if (auth()->check())
+                {{-- ログイン済み --}}
+                @if (auth()->user()->isAdmin())
+                {{-- 管理者 --}}
+                <a href="/admin/dashboard" class="header__logo-link">
+                    <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH" class="header__logo">
+                </a>
+                @else
+                {{-- 一般ユーザー --}}
                 <a href="/" class="header__logo-link">
                     <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH" class="header__logo">
                 </a>
+                @endif
+                @else
+                {{-- 未ログイン --}}
+                <a href="/" class="header__logo-link">
+                    <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH" class="header__logo">
+                </a>
+                @endif
+
 
                 {{-- login, register, mailhog, 認証系ページではロゴだけ --}}
                 @if (
@@ -52,7 +70,7 @@
                         @else
                         {{-- 一般ユーザーメニュー --}}
                         <li>
-                            <a href="/". class="header__link">勤怠</a>
+                            <a href="/" . class="header__link">勤怠</a>
                         </li>
                         <li>
                             <a href="{{ route('attendance.index') }}" class="header__link">勤怠一覧</a>

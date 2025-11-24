@@ -18,13 +18,14 @@
             <h2 class="login__title">ログイン</h2>
         </div>
 
+        {{-- メールアドレス --}}
         <div class="login__group">
             <div class="login__label-wrap">
                 <span class="login__label">メールアドレス</span>
             </div>
             <div class="login__control">
                 <div class="login__input">
-                    <input type="text" name="email">
+                    <input type="text" name="email" value="{{ old('email') }}">
                 </div>
                 <div class="login__error">
                     @error('email')
@@ -34,6 +35,7 @@
             </div>
         </div>
 
+        {{-- パスワード --}}
         <div class="login__group">
             <div class="login__label-wrap">
                 <span class="login__label">パスワード</span>

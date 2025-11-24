@@ -32,9 +32,9 @@ class AdminLoginRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.required'    => 'メールアドレスを入力してください。',
-            'email.email'       => '正しいメールアドレス形式で入力してください。',
-            'password.required' => 'パスワードを入力してください。',
+            'email.required'    => 'メールアドレスを入力してください',
+            'email.email'       => '正しいメールアドレス形式で入力してください',
+            'password.required' => 'パスワードを入力してください',
         ];
     }
 }

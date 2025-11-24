@@ -75,6 +75,7 @@ body {
     background-color: black;
     font-size: 18px;
     margin-top: 80px;
+    font-weight: bold;
 }
 
 .register__link {
