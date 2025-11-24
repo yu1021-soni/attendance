@@ -30,16 +30,68 @@ body {
     list-style: none;
     margin: 0;
     padding: 0;
+    gap: 40px;
 }
 
 .header__logout,
 .header__login,
-.header__mypage {
+.header__mypage,
+.header__link {
     background: transparent;
     color: #fff;
     border: none;
     text-decoration: none;
     font-size: 24px;
-    font-weight: 400;
+    font-weight: bold;
     cursor: pointer;
+}
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+
+    .header__inner {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 15px 32px;
+    }
+
+    .header__menu {
+        gap: 40px;
+    }
+
+    .header__logout,
+    .header__login,
+    .header__mypage,
+    .header__link {
+        font-size: 24px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+
+    .header {
+        height: 72px;
+    }
+
+    .header__inner {
+        padding: 0 16px;
+        align-items: center;
+    }
+
+    .header__logo {
+        height: 30px;
+        margin-top: 0;
+    }
+
+    .header__menu {
+        gap: 16px;
+    }
+
+    .header__logout,
+    .header__login,
+    .header__mypage,
+    .header__link {
+        font-size: 18px;
+        display: inline-block;
+        line-height: 72px;
+    }
 }

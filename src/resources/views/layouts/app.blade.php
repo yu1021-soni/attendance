@@ -20,46 +20,64 @@
                     <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH" class="header__logo">
                 </a>
 
-                {{-- login,register, mailhog ページではロゴだけ --}}
-                @if (!Route::is('register') && !Route::is('mailhog') && !Route::is('login') && !Route::is('verification.*') && !Route::is('admin.login'))
-
-
+                {{-- login, register, mailhog, 認証系ページではロゴだけ --}}
+                @if (
+                !Route::is('register') &&
+                !Route::is('mailhog') &&
+                !Route::is('login') &&
+                !Route::is('verification.*') &&
+                !Route::is('admin.login')
+                )
                 <nav class="header__nav">
                     <ul class="header__menu">
+                        @auth
+                        @if (auth()->user()->isAdmin())
+                        {{-- 管理者ユーザーメニュー --}}
                         <li>
-                            <a href="{{ route('attendance.index') }}" class="header__logout">勤怠一覧</a>
+                            <a href="{{ route('admin.dashboard') }}" class="header__link">勤怠一覧</a>
                         </li>
                         <li>
-                            <a href="{{ route('correction.create') }}" class="header__logout">申請</a>
+                            <a href="{{ route('staff.index') }}" class="header__link">スタッフ一覧</a>
                         </li>
                         <li>
-                            @if(Auth::check())
-                            @if(Auth::user()->isAdmin())
-
-                            <a href="{{ route('staff.index') }}" class=" header__logout">スタッフ一覧</a>
-
-                            <a href="{{ route('approval.index') }}" class=" header__logout">申請一覧</a>
+                            <a href="{{ route('approval.index') }}" class="header__link">申請一覧</a>
+                        </li>
+                        <li>
                             {{-- 管理者用ログアウト --}}
                             <form method="post" action="{{ route('admin.logout') }}">
                                 @csrf
                                 <button type="submit" class="header__logout">ログアウト</button>
                             </form>
-                            @else
+                        </li>
+                        @else
+                        {{-- 一般ユーザーメニュー --}}
+                        <li>
+                            <a href="/". class="header__link">勤怠</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('attendance.index') }}" class="header__link">勤怠一覧</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('correction.create') }}" class="header__link">申請</a>
+                        </li>
+                        <li>
                             {{-- 一般ユーザー用ログアウト --}}
                             <form method="post" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="header__logout">ログアウト</button>
                             </form>
-                            @endif
-                            @else
+                        </li>
+                        @endif
+                        @else
+                        {{-- 未ログイン --}}
+                        <li>
                             <form action="{{ route('login') }}" method="get">
                                 <button type="submit" class="header__login">ログイン</button>
                             </form>
-                            @endif
                         </li>
+                        @endauth
                     </ul>
                 </nav>
-
                 @endif
             </div>
         </header>
