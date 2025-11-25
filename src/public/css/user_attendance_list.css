@@ -177,6 +177,13 @@ body {
         padding: 12px 0;
     }
 
+    .attendance__content-date th:first-child,
+    .attendance__content-date td:first-child {
+        white-space: nowrap;
+        padding-left: 20px;
+        letter-spacing: 0;
+    }
+
     .detail-button {
         font-size: 14px;
     }
