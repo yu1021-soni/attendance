@@ -63,32 +63,70 @@ class AdminAttendanceController extends Controller
 
     public function updateCorrection(CorrectionRequest $request, $id)
     {
-        // 勤怠を取得
+        // 対象の勤怠を取得（休憩も一緒に）
         $attendance = Attendance::with('rests')->findOrFail($id);
 
-        // CorrectionRequest でバリデーション済み
+        // CorrectionRequest でバリデーション済みの値を取得
         $validated = $request->validated();
 
-        // 出勤時刻の更新
-        if ($request->filled('work_start')) {
-            $attendance->work_start = Carbon::parse(
-                $attendance->date->format('Y-m-d') . ' ' . $validated['work_start']
-            );
+        // 日付を文字列で用意
+        $dateStr = $attendance->date->format('Y-m-d');
+
+        // 出勤・退勤を更新
+        if (!empty($validated['work_start'])) {
+            $attendance->work_start = Carbon::parse($dateStr . ' ' . $validated['work_start']);
         }
 
-        // 退勤時刻の更新
-        if ($request->filled('work_end')) {
-            $attendance->work_end = Carbon::parse(
-                $attendance->date->format('Y-m-d') . ' ' . $validated['work_end']
-            );
+        if (!empty($validated['work_end'])) {
+            $attendance->work_end = Carbon::parse($dateStr . ' ' . $validated['work_end']);
         }
 
-        // 備考の更新
-        if ($request->filled('comment')) {
+        // 備考を更新
+        if (array_key_exists('comment', $validated)) {
             $attendance->comment = $validated['comment'];
         }
 
-        // 勤怠保存
+        // 休憩の更新
+        // フォームから送られてきた休憩配列
+        $restsInput = $request->input('rests', []);
+
+        foreach ($restsInput as $restData) {
+            $restId    = $restData['id']         ?? null;
+            $restStart = $restData['rest_start'] ?? null;
+            $restEnd   = $restData['rest_end']   ?? null;
+
+            // 既存のRestを探す
+            $restModel = $restId
+                ? $attendance->rests->firstWhere('id', $restId)
+                : null;
+
+            // 開始・終了どちらも空なら：
+            // 既存行があれば削除してスキップ
+            if (empty($restStart) && empty($restEnd)) {
+                if ($restModel) {
+                    $restModel->delete();
+                }
+                continue;
+            }
+
+            // 既存レコードがなければ新しく作成
+            if (!$restModel) {
+                $restModel = $attendance->rests()->make();
+            }
+
+            // rest_start / rest_end を日時で保存
+            $restModel->rest_start = $restStart
+                ? Carbon::parse($dateStr . ' ' . $restStart)
+                : null;
+
+            $restModel->rest_end = $restEnd
+                ? Carbon::parse($dateStr . ' ' . $restEnd)
+                : null;
+
+            $restModel->save();
+        }
+
+        // 勤怠本体を保存
         $attendance->save();
 
         return redirect()
