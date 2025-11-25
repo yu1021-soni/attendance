@@ -66,7 +66,9 @@
                     <td>{{ $attendance?->work_end ? $attendance->work_end->format('H:i') : '' }}</td>
 
                     {{-- 休憩 --}}
-                    <td>{{ $attendance?->rest_total_human }}</td>
+                    <td>
+                        {{ $attendance->rest_total_human }}
+                    </td>
 
                     {{-- 合計 --}}
                     <td>{{ $attendance?->work_time_human ?? '' }}</td>

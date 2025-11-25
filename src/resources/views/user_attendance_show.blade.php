@@ -61,15 +61,21 @@ $commentValue = old('comment', $attendance->comment);
                     <tr>
                         <th>出勤・退勤</th>
                         <td>
+                            @if ($isPending)
+                            {{-- 申請中：修正後の値を表示 --}}
+                            <input type="time" value="{{ $afterStart }}" disabled>
+                            <span class="time-separator">〜</span>
+                            <input type="time" value="{{ $afterEnd }}" disabled>
+                            @else
+                            {{-- 申請前：Attendance の編集欄 --}}
                             <input type="time"
                                 name="work_start"
-                                value="{{ old('work_start', $attendance->work_start?->format('H:i')) }}"
-                                {{ $inputDisabled }}>
+                                value="{{ old('work_start', $beforeStart) }}">
                             <span class="time-separator">〜</span>
                             <input type="time"
                                 name="work_end"
-                                value="{{ old('work_end', $attendance->work_end?->format('H:i')) }}"
-                                {{ $inputDisabled }}>
+                                value="{{ old('work_end', $beforeEnd) }}">
+                            @endif
 
                             {{-- 出勤・退勤のエラー --}}
                             @error('work_start')
@@ -90,7 +96,7 @@ $commentValue = old('comment', $attendance->comment);
                     {{-- 休憩行 --}}
                     @if ($hasPendingCorrection)
 
-                    {{-- ★ 申請中：CorrectionRest の new_* を表示（入力不可） --}}
+                    {{-- 申請中：CorrectionRest の new_* を表示（入力不可） --}}
                     @foreach(($correction->rests ?? collect()) as $restNo => $rest)
                     <tr>
                         <th>休憩{{ $restNo + 1 }}</th>
@@ -110,7 +116,7 @@ $commentValue = old('comment', $attendance->comment);
 
                     @else
 
-                    {{-- ★ 申請前：Attendance の休憩を編集できる --}}
+                    {{-- 申請前：Attendance の休憩を編集できる --}}
                     @foreach(($attendance->rests ?? collect()) as $restNo => $rest)
                     <tr>
                         <th>休憩{{ $restNo + 1 }}</th>

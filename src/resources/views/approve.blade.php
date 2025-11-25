@@ -53,7 +53,7 @@ use App\Models\Correction;
                     </td>
                 </tr>
 
-                {{-- ★ 承認待ち：CorrectionRest の new_* を表示（入力不可） --}}
+                {{--  承認待ち：CorrectionRest の new_* を表示（入力不可） --}}
                 @foreach(($correction->rests ?? collect()) as $restNo => $rest)
                 <tr>
                     <th>休憩{{ $restNo + 1 }}</th>

@@ -27,11 +27,24 @@ class UserApplicationController extends Controller
         $status    = $correction?->status;
         $isPending = $status === Correction::STATUS_PENDING;
 
+        // Attendanceから取ってくる
+        $beforeStart = $attendance->work_start?->format('H:i');
+        $beforeEnd   = $attendance->work_end?->format('H:i');
+
+        // Correctionから取ってくる
+        $afterStart = $correction?->new_work_start?->format('H:i');
+        $afterEnd   = $correction?->new_work_end?->format('H:i');
+
         return view('user_attendance_show', [
             'attendance' => $attendance,
             'status'     => $status,
             'correction' => $correction,
             'isPending'  => $isPending,
+
+            'beforeStart' => $beforeStart,
+            'beforeEnd'   => $beforeEnd,
+            'afterStart'  => $afterStart,
+            'afterEnd'    => $afterEnd,
         ]);
     }
 
@@ -139,7 +152,7 @@ class UserApplicationController extends Controller
                 'work_start'   => $workStart,
                 'work_end'     => $workEnd,
                 'status'       => Attendance::STATUS_DONE,
-                'user_comment' => null,
+                'comment'      => null,
             ]
         );
 

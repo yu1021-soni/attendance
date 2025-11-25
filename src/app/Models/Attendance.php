@@ -19,7 +19,7 @@ class Attendance extends Model
         'date',
         'work_start',
         'work_end',
-        'user_comment',
+        'comment',
         'status',
     ];
 
@@ -100,9 +100,7 @@ class Attendance extends Model
         $total = 0;
 
         foreach ($this->rests as $rest) {
-            if (!is_null($rest->rest_time_total)) {
-                $total += (int) $rest->rest_time_total;
-            } elseif ($rest->rest_start && $rest->rest_end) {
+            if ($rest->rest_start && $rest->rest_end) {
                 $total += $rest->rest_start->diffInMinutes($rest->rest_end);
             }
         }

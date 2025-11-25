@@ -19,7 +19,7 @@ class CreateAttendancesTable extends Migration
             $table->date('date');
             $table->datetime('work_start');
             $table->datetime('work_end')->nullable();
-            $table->text('user_comment')->nullable();
+            $table->text('comment')->nullable();
 
             $table->tinyInteger('status')
                 ->default(0)
