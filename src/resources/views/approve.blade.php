@@ -19,7 +19,7 @@ use App\Models\Correction;
         勤怠詳細
     </div>
 
-    <form action="{{ route('admin.approval', ['id' => $correction->id]) }}" method="post">
+    <form action="{{ route('admin.approval', ['id' => $attendance->id]) }}" method="post">
         @csrf
         <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
         <input type="hidden" name="date" value="{{ $attendance->date?->format('Y-m-d') }}">
@@ -53,7 +53,7 @@ use App\Models\Correction;
                     </td>
                 </tr>
 
-                {{--  承認待ち：CorrectionRest の new_* を表示（入力不可） --}}
+                {{-- 承認待ち：CorrectionRest の new_* を表示（入力不可） --}}
                 @foreach(($correction->rests ?? collect()) as $restNo => $rest)
                 <tr>
                     <th>休憩{{ $restNo + 1 }}</th>

@@ -109,12 +109,16 @@ class AdminApprovalController extends Controller
 
             // 修正申請ステータスを承認に更新
             $correction->status = Correction::STATUS_APPROVED;
+            $correction->approver_id = auth()->id(); // 承認した人のID（管理者）
+            $correction->approved_at = now();
             $correction->save();
 
             // 休憩側のステータスも承認に更新
             CorrectionRest::where('correction_id', $correction->id)
                 ->update([
                     'status' => CorrectionRest::STATUS_APPROVED,
+                    'approver_id' => $correction->approver_id,
+                    'approved_at' => $correction->approved_at,
                 ]);
         });
 
