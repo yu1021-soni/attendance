@@ -22,60 +22,63 @@ use App\Http\Controllers\AdminApprovalController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::get('/', [UserAttendanceController::class, 'create'])->name('attendance.create');
+    Route::get('/', [UserAttendanceController::class, 'create'])->name('attendance.create'); //ok
 
-    Route::post('/attendance/checkin', [UserAttendanceController::class, 'checkIn'])->name('work.start');
+    Route::post('/attendance/checkin', [UserAttendanceController::class, 'checkIn'])->name('work.start'); //ok
 
-    Route::post('/attendance/checkout', [UserAttendanceController::class, 'checkOut'])->name('work.end');
+    Route::post('/attendance/checkout', [UserAttendanceController::class, 'checkOut'])->name('work.end'); //ok
 
-    Route::post('/attendance/break/start', [UserAttendanceController::class, 'breakIn'])->name('break.start');
+    Route::post('/attendance/break/start', [UserAttendanceController::class, 'breakIn'])->name('break.start'); //ok
 
-    Route::post('/attendance/break/end',   [UserAttendanceController::class, 'breakOut'])->name('break.end');
+    Route::post('/attendance/break/end',   [UserAttendanceController::class, 'breakOut'])->name('break.end'); //ok
 
-    Route::get('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');
-    Route::post('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index');//記入まだ
+    Route::get('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index'); //ok
 
-    // ★attendance がない日の新規修正申請画面（ここを追加）
+    //Route::post('/attendance', [UserAttendanceController::class, 'index'])->name('attendance.index'); //使ってない？？
+
+    Route::get('/correction-request', [UserApplicationController::class, 'create'])->name('correction.create'); //ok
+
+    Route::get('/correction-request/{id}', [UserApplicationController::class, 'store'])->name('correction.store'); //ok
+
+    Route::post('/wait-approval', [UserApplicationController::class, 'show'])->name('wait.approval'); //ok
+
+    // attendance がない日の新規修正申請画面
     Route::get('/correction-request/new', [UserApplicationController::class, 'createNew'])
-        ->name('correction.createNew'); // 記入まだ
+        ->name('correction.createNew'); //ok
 
-    Route::get('/correction-request/{id}', [UserApplicationController::class, 'store'])->name('correction.store');
-
-    Route::post('/wait-approval', [UserApplicationController::class, 'show'])->name('wait.approval');
-
-    // 新規修正申請の保存 POST
+    // 新規修正申請の保存
     Route::post('/correction-request/new', [UserApplicationController::class, 'newStore'])
-        ->name('correction.newStore'); // 記入まだ
+        ->name('correction.newStore'); //ok
 
-    Route::get('/correction-request', [UserApplicationController::class, 'create'])->name('correction.create');
+    Route::get('/correction-request', [UserApplicationController::class, 'create'])->name('correction.create'); //ok
 });
 
-Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminLoginController::class, 'login']);
+Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->name('admin.login'); //ok
+Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login'); //ok
 
 Route::middleware(['auth', 'admin'])
     ->group(function () {
 
-        Route::get('/admin/dashboard', [AdminAttendanceController::class, 'index'])
-            ->name('admin.dashboard');
-
         Route::post('/admin/logout', [AdminLoginController::class, 'logout'])
-            ->name('admin.logout'); // 記入まだ
+        ->name('admin.logout'); //ok
 
-        Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'show'])->name('admin.show');
+        Route::get('/admin/dashboard', [AdminAttendanceController::class, 'index'])
+            ->name('admin.dashboard'); //ok
 
-        Route::post('/admin/attendance/{id}/correction', [AdminAttendanceController::class, 'updateCorrection'])->name('admin.correction');
+        Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'show'])->name('admin.show'); //ok
 
-        Route::get('/admin/staff', [AdminStaffController::class, 'index'])->name('staff.index');
+        Route::post('/admin/attendance/{id}/correction', [AdminAttendanceController::class, 'updateCorrection'])->name('admin.correction'); //ok
 
-        Route::get('/admin/staff/{id}/attendance', [AdminStaffController::class, 'show'])->name('staff.show');
+        Route::get('/admin/staff', [AdminStaffController::class, 'index'])->name('staff.index'); //ok
+
+        Route::get('/admin/staff/{id}/attendance', [AdminStaffController::class, 'show'])->name('staff.show'); //ok
 
         Route::get('/admin/attendances/export-csv', [AdminStaffController::class, 'exportCsv'])
-        ->name('attendances.export'); // 記入まだ
+        ->name('attendances.export'); //ok
 
-        Route::get('/admin/correction-request', [AdminApprovalController::class, 'index'])->name('approval.index');
+        Route::get('/admin/correction-request', [AdminApprovalController::class, 'index'])->name('approval.index'); //ok
 
-        Route::get('/admin/correction-request/{id}', [AdminApprovalController::class, 'show'])->name('approval.show');
+        Route::get('/admin/correction-request/{id}', [AdminApprovalController::class, 'show'])->name('approval.show'); //ok
 
-        Route::post('/admin/correction-request/{id}/approve', [AdminApprovalController::class, 'approve'])->name('admin.approval');
+        Route::post('/admin/correction-request/{id}/approve', [AdminApprovalController::class, 'approve'])->name('admin.approval'); //ok
     });
