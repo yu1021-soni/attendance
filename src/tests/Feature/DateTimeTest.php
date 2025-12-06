@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use Carbon\Carbon;
@@ -33,7 +32,7 @@ class DateTimeTest extends TestCase
         $this->actingAs($user);
 
         //1. 勤怠打刻画面を開く
-        $response = $this->get('/user_attendance');
+        $response = $this->get(route('attendance.create'));
         $response->assertOk();
 
         //2. 画面に表示されている日時情報を確認する
