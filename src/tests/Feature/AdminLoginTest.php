@@ -16,6 +16,7 @@ class AdminLoginTest extends TestCase
      */
     use RefreshDatabase;
 
+    // メールアドレスが未入力の場合、バリデーションメッセージが表示される
     public function test_admin_login_email_required()
     {
         //1. 管理者ユーザを登録する
@@ -35,12 +36,12 @@ class AdminLoginTest extends TestCase
         // /admin/loginにリダイレクト
         $response->assertRedirect('/admin/login');
 
-        // バリデーションメッセージ表示
+        // 「メールアドレスを入力してください」というバリデーションメッセージが表示される
         $response->assertSessionHasErrors('email');
     }
 
 
-
+    // パスワードが未入力の場合、バリデーションメッセージが表示される
     public function test_admin_login_password_required()
     {
         //1. 管理者ユーザを登録する
@@ -60,13 +61,13 @@ class AdminLoginTest extends TestCase
         // /admin/loginにリダイレクト
         $response->assertRedirect('/admin/login');
 
-        // バリデーションメッセージ表示
+        // 「パスワードを入力してください」というバリデーションメッセージが表示される
         $response->assertSessionHasErrors('password');
     }
 
 
 
-
+    // 登録内容と一致しない場合、バリデーションメッセージが表示される
     public function test_admin_login_input_information_error()
     {
         //1. 管理者ユーザを登録する
@@ -86,7 +87,7 @@ class AdminLoginTest extends TestCase
         // /admin/loginにリダイレクト
         $response->assertRedirect('/admin/login');
 
-        // バリデーションメッセージ表示
+        // 「ログイン情報が登録されていません」というバリデーションメッセージが表示される
         $response->assertSessionHasErrors('email');
     }
 }

@@ -16,8 +16,7 @@ class UserLoginTest extends TestCase
     use RefreshDatabase;
 
     // メールアドレスが未入力の場合、バリデーションメッセージが表示される
-    public function test_login_email_required()
-    {
+    public function test_login_email_required() {
 
         //1. ユーザを登録する
         User::factory()->create([
@@ -38,7 +37,7 @@ class UserLoginTest extends TestCase
         // /loginにリダイレクト
         $response->assertRedirect('/login');
 
-        // バリデーションメッセージ表示
+        //「メールアドレスを入力してください」というバリデーションメッセージが表示される
         $response->assertSessionHasErrors('email');
     }
 
@@ -64,7 +63,7 @@ class UserLoginTest extends TestCase
         // /loginにリダイレクト
         $response->assertRedirect('/login');
 
-        // バリデーションメッセージ表示
+        //「パスワードを入力してください」というバリデーションメッセージが表示される
         $response->assertSessionHasErrors('password');
     }
 
@@ -90,7 +89,7 @@ class UserLoginTest extends TestCase
         // /loginにリダイレクト
         $response->assertRedirect('/login');
 
-        // バリデーションメッセージ表示
+        // 「ログイン情報が登録されていません」というバリデーションメッセージが表示される
         $response->assertSessionHasErrors(['email']);
     }
 }
