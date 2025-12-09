@@ -11,7 +11,7 @@
 @section('content')
 <div class="content">
     <div class="content__title">
-        {{ $user->name }}さんの名前
+        {{ $user->name }}さんの勤怠
     </div>
 
 
