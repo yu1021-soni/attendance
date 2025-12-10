@@ -123,7 +123,7 @@
         </table>
     </div>
 
-    <form action="{{ route('attendances.export') }}" method="get" class="cfv__wrapper">
+    <form action="{{ route('attendances.export',['id'=> $user->id,]) }}" method="get" class="cfv__wrapper">
         <button class="cfv__button">CFV出力</button>
     </form>
 </div>

@@ -59,7 +59,7 @@ class AdminStaffController extends Controller
         ]);
     }
 
-    public function exportCsv(Request $request)
+    public function exportCsv(Request $request, $id)
     {
         // yearとmonthを取得（指定なしなら今の年月）
         $year  = (int) $request->query('year', now()->year);
@@ -67,6 +67,7 @@ class AdminStaffController extends Controller
 
         // 指定の年・月の勤怠を取得
         $attendances = Attendance::with('user')
+            ->where('user_id', $id)
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
             ->orderBy('date')
