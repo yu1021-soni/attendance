@@ -143,13 +143,17 @@ class UserAttendanceListTest extends TestCase
         // 勤怠データを登録
         $attendance = Attendance::create([
             'user_id' => $user->id,
-            'date' => Carbon::create(2025, 12, 8),
-            'work_start' => Carbon::create(2025, 12, 8, 9),
-            'status' => 1,
+            'date' => Carbon::create(2025, 12, 1),
+            'work_start' => Carbon::today()->setTime(9, 0),
+            'work_end'   => Carbon::create(2025, 12, 1, 18),
+            'status'     => Attendance::STATUS_DONE,
         ]);
 
         // 2. 勤怠一覧ページを開く
-        $response = $this->get(route('attendance.index'));
+        $response = $this->get(route('attendance.index', [
+            'year'  => 2025,
+            'month' => 12,
+        ]));
         $response->assertOk();
 
         // 3. 「詳細」ボタンを押下する
