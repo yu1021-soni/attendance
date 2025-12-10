@@ -122,10 +122,21 @@ class UserApplicationController extends Controller
         $status    = null;
         $isPending = false;
 
+        $correction  = null;
+        $beforeStart = null;
+        $beforeEnd   = null;
+        $afterStart  = null;
+        $afterEnd    = null;
+
         return view('user_attendance_show', [
             'attendance' => $attendance,
             'status'     => $status,
+            'correction'   => $correction,
             'isPending'  => $isPending,
+            'beforeStart'  => $beforeStart,
+            'beforeEnd'    => $beforeEnd,
+            'afterStart'   => $afterStart,
+            'afterEnd'     => $afterEnd,
         ]);
     }
 

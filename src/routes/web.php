@@ -38,10 +38,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/correction-request', [UserApplicationController::class, 'create'])->name('correction.create'); //ok
 
-    Route::get('/correction-request/{id}', [UserApplicationController::class, 'store'])->name('correction.store'); //ok
-
-    Route::post('/wait-approval', [UserApplicationController::class, 'show'])->name('wait.approval'); //ok
-
     // attendance がない日の新規修正申請画面
     Route::get('/correction-request/new', [UserApplicationController::class, 'createNew'])
         ->name('correction.createNew'); //ok
@@ -50,7 +46,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/correction-request/new', [UserApplicationController::class, 'newStore'])
         ->name('correction.newStore'); //ok
 
-    Route::get('/correction-request', [UserApplicationController::class, 'create'])->name('correction.create'); //ok
+    Route::get('/correction-request/{id}', [UserApplicationController::class, 'store'])->name('correction.store'); //ok
+
+    Route::post('/wait-approval', [UserApplicationController::class, 'show'])->name('wait.approval'); //ok
 });
 
 Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->name('admin.login'); //ok
