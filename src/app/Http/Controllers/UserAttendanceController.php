@@ -164,7 +164,6 @@ class UserAttendanceController extends Controller
         $attendanceList = Attendance::with('rests')
             ->where('user_id', $userId)
             ->whereBetween('date', [$monthStart, $monthEnd])
-            ->where('status', Attendance::STATUS_DONE)
             ->get();
 
         // 日付 → 勤怠 の表

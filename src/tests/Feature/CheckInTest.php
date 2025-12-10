@@ -113,10 +113,6 @@ class CheckInTest extends TestCase
 
         $postResponse->assertStatus(302);
 
-        // 退勤
-        Carbon::setTestNow(Carbon::create(2025, 1, 1, 1, 2));
-        $this->post(route('work.end'));
-
         // 3. 勤怠一覧画面から出勤の日付を確認する
         $response = $this->get(route('attendance.index'));
         $response->assertStatus(200);
