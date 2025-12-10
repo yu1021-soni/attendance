@@ -24,7 +24,7 @@ class AttendanceSeeder extends Seeder
         $today = Carbon::today();
 
         // 直近５日分の勤怠を作る
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
 
             // 今日からi日前の日付
             $date = $today->copy()->subDays($i);
