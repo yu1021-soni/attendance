@@ -8,6 +8,7 @@ use App\Models\Correction;
 use App\Models\CorrectionRest;
 use App\Http\Requests\CorrectionRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class UserApplicationController extends Controller
 {
@@ -240,7 +241,8 @@ class UserApplicationController extends Controller
         $tab = $request->query('tab', 'pending');
 
         // 基本クエリ（新しい順）
-        $query = Correction::query()->latest();
+        $query = Correction::with(['attendance', 'user'])
+            ->where('user_id', Auth::id());
 
         // タブに応じてステータスを絞り込み
         if ($tab === 'approved') {
