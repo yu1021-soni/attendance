@@ -196,9 +196,15 @@ $isNewAttendance = !$attendance->exists;
             </div>
 
             <div class="attendance__submit">
+                @if ($hasPendingCorrection)
+                {{-- 承認待ち：修正ボタンは出さず、メッセージだけ表示 --}}
+                <p class="pending-message">*承認待ちのため修正はできません。</p>
+                @else
+                {{-- 承認待ちでないものは、直接修正できる --}}
                 <button class="attendance__submit-button" type="submit">
                     修正
                 </button>
+                @endif
             </div>
         </form>
 
