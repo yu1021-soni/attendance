@@ -13,6 +13,7 @@ class Attendance extends Model
     public const STATUS_ON    = 1; // 出勤中
     public const STATUS_BREAK = 2; // 休憩中
     public const STATUS_DONE  = 3; // 退勤済
+    public const STATUS_CORRECTION_PENDING = 4; // 修正申請中（承認待ち）
 
     protected $fillable = [
         'user_id',

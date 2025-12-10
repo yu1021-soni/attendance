@@ -104,6 +104,9 @@ class AdminApprovalController extends Controller
                 }
             }
 
+            // ステータスを退勤済みに更新
+            $attendance->status = Attendance::STATUS_DONE;
+
             // 勤怠保存
             $attendance->save();
 

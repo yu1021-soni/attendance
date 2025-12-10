@@ -110,18 +110,30 @@ class UserApplicationController extends Controller
     }
 
     public function createNew(Request $request) {
+        $user = $request->user();
         // URL のクエリ (?date=) から日付を取得
         $date = $request->query('date');
 
         // 仮の Attendance（DBにはまだ保存しない）
+        //$attendance = new Attendance();
+        //$attendance->date    = $date;
+        //$attendance->user_id = auth()->id();
+
+        $attendance = Attendance::where('user_id', $user->id)
+            ->whereDate('date', $date)
+            ->first();
+
+        if ($attendance) {
+            return redirect()->route('correction.store', ['id' => $attendance->id]);
+        }
+
         $attendance = new Attendance();
+        $attendance->user_id = $user->id;
         $attendance->date    = $date;
-        $attendance->user_id = auth()->id();
 
         // まだ申請していないからstatus は null
         $status    = null;
         $isPending = false;
-
         $correction  = null;
         $beforeStart = null;
         $beforeEnd   = null;
@@ -162,17 +174,30 @@ class UserApplicationController extends Controller
             [
                 'work_start'   => $workStart,
                 'work_end'     => $workEnd,
-                'status'       => Attendance::STATUS_DONE,
+                'status'     => Attendance::STATUS_CORRECTION_PENDING,
                 'comment'      => null,
             ]
         );
+
+        $attendance = Attendance::firstOrCreate(
+            ['user_id' => $user->id, 'date' => $date]
+        );
+
+        if (
+            Correction::where('attendance_id', $attendance->id)
+            ->where('user_id', $user->id)
+            ->where('status', Correction::STATUS_PENDING)
+            ->exists()
+        ) {
+            return redirect()->route('correction.store', ['id' => $attendance->id]);
+        }
 
         // 修正申請作成
         $correction = new Correction();
         $correction->user_id        = $user->id;
         $correction->attendance_id  = $attendance->id;
-        $correction->old_work_start = $attendance->work_start;
-        $correction->old_work_end   = $attendance->work_end;
+        $correction->old_work_start = null;
+        $correction->old_work_end   = null;
         $correction->new_work_start = $workStart;
         $correction->new_work_end   = $workEnd;
         $correction->comment        = $request->comment;
