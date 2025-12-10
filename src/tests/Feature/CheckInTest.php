@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Attendance;
 
-class AttendanceTest extends TestCase
+class CheckInTest extends TestCase
 {
     /**
      * A basic feature test example.
