@@ -65,6 +65,14 @@ Route::middleware(['auth', 'admin'])
 
         Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'show'])->name('admin.show'); //ok
 
+        // ★ 追加：勤怠記録がない日の 修正申請（新規）フォーム表示
+        Route::get('/correction-request/new', [AdminAttendanceController::class, 'createNew'])
+        ->name('admin.createNew');
+
+        // ★ 追加：勤怠記録がない日の 修正申請（新規）登録
+        Route::post('/correction-request/new', [AdminAttendanceController::class, 'newStore'])
+        ->name('admin.newStore');
+
         Route::post('/admin/attendance/{id}/correction', [AdminAttendanceController::class, 'updateCorrection'])->name('admin.correction'); //ok
 
         Route::get('/admin/staff', [AdminStaffController::class, 'index'])->name('staff.index'); //ok

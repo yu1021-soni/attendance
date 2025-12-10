@@ -36,7 +36,18 @@
     @php
     use Carbon\Carbon;
     $weekNames = ['日','月','火','水','木','金','土'];
+
+    // この月の1日と末日
+    $startOfMonth = Carbon::create($year, $month, 1);
+    $endOfMonth = $startOfMonth->copy()->endOfMonth();
+
+    // 勤怠コレクションを「日付文字列」をキーにした連想配列に変換しておく
+    // 例: '2025-12-01' => Attendanceモデル
+    $attendanceMap = $attendances->keyBy(function ($item) {
+    return $item->date->format('Y-m-d');
+    });
     @endphp
+
 
     <div class="attendance__list">
         <table>
@@ -48,27 +59,72 @@
                 <th>合計</th>
                 <th>詳細</th>
             </tr>
-            @foreach ($attendances as $attendance)
+
+            {{-- 1日〜末日まで1日ずつループ --}}
+            @for ($date = $startOfMonth->copy(); $date->lte($endOfMonth); $date->addDay())
+            @php
+            $dateKey = $date->format('Y-m-d');
+            // その日の勤怠（あればモデル、なければ null）
+            $attendance = $attendanceMap->get($dateKey);
+            @endphp
+
             <tr>
                 <td>
-                    <span class="date-monthday">{{ $attendance->date->format('n/j') }}</span>
-                    <span>({{ $weekNames[$attendance->date->dayOfWeek] }})</span>
+                    <span class="date-monthday">{{ $date->format('n/j') }}</span>
+                    <span>({{ $weekNames[$date->dayOfWeek] }})</span>
                 </td>
 
-                <td>{{ $attendance->work_start->format('H:i') }}</td>
-                <td>{{ $attendance->work_end->format('H:i') }}</td>
-                <td>{{ $attendance->rest_total_human }}</td>
-                <td>{{ $attendance->work_time_human }}</td>
+                {{-- 出勤 --}}
                 <td>
-                    <a href="{{ route('admin.show', $attendance->id) }}" class="detail__button">詳細</a>
+                    @if($attendance?->work_start)
+                    {{ $attendance->work_start->format('H:i') }}
+                    @endif
+                </td>
+
+                {{-- 退勤 --}}
+                <td>
+                    @if($attendance?->work_end)
+                    {{ $attendance->work_end->format('H:i') }}
+                    @endif
+                </td>
+
+                {{-- 休憩合計 --}}
+                <td>
+                    @if($attendance)
+                    {{ $attendance->rest_total_human }}
+                    @endif
+                </td>
+
+                {{-- 勤務合計 --}}
+                <td>
+                    @if($attendance)
+                    {{ $attendance->work_time_human }}
+                    @endif
+                </td>
+
+                <td>
+                    @if ($attendance)
+                    {{-- 勤怠がある日は既存詳細へ --}}
+                    <a href="{{ route('admin.show', $attendance->id) }}" class="detail__button">
+                        詳細
+                    </a>
+                    @else
+                    {{-- attendance がない日は新規修正申請へ --}}
+                    <a href="{{ route('admin.createNew', [
+                'user_id' => $user->id,
+                'date'    => $dateKey,
+            ]) }}" class="detail__button">
+                        詳細
+                    </a>
+                    @endif
                 </td>
             </tr>
-            @endforeach
+            @endfor
         </table>
     </div>
 
     <form action="{{ route('attendances.export') }}" method="get" class="cfv__wrapper">
-            <button class="cfv__button">CFV出力</button>
+        <button class="cfv__button">CFV出力</button>
     </form>
 </div>
 @endsection

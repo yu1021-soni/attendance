@@ -7,6 +7,8 @@ use App\Models\Attendance;
 use Carbon\Carbon;
 use App\Models\Correction;
 use App\Http\Requests\CorrectionRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AdminAttendanceController extends Controller
 {
@@ -132,5 +134,148 @@ class AdminAttendanceController extends Controller
         return redirect()
             ->route('admin.show', $attendance->id)
             ->with('success', '修正を反映しました');
+    }
+
+    public function createNew(Request $request)
+    {
+        // 「対象スタッフ」の ID をクエリからもらう
+        $targetUserId = $request->query('user_id');
+        $user = User::findOrFail($targetUserId);
+
+        // ?date= から日付を取得
+        $date = $request->query('date');
+
+        // すでにその日の勤怠があれば、通常の修正画面に飛ばす
+        $attendance = Attendance::where('user_id', $user->id)
+            ->whereDate('date', $date)
+            ->first();
+
+        if ($attendance) {
+            // すでに勤怠がある日は管理者の詳細画面へ
+            return redirect()->route('admin.show', ['id' => $attendance->id]);
+        }
+
+        $attendance = new Attendance();
+        $attendance->user_id = $user->id;
+        $attendance->date    = $date;
+
+        // まだ申請していないからstatus は null
+        $status    = null;
+        $isPending = false;
+        $correction  = null;
+        $beforeStart = null;
+        $beforeEnd   = null;
+        $afterStart  = null;
+        $afterEnd    = null;
+
+        return view('admin_attendance_show', [
+            'attendance' => $attendance,
+            'status'     => $status,
+            'correction'   => $correction,
+            'isPending'  => $isPending,
+            'beforeStart'  => $beforeStart,
+            'beforeEnd'    => $beforeEnd,
+            'afterStart'   => $afterStart,
+            'afterEnd'     => $afterEnd,
+        ]);
+    }
+
+    public function newStore(CorrectionRequest $request)
+    {
+        // 管理者からの新規登録用
+        // hidden の user_id で対象スタッフを特定
+        $user = User::findOrFail($request->input('user_id'));
+        $date = $request->input('date');
+
+        // 日付と時間を一緒に並べる
+        $workStartInput = $request->input('work_start');
+        $workEndInput   = $request->input('work_end');
+
+        $workStart = $workStartInput
+            ? Carbon::parse("$date {$workStartInput}")
+            : null;
+
+        $workEnd = $workEndInput
+            ? Carbon::parse("$date {$workEndInput}")
+            : null;
+
+        // 対象日の勤怠を作成 or 取得
+        $attendance = Attendance::firstOrCreate(
+            [
+                'user_id' => $user->id,
+                'date'    => $date,
+            ],
+            [
+                'work_start' => $workStart,
+                'work_end'   => $workEnd,
+                // プロジェクトの定義に合わせて（例：3=退勤済）
+                'status'     =>  3,
+                'comment'    => $request->input('comment'),
+            ]
+        );
+
+        // すでにあったレコードなら上書き（
+        if (! $attendance->wasRecentlyCreated) {
+            $attendance->work_start = $workStart;
+            $attendance->work_end   = $workEnd;
+            $attendance->comment    = $request->input('comment');
+            $attendance->status     =  3;
+            $attendance->save();
+        }
+
+        // 休憩（複数）を保存
+        $restsInput = $request->input('rests', []);
+
+        // いったんその日の休憩を全部消す
+        $attendance->rests()->delete();
+
+        // 新しく入力された休憩で作り直す
+        foreach ($restsInput as $rest) {
+            if (empty($rest['rest_start']) && empty($rest['rest_end'])) {
+                continue;
+            }
+
+            $restStart = !empty($rest['rest_start'])
+                ? Carbon::parse("$date {$rest['rest_start']}")
+                : null;
+
+            $restEnd = !empty($rest['rest_end'])
+                ? Carbon::parse("$date {$rest['rest_end']}")
+                : null;
+
+            $attendance->rests()->create([
+                'rest_start' => $restStart,
+                'rest_end'   => $restEnd,
+            ]);
+        }
+
+        return redirect()
+            ->route('admin.show', ['id' => $attendance->id])
+            ->with('success', '修正を反映しました');
+    }
+
+    public function create(Request $request)
+    {
+        // どのタブか（デフォルト pending）
+        $tab = $request->query('tab', 'pending');
+
+        // 基本クエリ（新しい順）
+        $query = Correction::with(['attendance', 'user'])
+            ->where('user_id', Auth::id());
+
+        // タブに応じてステータスを絞り込み
+        if ($tab === 'approved') {
+            $query->where('status', Correction::STATUS_APPROVED);
+        } else {
+            $query->where('status', Correction::STATUS_PENDING);
+        }
+
+        $corrections = $query->get();
+
+        return view('user_application', [
+            'corrections'  => $corrections,
+            'tab'          => $tab,
+            'searchParams' => $request->except('tab', 'page'),
+        ]);
     }
 }
