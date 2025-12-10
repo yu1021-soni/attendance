@@ -223,6 +223,11 @@ class RestTest extends TestCase
         $response = $this->post(route('break.end'));
         $response->assertStatus(302);
 
+        // 退勤
+        Carbon::setTestNow(Carbon::create(2025, 1, 1, 2, 0));
+        $response = $this->post(route('work.end'));
+        $response->assertStatus(302);
+
         // 3. 勤怠一覧画面から休憩の日付を確認する
         $response = $this->get(route('attendance.index'));
         $response->assertStatus(200);
