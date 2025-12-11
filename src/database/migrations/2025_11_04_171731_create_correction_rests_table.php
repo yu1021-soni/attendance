@@ -17,11 +17,11 @@ class CreateCorrectionRestsTable extends Migration
             $table->id();
             $table->foreignId('correction_id')->constrained()->cascadeOnDelete();
     
-            $table->datetime('old_rest_start')->nullable();
-            $table->datetime('old_rest_end')->nullable();
+            $table->dateTime('old_rest_start')->nullable();
+            $table->dateTime('old_rest_end')->nullable();
 
-            $table->datetime('new_rest_start');
-            $table->datetime('new_rest_end');
+            $table->dateTime('new_rest_start');
+            $table->dateTime('new_rest_end');
 
             $table->tinyInteger('status')->default(1)->comment('1:申請中、2:承認済み');
 
@@ -29,7 +29,7 @@ class CreateCorrectionRestsTable extends Migration
             $table->foreignId('approver_id')->nullable()->constrained('users')->nullOnDelete();
 
             //承認した日付
-            $table->datetime('approved_at')->nullable();
+            $table->dateTime('approved_at')->nullable();
 
             $table->timestamps();
         });

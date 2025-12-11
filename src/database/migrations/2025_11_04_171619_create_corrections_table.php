@@ -19,11 +19,11 @@ class CreateCorrectionsTable extends Migration
             $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
 
             // 修正前の打刻時間
-            $table->datetime('old_work_start')->nullable();
-            $table->datetime('old_work_end')->nullable();
+            $table->dateTime('old_work_start')->nullable();
+            $table->dateTime('old_work_end')->nullable();
 
-            $table->datetime('new_work_start')->nullable();
-            $table->datetime('new_work_end')->nullable();
+            $table->dateTime('new_work_start')->nullable();
+            $table->dateTime('new_work_end')->nullable();
             $table->text('comment');
 
             $table->tinyInteger('status')->default(1)->comment('1:申請中、2:承認済み');
@@ -32,7 +32,7 @@ class CreateCorrectionsTable extends Migration
             $table->foreignId('approver_id')->nullable()->constrained('users')->nullOnDelete();
 
             //承認した日付
-            $table->datetime('approved_at')->nullable();
+            $table->dateTime('approved_at')->nullable();
 
             $table->timestamps();
         });
