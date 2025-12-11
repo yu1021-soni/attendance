@@ -11,7 +11,7 @@
 @section('content')
 <div class="login">
 
-    <form action="/admin/login" class="login__form" method="post" action="{{ route('admin.login') }}">
+    <form action="{{ route('admin.login') }}" class=" login__form" method="post">
         @csrf
 
         <div class="login__heading">

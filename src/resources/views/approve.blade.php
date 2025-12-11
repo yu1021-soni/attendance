@@ -103,6 +103,7 @@ use App\Models\Correction;
             </table>
         </div>
 
+        {{-- 1:申請中 2:承認済み --}}
         <div class="approve__submit">
             @if ($correction->status == '1')
             <button class="approve__submit-button">承認</button>

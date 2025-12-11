@@ -42,6 +42,7 @@
             @foreach ($corrections as $correction)
             <tr>
                 <td>
+                    {{-- 1:申請中 2:承認済み --}}
                     @if ($correction->status === 1)
                     承認待ち
                     @elseif ($correction->status === 2)

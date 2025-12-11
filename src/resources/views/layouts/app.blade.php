@@ -70,7 +70,7 @@
                         @else
                         {{-- 一般ユーザーメニュー --}}
                         <li>
-                            <a href="/" . class="header__link">勤怠</a>
+                            <a href="/" class="header__link">勤怠</a>
                         </li>
                         <li>
                             <a href="{{ route('attendance.index') }}" class="header__link">勤怠一覧</a>

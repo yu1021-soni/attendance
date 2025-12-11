@@ -62,12 +62,11 @@
             @foreach($days as $day)
             @php
             $attendance = $attendanceByDate[$day] ?? null;
-
-            $date = \Carbon\Carbon::parse($day);
-
-            $weekNames = ['日','月','火','水','木','金','土'];
+            $date = Carbon::parse($day);
             $label = $date->format('m/d') . '（' . $weekNames[$date->dayOfWeek] . '）';
             @endphp
+            ...
+            @endforeach
 
             <tr>
                 <td>{{ $label }}</td>
@@ -86,10 +85,6 @@
 
                 {{-- 詳細 --}}
                 <td>
-                    {{-- <a href="{{ route('correction.store', ['id' => auth()->id()]) }}" class="detail-button">
-                    詳細
-                    </a> --}}
-
                     @if ($attendance)
                     {{-- attendance がある日は既存詳細へ --}}
                     <a href="{{ route('correction.store', ['id' => $attendance->id]) }}" class="detail-button">
