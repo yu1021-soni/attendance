@@ -40,7 +40,7 @@ class RegisterRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'name.required' => 'お名前を入力してください',

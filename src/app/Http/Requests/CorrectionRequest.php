@@ -35,7 +35,7 @@ class CorrectionRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'work_start.required' => '出勤時間を入力してください',
