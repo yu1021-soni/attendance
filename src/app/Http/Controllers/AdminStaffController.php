@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Attendance;
 use Carbon\Carbon;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use App\Models\Correction;
 
 class AdminStaffController extends Controller

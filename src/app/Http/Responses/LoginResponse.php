@@ -16,7 +16,7 @@ class LoginResponse implements LoginResponseContract
         }
 
 
-        // 一般ユーザーは Fortify の home 設定先へ (例: /attendance)
+        // 一般ユーザーは Fortify の home 設定先へ
         return redirect()->intended(config('fortify.home'));
     }
 }

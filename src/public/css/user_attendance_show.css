@@ -128,7 +128,6 @@ textarea[disabled] {
     /* クリックもフォーカスも不可 */
 }
 
-/* time入力の▼アイコンなども消しておく（Chrome / Safari） */
 input[disabled]::-webkit-inner-spin-button,
 input[disabled]::-webkit-calendar-picker-indicator {
     display: none;

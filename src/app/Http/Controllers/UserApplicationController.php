@@ -115,11 +115,6 @@ class UserApplicationController extends Controller
         // URL のクエリ (?date=) から日付を取得
         $date = $request->query('date');
 
-        // 仮の Attendance（DBにはまだ保存しない）
-        //$attendance = new Attendance();
-        //$attendance->date    = $date;
-        //$attendance->user_id = auth()->id();
-
         $attendance = Attendance::where('user_id', $user->id)
             ->whereDate('date', $date)
             ->first();
