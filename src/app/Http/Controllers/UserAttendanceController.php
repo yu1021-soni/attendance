@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Attendance;
 use App\Models\Rest;
+use App\Models\Correction;
 
 class UserAttendanceController extends Controller
 {
@@ -164,6 +165,9 @@ class UserAttendanceController extends Controller
         $attendanceList = Attendance::with('rests')
             ->where('user_id', $userId)
             ->whereBetween('date', [$monthStart, $monthEnd])
+            ->whereDoesntHave('corrections', function ($approval) {
+                $approval->where('status', Correction::STATUS_PENDING);
+            })
             ->get();
 
         // 日付 → 勤怠 の表

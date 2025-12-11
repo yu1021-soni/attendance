@@ -38,6 +38,9 @@ class AdminAttendanceController extends Controller
         // 勤怠データ取得（ユーザー・休憩込み）
         $attendances = Attendance::with(['user', 'rests'])
             ->whereDate('date', $date->toDateString())
+            ->whereDoesntHave('corrections', function ($approval) {
+                $approval->where('status', Correction::STATUS_PENDING);
+            })
             ->get();
 
         return view('admin_attendance_list', compact('year', 'month', 'day', 'attendances'));

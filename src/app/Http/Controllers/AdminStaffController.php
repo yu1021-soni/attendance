@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use App\Models\Correction;
 
 class AdminStaffController extends Controller
 {
@@ -48,6 +49,9 @@ class AdminStaffController extends Controller
         // 一般ユーザーの 月の勤怠一覧を取得
         $attendances = Attendance::where('user_id', $id)
             ->whereBetween('date', [$monthStart, $monthEnd])
+            ->whereDoesntHave('corrections', function ($approval) {
+                $approval->where('status', Correction::STATUS_PENDING);
+            })
             ->orderBy('date')
             ->get();
 
