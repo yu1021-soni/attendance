@@ -18,7 +18,7 @@ class AttendanceSeeder extends Seeder
     public function run()
     {
         // 一般ユーザのみ取得
-        $users = User::where('role',0)->get();
+        $users = User::where('role', 0)->get();
 
         // 今日の日付
         $today = Carbon::today();
