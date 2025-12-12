@@ -11,7 +11,7 @@
 
 1. リポジトリをクローン
 
-    `git clone　https://github.com/yu1021-soni/attendance.git`
+    `git clone https://github.com/yu1021-soni/attendance.git`
 
 2. Docker起動
 
@@ -30,6 +30,47 @@
    `php artisan queue:work`
 
 ## テスト実行
+1. テスト専用の環境設定ファイル .env.testing を用意
+2. .env.testingに以下を記述
+
+   テスト用アプリケーションキーの作成
+
+   `php artisan key:generate --env=testing`
+   ```
+   APP_ENV=testing
+   APP_KEY=base64:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+   APP_DEBUG=true
+
+   DB_CONNECTION=sqlite
+   DB_DATABASE=:memory:
+
+   CACHE_DRIVER=file
+   SESSION_DRIVER=file
+   QUEUE_CONNECTION=sync
+   ```
+
+3. テスト実行
+
+    `php artisan test`
+
+## 管理者ユーザー情報
+Seeder により以下のユーザーが作成されます。
+
+いずれも **パスワードは `password`** です。
+
+- 管理者 / admin@example.com  
+
+## 一般ユーザー情報
+Seeder により以下のユーザーが作成されます。
+
+いずれも **パスワードは `password`** です。
+
+- 佐藤 太郎 / sato.taro@example.com  
+- 鈴木 花子 / suzuki.hanako@example.com  
+- 高橋 健 / takahashi.ken@example.com  
+- 田中 美咲 / tanaka.misaki@example.com  
+- 伊藤 翔 / ito.sho@example.com.  
 
 ## 使用技術
 
