@@ -65,8 +65,6 @@
             $date = Carbon::parse($day);
             $label = $date->format('m/d') . '（' . $weekNames[$date->dayOfWeek] . '）';
             @endphp
-            ...
-            @endforeach
 
             <tr>
                 <td>{{ $label }}</td>

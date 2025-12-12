@@ -100,7 +100,7 @@
             </div>
         </header>
 
-        <div class="content">
+        <div class="main__content">
             @yield('content')
         </div>
 
