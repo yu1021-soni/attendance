@@ -127,10 +127,8 @@ textarea[disabled] {
     background: transparent;
     color: #000;
     pointer-events: none;
-    /* クリックもフォーカスも不可 */
 }
 
-/* time入力の▼アイコンなども消しておく（Chrome / Safari） */
 input[disabled]::-webkit-inner-spin-button,
 input[disabled]::-webkit-calendar-picker-indicator {
     display: none;
@@ -145,13 +143,11 @@ input[disabled]::-webkit-calendar-picker-indicator {
 
     .attendance {
         width: 900px;
-        /* そのまま中央のカード */
         margin: 0 auto;
     }
 
     .attendance__title {
         margin: 80px auto 40px;
-        /* ちょっとだけ詰める */
     }
 
     .attendance__content table {
@@ -231,7 +227,6 @@ input[disabled]::-webkit-calendar-picker-indicator {
         height: 44px;
         font-size: 18px;
         letter-spacing: 0.12em;
-    
         display: inline-flex;
         align-items: center;
         justify-content: center;

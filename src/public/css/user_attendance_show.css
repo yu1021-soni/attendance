@@ -14,7 +14,6 @@ body {
     padding-left: 12px;
     display: flex;
     align-items: center;
-
     font-weight: bold;
     font-size: 30px;
     margin: 120px auto 60px;
@@ -125,7 +124,6 @@ textarea[disabled] {
     background: transparent;
     color: #000;
     pointer-events: none;
-    /* クリックもフォーカスも不可 */
 }
 
 input[disabled]::-webkit-inner-spin-button,
