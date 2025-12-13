@@ -91,6 +91,7 @@ Seeder により以下のユーザーが作成されます。
 - Mailhog
 
 ## ER図
+![alt text](https://file%2B.vscode-resource.vscode-cdn.net/Users/yu/coachtech/attendance/attendance.svg?version%3D1765653679356)
 
 ## URL
 - アプリケーション: http://localhost
