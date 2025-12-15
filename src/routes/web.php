@@ -54,9 +54,6 @@ Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->nam
 Route::middleware(['auth', 'admin'])
     ->group(function () {
 
-        Route::post('/admin/logout', [AdminLoginController::class, 'logout'])
-        ->name('admin.logout');
-
         Route::get('/admin/dashboard', [AdminAttendanceController::class, 'index'])
             ->name('admin.dashboard');
 

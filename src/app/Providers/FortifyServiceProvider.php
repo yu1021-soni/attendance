@@ -60,6 +60,10 @@ class FortifyServiceProvider extends ServiceProvider
             return new class implements LogoutResponse {
                 public function toResponse($request)
                 {
+                    if ($request->input('logout_from') === 'admin') {
+                        return redirect()->route('admin.login');
+                    }
+
                     // ルート名で確実に
                     return redirect()->route('login');
                 }

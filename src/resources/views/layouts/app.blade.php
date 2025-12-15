@@ -62,8 +62,9 @@
                         </li>
                         <li>
                             {{-- 管理者用ログアウト --}}
-                            <form method="post" action="{{ route('admin.logout') }}">
+                            <form method="post" action="{{ route('logout') }}">
                                 @csrf
+                                <input type="hidden" name="logout_from" value="admin">
                                 <button type="submit" class="header__logout">ログアウト</button>
                             </form>
                         </li>
