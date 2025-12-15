@@ -50,7 +50,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login');
 
 Route::middleware(['auth', 'admin'])
     ->group(function () {

@@ -13,6 +13,9 @@ use Laravel\Fortify\Contracts\LogoutResponse;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Laravel\Fortify\Contracts\LoginResponse as FortifyLoginResponse;
+use App\Http\Responses\LoginResponse as CustomLoginResponse;
+
 
 //提出前に消す
 use Illuminate\Cache\RateLimiting\Limit;
@@ -28,6 +31,11 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(
+            FortifyLoginResponse::class,
+            CustomLoginResponse::class
+        );
+
         $this->app->bind(
             \Laravel\Fortify\Http\Requests\RegisterRequest::class,
             \App\Http\Requests\RegisterRequest::class
@@ -69,6 +77,33 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::verifyEmailView(function () {
             return view('auth.mailhog');
+        });
+
+        Fortify::authenticateUsing(function (Request $request) {
+
+            $user = User::where('email', $request->email)->first();
+
+            if (! $user || ! Hash::check($request->password, $user->password)) {
+                return null; // 通常のログイン失敗
+            }
+
+            // 管理者ログイン画面かに一般ユーザーなら弾く
+            if ($request->input('admin_login') === '1' && (int)$user->role !== 1) {
+                $request->session()->forget('admin_login');
+
+                throw ValidationException::withMessages([
+                    'email' => '管理者ログイン画面からは一般ユーザーでログインできません',
+                ]);
+            }
+
+            // 管理者ログイン
+            if ($request->input('admin_login') === '1') {
+                $request->session()->put('admin_login', true);
+            } else {
+                $request->session()->forget('admin_login');
+            }
+
+            return $user;
         });
     }
 }

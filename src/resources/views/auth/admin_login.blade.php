@@ -11,7 +11,7 @@
 @section('content')
 <div class="login">
 
-    <form action="{{ route('admin.login') }}" class=" login__form" method="post">
+    <form action="{{ route('login') }}" class=" login__form" method="post">
         @csrf
 
         <input type="hidden" name="admin_login" value="1">
