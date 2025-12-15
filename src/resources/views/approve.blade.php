@@ -53,46 +53,25 @@ use App\Models\Correction;
                     </td>
                 </tr>
 
-                {{-- 承認待ち：CorrectionRest の new_* を表示（入力不可） --}}
-                @foreach(($correction->rests ?? collect()) as $restNo => $rest)
+                {{-- 承認待ち：空の休憩は表示しない（入力不可） --}}
+                @php
+                $pendingRests = ($correction->rests ?? collect())
+                ->filter(fn($r) => $r->new_rest_start && $r->new_rest_end)
+                ->values();
+                @endphp
+
+                @foreach($pendingRests as $restNo => $rest)
                 <tr>
                     <th>休憩{{ $restNo + 1 }}</th>
                     <td>
                         <div class="rest-row">
-                            <input type="time"
-                                value="{{ $rest->new_rest_start?->format('H:i') }}"
-                                disabled>
+                            <input type="time" value="{{ $rest->new_rest_start->format('H:i') }}" disabled>
                             <span class="time-separator">〜</span>
-                            <input type="time"
-                                value="{{ $rest->new_rest_end?->format('H:i') }}"
-                                disabled>
+                            <input type="time" value="{{ $rest->new_rest_end->format('H:i') }}" disabled>
                         </div>
                     </td>
                 </tr>
                 @endforeach
-
-
-
-                {{-- 追加用の休憩 --}}
-                @php
-                $nextRestNo = ($correction->rests ?? collect())->count();
-                @endphp
-
-                <tr>
-                    <th>休憩{{ $nextRestNo + 1 }}</th>
-                    <td>
-                        <div class="rest-row">
-                            <input type="time"
-                                name="rests[{{ $nextRestNo }}][rest_start]"
-                                value="{{ old("rests.$nextRestNo.rest_start") }}" disabled>
-                            <span class="time-separator">〜</span>
-                            <input type="time"
-                                name="rests[{{ $nextRestNo }}][rest_end]"
-                                value="{{ old("rests.$nextRestNo.rest_end") }}" disabled>
-                        </div>
-                    </td>
-                </tr>
-
 
                 <tr class="remarks-row">
                     <th>備考</th>
