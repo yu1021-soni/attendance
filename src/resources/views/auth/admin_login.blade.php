@@ -14,6 +14,8 @@
     <form action="{{ route('admin.login') }}" class=" login__form" method="post">
         @csrf
 
+        <input type="hidden" name="admin_login" value="1">
+
         <div class="login__heading">
             <h2 class="login__title">管理者ログイン</h2>
         </div>

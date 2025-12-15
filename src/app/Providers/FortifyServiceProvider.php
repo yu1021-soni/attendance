@@ -10,6 +10,9 @@ use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Laravel\Fortify\Contracts\LogoutResponse;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 //提出前に消す
 use Illuminate\Cache\RateLimiting\Limit;
