@@ -9,7 +9,13 @@
 @endsection
 
 @section('content')
+
 <div class="content">
+    
+    <div class="flash-success">
+        {{ session('success') }}
+    </div>
+
     <div class="content__title">
         {{ $year }}/{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}/{{ str_pad($day, 2, '0', STR_PAD_LEFT) }}の勤怠
     </div>

@@ -103,6 +103,13 @@ body {
     color: black;
 }
 
+.flash-success {
+    margin-top: 50px;
+    letter-spacing: 0.15em;
+    color: lightsalmon;
+    text-align: left;
+}
+
 @media (min-width: 768px) and (max-width: 850px) {
 
     .content {

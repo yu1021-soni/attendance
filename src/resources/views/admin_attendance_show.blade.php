@@ -191,10 +191,6 @@ $isNewAttendance = !$attendance->exists;
                 </table>
             </div>
 
-            <div class="flash-success">
-                {{ session('success') }}
-            </div>
-
             <div class="attendance__submit">
                 @if ($hasPendingCorrection)
                 {{-- 承認待ち：修正ボタンは出さず、メッセージだけ表示 --}}

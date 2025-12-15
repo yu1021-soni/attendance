@@ -120,13 +120,6 @@ textarea {
     color: #d00;
 }
 
-.flash-success {
-    margin-top: 20px;
-    letter-spacing: 0.15em;
-    color: lightsalmon;
-    text-align: right;
-}
-
 input[disabled],
 textarea[disabled] {
     border: none;

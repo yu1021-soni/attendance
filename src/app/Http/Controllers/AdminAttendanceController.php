@@ -135,7 +135,7 @@ class AdminAttendanceController extends Controller
         $attendance->save();
 
         return redirect()
-            ->route('admin.show', $attendance->id)
+            ->route('admin.dashboard')
             ->with('success', '修正を反映しました');
     }
 
