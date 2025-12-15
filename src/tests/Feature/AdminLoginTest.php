@@ -28,7 +28,7 @@ class AdminLoginTest extends TestCase
 
         // ログインページを開く
         $response = $this->from('/admin/login')
-            ->post('/admin/login', [
+            ->post('/login', [
                 'email' => '',
                 'password' => 'password123',
             ]);
@@ -53,7 +53,7 @@ class AdminLoginTest extends TestCase
 
         // ログインページを開く
         $response = $this->from('/admin/login')
-            ->post('/admin/login', [
+            ->post('/login', [
                 'email' => 'admin@example.com',
                 'password' => '',
             ]);
@@ -79,7 +79,7 @@ class AdminLoginTest extends TestCase
 
         // ログインページを開く
         $response = $this->from('/admin/login')
-            ->post('/admin/login', [
+            ->post('/login', [
                 'email' => 'wrong@example.com',
                 'password' => 'password123',
             ]);
