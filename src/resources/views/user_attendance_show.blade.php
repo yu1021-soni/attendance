@@ -14,12 +14,12 @@ use App\Models\Correction;
 $isPending = ($status ?? null) === Correction::STATUS_PENDING;
 $inputDisabled = $isPending ? 'disabled' : '';
 
-// ★ 備考に表示する値を決める
+//  備考に表示する値を決める
 if ($isPending && isset($correction)) {
 // 承認待ちのとき → 修正申請(Correction)に保存されている comment を表示
 $commentValue = $correction->comment;
 } else {
-// それ以外（初回表示 / 再入力など）→ old優先、なければ Attendance 側の comment
+// old優先、なければ Attendance 側の comment
 $commentValue = old('comment', $attendance->comment);
 }
 @endphp

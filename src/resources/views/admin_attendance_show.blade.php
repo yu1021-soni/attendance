@@ -180,7 +180,7 @@ $isNewAttendance = !$attendance->exists;
                             @if ($hasPendingCorrection)
                             <textarea disabled>{{ $correction->comment }}</textarea>
                             @else
-                            <textarea name="comment">{{ old('comment') }}</textarea>
+                            <textarea name="comment">{{ old('comment', $attendance->comment) }}</textarea>
 
                             @error('comment')
                             <p class="field-error">{{ $message }}</p>

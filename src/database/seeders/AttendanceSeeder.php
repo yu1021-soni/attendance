@@ -42,7 +42,6 @@ class AttendanceSeeder extends Seeder
                     'work_start' => $start,
                     'work_end'   => $end,
                     'status'     => 3,
-                    'comment'    => 'テスト勤務',
                 ]);
 
                 // 休憩
