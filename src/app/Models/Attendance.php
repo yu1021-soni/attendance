@@ -31,6 +31,10 @@ class Attendance extends Model
         'status' => 'integer',
     ];
 
+    private function cutSeconds($dt) {
+        return $dt ? $dt->copy()->startOfMinute() : null;
+    }
+
     public function calcWorkMinutes(): int {
 
         // $this ＝ $attendance
@@ -40,9 +44,11 @@ class Attendance extends Model
             return 0;
         }
 
-        // 出勤～退勤のtotal時間(分)
-        // diffInMinutes() は 2つの時刻の差を「分」で出すメソッド
-        $total = $this->work_start->diffInMinutes($this->work_end);
+        // 秒は見ない
+        $start = $this->cutSeconds($this->work_start);
+        $end   = $this->cutSeconds($this->work_end);
+
+        $total = $start->diffInMinutes($end);
 
         $breakMinutes = 0;
 
@@ -55,20 +61,17 @@ class Attendance extends Model
             }
 
             // 休憩時間（分）を計算して足す
-            $start = $rest->rest_start; // 休憩開始
-            $end = $rest->rest_end;   // 休憩終了
+            $rs = $this->cutSeconds($rest->rest_start); // 休憩開始
+            $re = $this->cutSeconds($rest->rest_end);   // 休憩終了
 
             // 休憩開始から終了までの分数
-            $diff = $start->diffInMinutes($end);
-
-            //左側$breakMinutesは上書き
-            $breakMinutes = $breakMinutes + $diff; // 合計時間に足す
+            $breakMinutes += $rs->diffInMinutes($re);
         }
 
         // $total は出勤〜退勤の全体の分数
         // $breakMinutes は休憩の合計
         // → この差が 勤務時間（実働時間）
-        return $total - $breakMinutes;
+        return max(0, $total - $breakMinutes);
     }
 
     public function getWorkTimeTotalAttribute(): int {
@@ -101,9 +104,12 @@ class Attendance extends Model
         $total = 0;
 
         foreach ($this->rests as $rest) {
-            if ($rest->rest_start && $rest->rest_end) {
-                $total += $rest->rest_start->diffInMinutes($rest->rest_end);
-            }
+            if (!$rest->rest_start || !$rest->rest_end) continue;
+
+            $rs = $this->cutSeconds($rest->rest_start);
+            $re = $this->cutSeconds($rest->rest_end);
+
+            $total += $rs->diffInMinutes($re);
         }
 
         return $total;
