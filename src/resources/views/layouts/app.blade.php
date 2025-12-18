@@ -13,30 +13,37 @@
 </head>
 
 <body>
+    @php
+    // 管理者かどうか判定：
+    // roleが管理者&管理者ログイン画面から入った場合のみtrue
+    $isAdminMode = auth()->check()
+    && auth()->user()->isAdmin()
+    && session('admin_login') === true;
+    @endphp
+
     <div class="app">
         <header class="header">
             <div class="header__inner">
 
                 @if (auth()->check())
                 {{-- ログイン済み --}}
-                @if (auth()->user()->isAdmin())
+                @if ($isAdminMode)
                 {{-- 管理者 --}}
-                <a href="/admin/dashboard" class="header__logo-link">
+                <a href="{{ route('admin.dashboard') }}" class="header__logo-link">
                     <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH" class="header__logo">
                 </a>
                 @else
                 {{-- 一般ユーザー --}}
-                <a href="/" class="header__logo-link">
+                <a href="{{ route('attendance.create') }}" class="header__logo-link">
                     <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH" class="header__logo">
                 </a>
                 @endif
                 @else
                 {{-- 未ログイン --}}
-                <a href="/" class="header__logo-link">
+                <a href="{{ route('login') }}" class="header__logo-link">
                     <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH" class="header__logo">
                 </a>
                 @endif
-
 
                 {{-- login, register, mailhog, 認証系ページではロゴだけ --}}
                 @if (
@@ -49,7 +56,7 @@
                 <nav class="header__nav">
                     <ul class="header__menu">
                         @auth
-                        @if (auth()->user()->isAdmin())
+                        @if ($isAdminMode)
                         {{-- 管理者ユーザーメニュー --}}
                         <li>
                             <a href="{{ route('admin.dashboard') }}" class="header__link">勤怠一覧</a>
@@ -71,7 +78,7 @@
                         @else
                         {{-- 一般ユーザーメニュー --}}
                         <li>
-                            <a href="/" class="header__link">勤怠</a>
+                            <a href="{{ route('attendance.create') }}" class="header__link">勤怠</a>
                         </li>
                         <li>
                             <a href="{{ route('attendance.index') }}" class="header__link">勤怠一覧</a>
@@ -104,7 +111,6 @@
         <div class="main__content">
             @yield('content')
         </div>
-
     </div>
 </body>
 
