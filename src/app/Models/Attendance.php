@@ -74,7 +74,8 @@ class Attendance extends Model
         return max(0, $total - $breakMinutes);
     }
 
-    public function getWorkTimeTotalAttribute(): int {
+    public function getWorkTimeTotalAttribute(): int
+    {
         // =$attendance->work_time_total
         return $this->calcWorkMinutes();
     }
@@ -124,15 +125,18 @@ class Attendance extends Model
         return sprintf('%d:%02d', intdiv($m, 60), $m % 60);
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function rests() {
+    public function rests()
+    {
         return $this->hasMany(Rest::class);
     }
 
-    public function corrections() {
+    public function corrections()
+    {
         return $this->hasMany(Correction::class);
     }
 }

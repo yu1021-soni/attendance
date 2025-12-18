@@ -19,6 +19,18 @@
 
     `make init`
 
+    Apple Silicon (M1/M2) でビルドできない場合
+
+    docker-compose.yml の services.mysql に以下を追加してください
+
+    ```
+    services:
+        mysql:
+            platform: linux/x86_64(この文追加)
+            image: mysql:8.0.26
+            environment:
+    ```
+
 ## メール認証テスト
 
    Mailhogを利用。
