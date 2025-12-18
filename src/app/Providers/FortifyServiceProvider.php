@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\LoginResponse as FortifyLoginResponse;
 use App\Http\Responses\LoginResponse as CustomLoginResponse;
-
-
-//提出前に消す
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\Request;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -35,11 +30,6 @@ class FortifyServiceProvider extends ServiceProvider
             FortifyLoginResponse::class,
             CustomLoginResponse::class
         );
-
-        $this->app->bind(
-            \Laravel\Fortify\Http\Requests\RegisterRequest::class,
-            \App\Http\Requests\RegisterRequest::class
-        );
     }
 
     /**
@@ -49,13 +39,6 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
-        //提出前に消す
-        RateLimiter::for('login', function (Request $request) {
-            return Limit::perMinute(1000)->by($request->email . $request->ip());
-        });
-
-
         $this->app->singleton(LogoutResponse::class, function () {
             return new class implements LogoutResponse {
                 public function toResponse($request)
