@@ -159,7 +159,7 @@ class UserAttendanceListTest extends TestCase
         // 3. 「詳細」ボタンを押下する
         $response->assertSee('詳細');
 
-        $expectedUrl = route('correction.store', ['id' => $attendance->id]);
+        $expectedUrl = route('correction.show', ['id' => $attendance->id]);
 
         // URLが含まれていることを確認
         $response->assertSee($expectedUrl);

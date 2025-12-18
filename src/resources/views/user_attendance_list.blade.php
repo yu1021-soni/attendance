@@ -85,7 +85,7 @@
                 <td>
                     @if ($attendance)
                     {{-- attendance がある日は既存詳細へ --}}
-                    <a href="{{ route('correction.store', ['id' => $attendance->id]) }}" class="detail-button">
+                    <a href="{{ route('correction.show', ['id' => $attendance->id]) }}" class="detail-button">
                         詳細
                     </a>
                     @else

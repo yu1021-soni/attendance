@@ -5,8 +5,8 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\URL;
+use App\Notifications\VerifyEmailJa;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EmailTest extends TestCase
@@ -19,7 +19,6 @@ class EmailTest extends TestCase
 
         //メール送信をフェイク
         Notification::fake();
-
 
         //1. 会員登録をする
         //会員登録のデータを用意
@@ -41,7 +40,7 @@ class EmailTest extends TestCase
         $this->assertNotNull($user);
 
         //認証メールが送られたか確認
-        Notification::assertSentTo($user, VerifyEmail::class);
+        Notification::assertSentTo($user, VerifyEmailJa::class);
     }
 
     //メール認証誘導画面で「認証はこちらから」ボタンを押下するとメール認証サイトに遷移する
@@ -67,7 +66,7 @@ class EmailTest extends TestCase
         $response->assertSessionHas('status', 'verification-link-sent');
 
         //認証メールが送られたか確認
-        Notification::assertSentTo($user, VerifyEmail::class);
+        Notification::assertSentTo($user, VerifyEmailJa::class);
     }
 
     //メール認証サイトのメール認証を完了すると、プロフィール設定画面に遷移する

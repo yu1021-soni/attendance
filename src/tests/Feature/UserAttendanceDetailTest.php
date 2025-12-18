@@ -38,7 +38,7 @@ class UserAttendanceDetailTest extends TestCase
         ]);
 
         // 2. 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store',['id' => $attendance->id]));
+        $response = $this->get(route('correction.show',['id' => $attendance->id]));
         $response->assertOk();
 
         // 3. 名前欄を確認する
@@ -68,7 +68,7 @@ class UserAttendanceDetailTest extends TestCase
         ]);
 
         // 2. 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
         $response->assertOk();
 
         // 3. 日付欄を確認する
@@ -97,7 +97,7 @@ class UserAttendanceDetailTest extends TestCase
         ]);
 
         // 2. 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
         $response->assertOk();
 
         // 3. 出勤・退勤欄を確認する
@@ -132,7 +132,7 @@ class UserAttendanceDetailTest extends TestCase
         ]);
 
         // 2. 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
         $response->assertOk();
 
         // 3. 休憩欄を確認する

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class UserApplicationController extends Controller
 {
     ///correction-request/10 -> $id=10
-    public function store($id) {
+    public function show($id) {
         // 対象出退勤記録を取得（ユーザー・休憩も一緒に取得）
         $attendance = Attendance::with('user', 'rests')->findOrFail($id);
 
@@ -49,7 +49,7 @@ class UserApplicationController extends Controller
         ]);
     }
 
-    public function show(CorrectionRequest $request)
+    public function waitApproval(CorrectionRequest $request)
     {
         //  元の勤怠データを取得（hidden で渡した id を使用）
         $attendance = Attendance::with('rests')->findOrFail($request->attendance_id);
@@ -107,7 +107,7 @@ class UserApplicationController extends Controller
             $restModel->save();
         }
 
-        return redirect()->route('correction.store', ['id' => $attendance->id]);
+        return redirect()->route('correction.show', ['id' => $attendance->id]);
     }
 
     public function createNew(Request $request) {
@@ -120,7 +120,7 @@ class UserApplicationController extends Controller
             ->first();
 
         if ($attendance) {
-            return redirect()->route('correction.store', ['id' => $attendance->id]);
+            return redirect()->route('correction.show', ['id' => $attendance->id]);
         }
 
         $attendance = new Attendance();
@@ -185,7 +185,7 @@ class UserApplicationController extends Controller
             ->where('status', Correction::STATUS_PENDING)
             ->exists()
         ) {
-            return redirect()->route('correction.store', ['id' => $attendance->id]);
+            return redirect()->route('correction.show', ['id' => $attendance->id]);
         }
 
         // 修正申請作成
@@ -228,7 +228,7 @@ class UserApplicationController extends Controller
             $restModel->save();
         }
 
-        return redirect()->route('correction.store', ['id' => $attendance->id]);
+        return redirect()->route('correction.show', ['id' => $attendance->id]);
     }
 
     public function create(Request $request) {

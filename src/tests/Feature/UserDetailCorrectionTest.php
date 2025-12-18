@@ -42,13 +42,13 @@ class UserDetailCorrectionTest extends TestCase
         $this->actingAs($user);
 
         // 2. 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
         $response->assertOk();
 
         // 3. 出勤時間を退勤時間より後に設定する
         // 4. 保存処理をする
         $response = $this
-            ->from(route('correction.store', ['id' => $attendance->id]))
+            ->from(route('correction.show', ['id' => $attendance->id]))
             ->post(route('wait.approval'), [
                 'attendance_id' => $attendance->id,
                 'work_start' => '19:00',
@@ -57,7 +57,7 @@ class UserDetailCorrectionTest extends TestCase
             ]);
 
         // 元の画面にリダイレクト
-        $response->assertRedirect(route('correction.store', ['id' => $attendance->id]));
+        $response->assertRedirect(route('correction.show', ['id' => $attendance->id]));
 
         // 「出勤時間が不適切な値です」というバリデーションメッセージが表示される
         $response->assertSessionHasErrors('work_start');
@@ -94,7 +94,7 @@ class UserDetailCorrectionTest extends TestCase
         $this->actingAs($user);
 
         // 2. 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
         $response->assertOk();
 
         // 3. 休憩開始時間を退勤時間より後に設定する
@@ -113,11 +113,11 @@ class UserDetailCorrectionTest extends TestCase
 
         // 4. 保存処理をする
         $response = $this
-            ->from(route('correction.store', ['id' => $attendance->id]))
+            ->from(route('correction.show', ['id' => $attendance->id]))
             ->post(route('wait.approval'), $postData);
 
         // 元の画面にリダイレクトされること
-        $response->assertRedirect(route('correction.store', ['id' => $attendance->id]));
+        $response->assertRedirect(route('correction.show', ['id' => $attendance->id]));
 
         // 「休憩時間が不適切な値です」というバリデーションメッセージが表示される
         $response->assertSessionHasErrors('rests.0.rest_start');
@@ -154,7 +154,7 @@ class UserDetailCorrectionTest extends TestCase
         $this->actingAs($user);
 
         // 2. 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
         $response->assertOk();
 
         // 3. 休憩終了時間を退勤時間より後に設定する
@@ -173,11 +173,11 @@ class UserDetailCorrectionTest extends TestCase
 
         // 4. 保存処理をする
         $response = $this
-            ->from(route('correction.store', ['id' => $attendance->id]))
+            ->from(route('correction.show', ['id' => $attendance->id]))
             ->post(route('wait.approval'), $postData);
 
         // 元の画面にリダイレクト
-        $response->assertRedirect(route('correction.store', ['id' => $attendance->id]));
+        $response->assertRedirect(route('correction.show', ['id' => $attendance->id]));
 
         // 「休憩時間もしくは退勤時間が不適切な値です」というバリデーションメッセージが表示される
         $response->assertSessionHasErrors('rests.0.rest_end');
@@ -214,7 +214,7 @@ class UserDetailCorrectionTest extends TestCase
         $this->actingAs($user);
 
         // 2. 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
         $response->assertOk();
 
         // 3. 備考欄を未入力のまま保存処理をする
@@ -233,11 +233,11 @@ class UserDetailCorrectionTest extends TestCase
 
         // 保存処理をする
         $response = $this
-            ->from(route('correction.store', ['id' => $attendance->id]))
+            ->from(route('correction.show', ['id' => $attendance->id]))
             ->post(route('wait.approval'), $postData);
 
         // 元の画面にリダイレクト
-        $response->assertRedirect(route('correction.store', ['id' => $attendance->id]));
+        $response->assertRedirect(route('correction.show', ['id' => $attendance->id]));
 
         // 「備考を記入してください」というバリデーションメッセージが表示される
         $response->assertSessionHasErrors('comment');
@@ -273,7 +273,7 @@ class UserDetailCorrectionTest extends TestCase
         // 2. 勤怠詳細を修正し保存処理をする
 
         // 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
         $response->assertOk();
 
         // 勤怠修正
@@ -295,11 +295,11 @@ class UserDetailCorrectionTest extends TestCase
 
         // 保存処理をする
         $response = $this
-            ->from(route('correction.store', ['id' => $attendance->id]))
+            ->from(route('correction.show', ['id' => $attendance->id]))
             ->post(route('wait.approval'), $postData);
 
         // 元の画面にリダイレクト
-        $response->assertRedirect(route('correction.store', ['id' => $attendance->id]));
+        $response->assertRedirect(route('correction.show', ['id' => $attendance->id]));
 
         // 3. 管理者ユーザーで承認画面と申請一覧画面を確認する
 
@@ -351,7 +351,7 @@ class UserDetailCorrectionTest extends TestCase
         // 2. 勤怠詳細を修正し保存処理をする
 
         // 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
         $response->assertOk();
 
         // 勤怠修正
@@ -373,11 +373,11 @@ class UserDetailCorrectionTest extends TestCase
 
         // 保存処理をする
         $response = $this
-            ->from(route('correction.store', ['id' => $attendance->id]))
+            ->from(route('correction.show', ['id' => $attendance->id]))
             ->post(route('wait.approval'), $postData);
 
         // 元の画面にリダイレクト
-        $response->assertRedirect(route('correction.store', ['id' => $attendance->id]));
+        $response->assertRedirect(route('correction.show', ['id' => $attendance->id]));
 
 
         //3. 申請一覧画面を確認する
@@ -420,7 +420,7 @@ class UserDetailCorrectionTest extends TestCase
         // 2. 勤怠詳細を修正し保存処理をする
 
         // 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
         $response->assertOk();
 
         // 勤怠修正
@@ -442,11 +442,11 @@ class UserDetailCorrectionTest extends TestCase
 
         // 保存処理をする
         $response = $this
-            ->from(route('correction.store', ['id' => $attendance->id]))
+            ->from(route('correction.show', ['id' => $attendance->id]))
             ->post(route('wait.approval'), $postData);
 
         // 元の画面にリダイレクト
-        $response->assertRedirect(route('correction.store', ['id' => $attendance->id]));
+        $response->assertRedirect(route('correction.show', ['id' => $attendance->id]));
 
         // 管理者承認済みに更新
         $correction = Correction::first();
@@ -495,7 +495,7 @@ class UserDetailCorrectionTest extends TestCase
         // 2. 勤怠詳細を修正し保存処理をする
 
         // 勤怠詳細ページを開く
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
         $response->assertOk();
 
         // 勤怠修正
@@ -517,18 +517,18 @@ class UserDetailCorrectionTest extends TestCase
 
         // 保存処理をする
         $response = $this
-            ->from(route('correction.store', ['id' => $attendance->id]))
+            ->from(route('correction.show', ['id' => $attendance->id]))
             ->post(route('wait.approval'), $postData);
 
         // 元の画面にリダイレクト
-        $response->assertRedirect(route('correction.store', ['id' => $attendance->id]));
+        $response->assertRedirect(route('correction.show', ['id' => $attendance->id]));
 
         // 3. 申請一覧画面を開く
         $listResponse = $this->get(route('correction.create', ['tab' => 'pending']));
         $listResponse->assertOk();
 
         // 4. 「詳細」ボタンを押す
-        $response = $this->get(route('correction.store', ['id' => $attendance->id]));
+        $response = $this->get(route('correction.show', ['id' => $attendance->id]));
 
         // 勤怠詳細画面に遷移する
         $response->assertOk();

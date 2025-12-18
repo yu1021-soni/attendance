@@ -44,9 +44,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/correction-request/new', [UserApplicationController::class, 'newStore'])
         ->name('correction.newStore');
 
-    Route::get('/correction-request/{id}', [UserApplicationController::class, 'store'])->name('correction.store');
+    Route::get('/correction-request/{id}', [UserApplicationController::class, 'show'])->name('correction.show');
 
-    Route::post('/wait-approval', [UserApplicationController::class, 'show'])->name('wait.approval');
+    Route::post('/wait-approval', [UserApplicationController::class, 'waitApproval'])->name('wait.approval');
 });
 
 Route::get('/admin/login',  [AdminLoginController::class, 'showLoginForm'])->name('admin.login');

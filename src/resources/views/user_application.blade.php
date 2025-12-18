@@ -59,7 +59,7 @@ use App\Models\Correction;
                 <td>{{ $correction->comment }}</td>
                 <td>{{ $correction->created_at?->format('Y/m/d') }}</td>
                 <td>
-                    <a href="{{ route('correction.store', ['id' => $correction->attendance_id]) }}" class="detail-button">
+                    <a href="{{ route('correction.show', ['id' => $correction->attendance_id]) }}" class="detail-button">
                         詳細
                     </a>
                 </td>
