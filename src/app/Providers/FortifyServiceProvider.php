@@ -17,10 +17,6 @@ use Laravel\Fortify\Contracts\LoginResponse as FortifyLoginResponse;
 use App\Http\Responses\LoginResponse as CustomLoginResponse;
 use Illuminate\Http\Request;
 
-//消す
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Support\Facades\RateLimiter;
-
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
@@ -55,10 +51,6 @@ class FortifyServiceProvider extends ServiceProvider
                     return redirect()->route('login');
                 }
             };
-        });
-
-        RateLimiter::for('login', function (Request $request) {
-            return Limit::perMinute(5)->by($request->email . $request->ip());
         });
 
         // アクションをFortifyに紐付け
